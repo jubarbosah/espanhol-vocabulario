@@ -1260,5 +1260,31 @@ updateDirBtn();
 renderHome();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 </script>
+<div style="max-width:720px;margin:0 auto;padding:4px 16px 36px;text-align:center;font-family:system-ui,sans-serif">
+  <div style="font-size:12px;color:#64748b;margin-bottom:7px">💾 Backup do progresso (para outro aparelho)</div>
+  <button id="__exp" style="background:#273449;color:#e2e8f0;border:1px solid #334155;border-radius:9px;padding:10px 14px;font-size:13px;cursor:pointer;margin:3px">⬇️ Exportar</button>
+  <button id="__imp" style="background:#273449;color:#e2e8f0;border:1px solid #334155;border-radius:9px;padding:10px 14px;font-size:13px;cursor:pointer;margin:3px">⬆️ Importar</button>
+  <input type="file" id="__impFile" accept="application/json,.json" style="display:none">
+</div>
+<script>(function(){
+  var APPID="vocabulario", KEYS=["espanol30_v1"];
+  function exp(){try{var d={};KEYS.forEach(function(k){var v=localStorage.getItem(k);if(v!==null)d[k]=v;});
+    var p={app:APPID,version:1,exportedAt:new Date().toISOString(),data:d};
+    var b=new Blob([JSON.stringify(p,null,2)],{type:"application/json"});var u=URL.createObjectURL(b);
+    var a=document.createElement("a");a.href=u;a.download=APPID+"-progresso.json";document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(u);},1500);}catch(e){alert("Não foi possível exportar.");}}
+  document.getElementById("__exp").onclick=exp;
+  document.getElementById("__imp").onclick=function(){document.getElementById("__impFile").click();};
+  document.getElementById("__impFile").addEventListener("change",function(e){
+    var f=e.target.files&&e.target.files[0];if(!f)return;var r=new FileReader();
+    r.onload=function(){try{var p=JSON.parse(r.result);
+      if(!p||typeof p.data!=="object"){alert("Arquivo inválido.");return;}
+      if(p.app&&p.app!==APPID){if(!confirm('Este backup é do app "'+p.app+'". Importar mesmo assim?'))return;}
+      if(!confirm("Isto vai SUBSTITUIR o progresso atual neste aparelho. Continuar?"))return;
+      Object.keys(p.data).forEach(function(k){localStorage.setItem(k,p.data[k]);});
+      alert("Progresso importado! A página vai recarregar.");location.reload();
+    }catch(err){alert("Arquivo inválido. Use um arquivo exportado por este app.");}finally{e.target.value="";}};
+    r.readAsText(f);});
+})();</script>
 </body>
 </html>
