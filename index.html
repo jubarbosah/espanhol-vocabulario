@@ -499,6 +499,18 @@ function counts(){
   fresh=Math.min(allowance, pool.filter(c=>!P(c.id).intro).length);
   return {due,fresh,total:pool.length};
 }
+// quantos cards dá pra estudar AGORA num baralho qualquer (revisões vencidas + novas dentro da cota)
+function studiableCount(d){
+  const saved=deck; deck=d;
+  try{
+    const now=Date.now(); const pool=deckCards();
+    let due=0; for(const c of pool){ const p=P(c.id); if(p.intro && p.due<=now) due++; }
+    const allowance=Math.max(0,state.cfg.newLimit-realLearnedToday());
+    const fresh=Math.min(allowance, pool.filter(c=>!P(c.id).intro).length);
+    const unseen=pool.filter(c=>!P(c.id).intro).length;
+    return {due, fresh, unseen, n:Math.min(state.cfg.sessionSize||9999, due+fresh)};
+  } finally { deck=saved; }
+}
 
 /* ============ RENDER ============ */
 const main=document.getElementById("main");
@@ -823,9 +835,34 @@ function wordCandidates(esp){
   return [...new Set(cands)].sort((a,b)=>b.length-a.length);
 }
 function renderContext(sentence, esp, mode){
-  // mode: "hl" destaca a palavra, "cloze" troca por lacuna
+  // mode: "hl" destaca a palavra (1ª ocorrência) · "cloze" esconde TODAS as formas-alvo
   if(!sentence) return {html:"", found:false};
-  for(const cand of wordCandidates(esp)){
+  const cands=wordCandidates(esp);
+  if(mode==="cloze"){
+    // CLOZE precisa esconder TODAS as ocorrências de TODAS as formas. Senão
+    // cards como "el / la / los / las" ou "duele / duelen" deixam uma das formas
+    // à mostra na frase e entregam a resposta. Aqui escondemos tudo.
+    const ranges=[];
+    for(const cand of cands){
+      const e=cand.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+      let re; try{ re=new RegExp("(^|[^\\p{L}])("+e+")(?=[^\\p{L}]|$)","giu"); }catch(_){ continue; }
+      let m;
+      while((m=re.exec(sentence))!==null){
+        const idx=m.index+m[1].length;
+        ranges.push([idx, idx+m[2].length]);
+        if(re.lastIndex<=m.index) re.lastIndex=m.index+1; // evita laço infinito
+      }
+    }
+    if(!ranges.length) return {html:esc(sentence), found:false};
+    ranges.sort((a,b)=>a[0]-b[0]);
+    const merged=[];
+    for(const r of ranges){ const last=merged[merged.length-1]; if(last && r[0]<=last[1]) last[1]=Math.max(last[1],r[1]); else merged.push(r.slice()); }
+    let html="", pos=0;
+    for(const seg of merged){ html+=esc(sentence.slice(pos,seg[0]))+'<span class="cloze">_____</span>'; pos=seg[1]; }
+    html+=esc(sentence.slice(pos));
+    return {html, found:true};
+  }
+  for(const cand of cands){
     const e=cand.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
     let re; try{ re=new RegExp("(^|[^\\p{L}])("+e+")([^\\p{L}]|$)","iu"); }catch(_){ continue; }
     const m=sentence.match(re);
@@ -834,8 +871,7 @@ function renderContext(sentence, esp, mode){
       const before=sentence.slice(0,idx);
       const word=sentence.slice(idx,idx+m[2].length);
       const after=sentence.slice(idx+m[2].length);
-      const mid = mode==="cloze" ? '<span class="cloze">_____</span>' : '<span class="hl">'+esc(word)+'</span>';
-      return {html:esc(before)+mid+esc(after), found:true};
+      return {html:esc(before)+'<span class="hl">'+esc(word)+'</span>'+esc(after), found:true};
     }
   }
   return {html:esc(sentence), found:false};
@@ -956,6 +992,21 @@ function renderHome(){
   const unseen=pool.filter(x=>!P(x.id).intro).length;
   const learnedToday=realLearnedToday();
   const capReached = sess===0 && unseen>0 && (state.cfg.newLimit-learnedToday)<=0;
+  // Outros focos que têm cards pra estudar agora (ex.: Verbos nunca entram no "Tudo"
+  // e não são recomendados sozinhos — sem isso a tela vira beco sem saída).
+  const OTHER_FOCI=[
+    {t:"🔀 Verbos", d:{type:"verbs"}},
+    {t:"⚠ Armadilhas", d:{type:"ff"}},
+    {t:"Vol 1 · Base", d:{type:"vol",vol:1}},
+    {t:"Vol 2 · Fluência", d:{type:"vol",vol:2}},
+    {t:"Vol 3 · Diferenças", d:{type:"vol",vol:3}},
+    {t:"Tudo", d:{type:"all"}},
+  ];
+  const otherAvail = OTHER_FOCI
+    .filter(o=>!sameDeck(o.d))
+    .map(o=>({t:o.t, d:o.d, sc:studiableCount(o.d)}))
+    .filter(o=>o.sc.n>0)
+    .sort((a,b)=>b.sc.n-a.sc.n);
   const introd=CARDS_ALL.filter(x=>P(x.id).intro).length;
   const mastered=masteredCount();
   const now=Date.now(); let dueAll=0; for(const x of CARDS_ALL){ const p=P(x.id); if(p.intro&&p.due<=now) dueAll++; }
@@ -984,7 +1035,13 @@ function renderHome(){
          : capReached
            ? `<button class="revealbtn startbtn" id="moreBtn">➕ Já fiz a meta — continuar mesmo assim</button>
               <div class="hint" style="margin-top:8px;line-height:1.5">Você atingiu sua meta de <b>${learnedToday}</b> palavras novas hoje (ainda restam <b>${unseen}</b> inéditas neste foco). As revisões reaparecem no dia certo — pode parar aqui sem culpa. 🙂</div>`
-           : `<button class="revealbtn startbtn" id="startBtn">✓ Tudo em dia por hoje!</button>`}
+           : otherAvail.length
+             ? `<div class="hint" style="margin-bottom:12px;line-height:1.5"><b>${esc(deckLabel())}</b> está em dia. ✅<br>Bora estudar outra coisa:</div>
+                <div class="homeDecks" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+                ${otherAvail.slice(0,4).map((o,i)=>`<button class="revealbtn" data-jump="${i}" style="flex:1 1 44%;min-width:140px;margin:0;padding:14px 8px;font-size:14px">${esc(o.t)} · ${o.sc.n}</button>`).join("")}
+                </div>`
+             : `<button class="revealbtn startbtn" id="practiceJump">🎯 Tudo em dia — treinar mesmo assim</button>
+                <div class="hint" style="margin-top:8px;line-height:1.5">Você está em dia com tudo. 👏 Pode treinar à vontade (não afeta o agendamento) ou voltar amanhã pras revisões.</div>`}
      </div>
      ${alertHTML}
      <div style="display:flex;gap:8px">
@@ -1003,6 +1060,11 @@ function renderHome(){
    </div>`;
   const sb=document.getElementById("startBtn"); if(sb) sb.onclick=()=>{ if(sess>0){ session=[]; render(); } };
   const mb=document.getElementById("moreBtn"); if(mb) mb.onclick=()=>{ session=[]; startMore(); };
+  const pj=document.getElementById("practiceJump"); if(pj) pj.onclick=openPractice;
+  main.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>{
+    const o=otherAvail[+b.dataset.jump]; if(!o) return;
+    deck=o.d; userPickedDeck=true; session=[]; render();   // entra direto no estudo do foco escolhido
+  });
   document.getElementById("practiceBtn").onclick=openPractice;
   document.getElementById("themesBtn").onclick=openThemes;
   document.getElementById("todayBtn").onclick=openToday;
@@ -1263,7 +1325,7 @@ document.addEventListener("keydown",e=>{
   if(document.querySelector(".overlay.show"))return;
   if(/^(input|textarea|select)$/i.test(e.target.tagName))return; // não atrapalhar a digitação
   if(e.code==="Space"){ e.preventDefault(); revealed?null:reveal(); }
-  if(revealed){ if(e.key==="1")rate(0); if(e.key==="2")rate(1); if(e.key==="3")rate(2); }
+  if(revealed){ if(e.key==="1")rate(0); if(e.key==="2")rate(1); if(e.key==="3")rate(2); if(e.key==="4")rate(3); }
   if(e.key.toLowerCase()==="r"){ const c=CARDS_ALL.find(x=>x.id===curId); if(c)speak(c.esp); }
 });
 
