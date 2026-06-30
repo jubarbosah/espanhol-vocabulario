@@ -403,7 +403,11 @@ function schedule(p, grade){ // grade: 0 Errei · 1 Difícil · 2 Bom · 3 Fáci
   // ---- aprendizado / reaprendizado (passos no mesmo dia) ----
   if(p.learning){
     if(grade===0){ p.step=0; p.due=now+LEARN_STEPS[0]*MIN; return; }
-    if(grade===1){ p.due=now+LEARN_STEPS[Math.min(p.step||0,LEARN_STEPS.length-1)]*MIN; return; }
+    if(grade===1){ // Difícil: tempo ENTRE "Errei" e "Bom" (nunca igual ao de "Errei")
+      const i=Math.min(p.step||0,LEARN_STEPS.length-1);
+      const cur=LEARN_STEPS[i], nxt=LEARN_STEPS[Math.min(i+1,LEARN_STEPS.length-1)];
+      p.due=now+Math.max(cur,Math.round((cur+nxt)/2))*MIN; return;
+    }
     if(grade===2){
       const nx=(p.step||0)+1;
       if(nx>=LEARN_STEPS.length){ fsrsGraduate(p,3,now); } // gradua com "Bom"
@@ -523,10 +527,9 @@ function render(){
   const ptAlt = (c.ptAll&&c.ptAll.length>1)? `<div class="ptalt">tb.: ${c.ptAll.slice(1).map(esc).join(" · ")}</div>`:"";
   // exemplos com áudio + palavra destacada (vão no verso)
   const exHtml = c.ex.map((e,i)=>`<div class="exline"><button class="play" data-i="${i}">🔊</button><div class="txt ex">${renderContext(e,c.esp,"hl").html}</div></div>`).join("");
-  // cognato (parecido com PT) — só sugere atalho quando NÃO é falso amigo
-  const lvl = isNew ? cognateLevel(c) : null;
-  const cogHint = lvl==="igual" ? `<div class="hint" style="color:var(--good)">🟢 igual ao português</div>`
-                : lvl==="parecida" ? `<div class="hint" style="color:#fcd34d">🟡 parecida com o português</div>` : "";
+  // IMPORTANTE: a relação com o português (🟢 igual / 🟡 parecida / 🔵 diferente / 🔴 falso amigo)
+  // NÃO pode aparecer na FRENTE do card — isso entregaria a resposta e anula o treino.
+  // Ela é mostrada só no VERSO (depois de revelar), via relBadge().
   const knowBtn = (isNew && !c.ff) ? `<button class="ghostbtn" id="knowBtn" style="margin-top:10px;padding:9px 16px;font-size:13px">✓ Já sei essa — próxima</button>` : "";
 
   const mode = practiceMode ? "normal" : (state.cfg.studyMode||"normal");
@@ -562,7 +565,7 @@ function render(){
        <button class="audiobtn" id="audioBtn">🔊</button>
        ${ctx}
        <div class="hint">o que significa? · toque para ver</div>
-       ${cogHint}${knowBtn}`;
+       ${knowBtn}`;
     answerHtml = `<div class="pt">${esc(c.pt)}</div>${ptAlt}${exHtml}${trapHtml}${notesHtml}${rel}`;
     controlsHtml = `<button class="revealbtn" id="revealBtn">Mostrar resposta</button>`;
   } else {
@@ -574,7 +577,7 @@ function render(){
        ${ptAlt}
        ${cz}
        <div class="hint">como se diz em espanhol? · toque para ver</div>
-       ${cogHint}${knowBtn}`;
+       ${knowBtn}`;
     answerHtml = `<div class="pt" style="font-size:30px;color:#fff">${esc(c.esp)}</div>
        <button class="audiobtn" id="audioBtn" style="margin:8px auto 4px">🔊</button>
        ${exHtml}${trapHtml}${notesHtml}${rel}`;
@@ -948,6 +951,11 @@ function renderHome(){
   if(!userPickedDeck) deck=recommendedDeck();
   const c=counts();
   const sess=Math.min(state.cfg.sessionSize, c.due+c.fresh);
+  // distingue "atingi a meta diária de novas" (ainda há cards inéditos) de "vi tudo"
+  const pool=deckCards();
+  const unseen=pool.filter(x=>!P(x.id).intro).length;
+  const learnedToday=realLearnedToday();
+  const capReached = sess===0 && unseen>0 && (state.cfg.newLimit-learnedToday)<=0;
   const introd=CARDS_ALL.filter(x=>P(x.id).intro).length;
   const mastered=masteredCount();
   const now=Date.now(); let dueAll=0; for(const x of CARDS_ALL){ const p=P(x.id); if(p.intro&&p.due<=now) dueAll++; }
@@ -971,7 +979,12 @@ function renderHome(){
        <div class="pnum">${sess}</div>
        <div class="plabel">cards nesta sessão${sess>0?` · ~${Math.max(2,Math.round(sess*0.4))} min`:""}</div>
        <div class="pbreak">🆕 ${c.fresh} novas&nbsp;&nbsp;·&nbsp;&nbsp;⏰ ${c.due} revisão</div>
-       <button class="revealbtn startbtn" id="startBtn">${sess>0?"▶ Começar":"✓ Tudo em dia por hoje!"}</button>
+       ${sess>0
+         ? `<button class="revealbtn startbtn" id="startBtn">▶ Começar</button>`
+         : capReached
+           ? `<button class="revealbtn startbtn" id="moreBtn">➕ Já fiz a meta — continuar mesmo assim</button>
+              <div class="hint" style="margin-top:8px;line-height:1.5">Você atingiu sua meta de <b>${learnedToday}</b> palavras novas hoje (ainda restam <b>${unseen}</b> inéditas neste foco). As revisões reaparecem no dia certo — pode parar aqui sem culpa. 🙂</div>`
+           : `<button class="revealbtn startbtn" id="startBtn">✓ Tudo em dia por hoje!</button>`}
      </div>
      ${alertHTML}
      <div style="display:flex;gap:8px">
@@ -988,7 +1001,8 @@ function renderHome(){
      <button class="ctxbtn" id="toggleDecks" style="align-self:flex-start">🎯 Mudar o foco ▾</button>
      <div class="homeDecks" id="homeDecks" style="display:none"></div>
    </div>`;
-  document.getElementById("startBtn").onclick=()=>{ if(sess>0){ session=[]; render(); } };
+  const sb=document.getElementById("startBtn"); if(sb) sb.onclick=()=>{ if(sess>0){ session=[]; render(); } };
+  const mb=document.getElementById("moreBtn"); if(mb) mb.onclick=()=>{ session=[]; startMore(); };
   document.getElementById("practiceBtn").onclick=openPractice;
   document.getElementById("themesBtn").onclick=openThemes;
   document.getElementById("todayBtn").onclick=openToday;
