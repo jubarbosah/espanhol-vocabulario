@@ -1,5 +1,5 @@
 /* Service Worker — network-first (online sempre traz a versão nova; offline usa o cache) */
-const CACHE = 'vocab-v4';
+const CACHE = 'vocab-v5';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   self.skipWaiting();

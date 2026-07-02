@@ -212,6 +212,13 @@
         <option value="1825">5 anos</option>
       </select>
     </div>
+    <div class="row" style="display:block">
+      <div class="label" style="margin-bottom:2px">🎯 Modo prazo</div>
+      <div class="desc" style="margin-bottom:8px">Aprender tudo até uma data. Prioriza Vol 1 + verbos, calcula as novas/dia sozinho e encurta os intervalos pra nada dormir além da prova.</div>
+      <input type="date" id="deadlineDate" style="width:100%;background:var(--card2);color:var(--txt);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px 12px;font-size:15px">
+      <div class="desc" id="deadlineInfo" style="margin-top:8px;min-height:18px"></div>
+      <button class="ghostbtn" id="deadlineClear" style="width:100%;margin:8px 0 0;padding:10px">Desligar modo prazo</button>
+    </div>
     <div class="row">
       <div><div class="label">Modo de estudo</div><div class="desc">Normal: ver e avaliar · Digitar: escrever em ES (mais esforço) · Ditado: só ouvir</div></div>
       <select id="modeSel"><option value="normal">📖 Normal</option><option value="type">⌨ Digitar</option><option value="listen">🎧 Ditado</option></select>
@@ -358,7 +365,52 @@ const FSRS_DECAY=-FSRS_W[20];                        // FSRS-6: o decay agora ve
 const FSRS_FACTOR=Math.pow(0.9,1/FSRS_DECAY)-1;
 const clampD=d=>Math.max(1,Math.min(10,d));
 function desiredRet(){ return Math.min(0.97, Math.max(0.80, state.cfg.retention||0.90)); } // retenção alvo (ajustável)
-function maxIvl(){ return Math.max(30, state.cfg.maxInterval||365); }                        // teto do intervalo (dias)
+function maxIvl(){ let m=Math.max(30, state.cfg.maxInterval||365);
+  if(deadlineOn()){ const dl=daysLeft(); if(dl!=null) m=Math.min(m, Math.max(2, dl)); } // no prazo, nada dorme além da data
+  return m; }
+/* ===== Modo prazo (aprender tudo até uma data) ===== */
+function daysLeft(){
+  if(!state.cfg.deadline) return null;
+  const end=new Date(state.cfg.deadline+"T23:59:59");
+  if(isNaN(end)) return null;
+  return Math.ceil((end-Date.now())/DAY);
+}
+function deadlineOn(){ const d=daysLeft(); return d!=null && d>0; }
+// intercala duas listas proporcionalmente (Vol 1 e verbos avançam juntos, não um depois do outro)
+function interleave(a,b){
+  const out=[]; let ia=0, ib=0;
+  while(ia<a.length || ib<b.length){
+    const pa = a.length? ia/a.length : 2;
+    const pb = b.length? ib/b.length : 2;
+    if(ia<a.length && (ib>=b.length || pa<=pb)) out.push(a[ia++]);
+    else out.push(b[ib++]);
+  }
+  return out;
+}
+// ordem de introdução no prazo: seus erros -> (Vol 1 + verbos intercalados) -> Vol 2 -> Vol 3 -> resto
+function orderFresh(pool){
+  const mine=[],vol1=[],verbs=[],vol2=[],vol3=[],rest=[];
+  for(const c of pool){
+    if(c.mine) mine.push(c);
+    else if(c.verb) verbs.push(c);
+    else if(c.vol===1) vol1.push(c);
+    else if(c.vol===2) vol2.push(c);
+    else if(c.vol===3) vol3.push(c);
+    else rest.push(c);
+  }
+  const byId=a=>a.sort((x,y)=>(""+x.id).localeCompare(""+y.id,undefined,{numeric:true}));
+  [mine,vol1,verbs,vol2,vol3,rest].forEach(byId);
+  return [...mine, ...interleave(vol1,verbs), ...vol2, ...vol3, ...rest];
+}
+// novas/dia calculadas pra terminar no prazo (adapta se você adiantar ou atrasar)
+function autoNewLimit(){
+  const unseen=CARDS_ALL.filter(c=>!P(c.id).intro).length;
+  if(unseen===0) return 0;
+  const dl=Math.max(1, daysLeft()||1);
+  return Math.min(80, Math.max(5, Math.ceil(unseen/dl)));
+}
+// meta de novas/dia efetiva: no prazo é automática; fora do prazo é o que você escolheu
+function effNewLimit(){ return deadlineOn()? autoNewLimit() : state.cfg.newLimit; }
 function fsrsInitS(g){ return Math.max(0.1, FSRS_W[g-1]); }            // g: 1..4
 function fsrsInitD(g){ return clampD(FSRS_W[4]-Math.exp(FSRS_W[5]*(g-1))+1); }
 function fsrsR(t,s){ return Math.pow(1+FSRS_FACTOR*Math.max(0,t)/Math.max(s,0.01), FSRS_DECAY); }
@@ -402,7 +454,7 @@ function load(){
   try{ s = JSON.parse(localStorage.getItem(LS)); }catch(e){}
   if(!s) s = {};
   s.prog   = s.prog   || {};      // id -> {box,due,reps,lapses,intro,introDay}
-  s.cfg    = Object.assign({newLimit:15, autoplay:true, voice:null, rate:0.9, dir:"es-pt", showCtx:true, sessionSize:18, studyMode:"normal", retention:0.90, maxInterval:365}, s.cfg||{});
+  s.cfg    = Object.assign({newLimit:15, autoplay:true, voice:null, rate:0.9, dir:"es-pt", showCtx:true, sessionSize:18, studyMode:"normal", retention:0.90, maxInterval:365, deadline:null}, s.cfg||{});
   s.streak = s.streak || 0;
   s.lastDay= s.lastDay || null;
   s.history= s.history || {};     // dayStr -> count reviewed
@@ -482,6 +534,7 @@ function rebuildCards(){ CARDS_ALL = CARDS.concat(typeof VERBS!=="undefined"?VER
 
 /* ============ DECK FILTER ============ */
 function inDeck(c){
+  if(deck.type==="prazo") return true;         // modo prazo: tudo junto (base + verbos), priorizado
   if(deck.type==="all") return !c.verb;        // verbos só no baralho próprio (não diluem o sprint)
   if(deck.type==="verbs") return c.verb===true;
   if(deck.type==="mine") return c.mine===true;
@@ -509,8 +562,10 @@ function buildSession(){
   const pool=deckCards();
   const dueRev = pool.filter(c=>{const p=P(c.id); return p.intro && p.due<=now;})
                      .sort((a,b)=>P(a.id).due-P(b.id).due);
-  const allowance = Math.max(0, state.cfg.newLimit - realLearnedToday());
-  const fresh = pool.filter(c=>!P(c.id).intro).slice(0, allowance);
+  const allowance = Math.max(0, effNewLimit() - realLearnedToday());
+  let freshPool = pool.filter(c=>!P(c.id).intro);
+  if(deadlineOn()) freshPool = orderFresh(freshPool);
+  const fresh = freshPool.slice(0, allowance);
   // intercala: novas pingadas entre as revisões para variar
   const q=[]; let r=0,f=0;
   while(r<dueRev.length || f<fresh.length){
@@ -522,7 +577,7 @@ function buildSession(){
 function counts(){
   const now=Date.now(); const pool=deckCards();
   let due=0,fresh=0;
-  const allowance=Math.max(0,state.cfg.newLimit-realLearnedToday());
+  const allowance=Math.max(0,effNewLimit()-realLearnedToday());
   for(const c of pool){const p=P(c.id);
     if(p.intro){ if(p.due<=now) due++; }
   }
@@ -535,7 +590,7 @@ function studiableCount(d){
   try{
     const now=Date.now(); const pool=deckCards();
     let due=0; for(const c of pool){ const p=P(c.id); if(p.intro && p.due<=now) due++; }
-    const allowance=Math.max(0,state.cfg.newLimit-realLearnedToday());
+    const allowance=Math.max(0,effNewLimit()-realLearnedToday());
     const fresh=Math.min(allowance, pool.filter(c=>!P(c.id).intro).length);
     const unseen=pool.filter(c=>!P(c.id).intro).length;
     return {due, fresh, unseen, n:Math.min(state.cfg.sessionSize||9999, due+fresh)};
@@ -723,13 +778,14 @@ function rate(grade){
 function markKnown(){
   const p=P(curId); const t=todayStr(); const wasNew=!p.intro;
   p.intro=true; if(!p.introDay) p.introDay=t; p.free=true;
-  p.learning=false; p.ease=2.6; p.s=180; p.d=4; p.ivl=180; p.due=Date.now()+180*DAY;
+  p.learning=false; p.ease=2.6; p.d=4; p.ivl=Math.min(180, maxIvl()); p.s=p.ivl; p.due=Date.now()+p.ivl*DAY;
   state.history[t]=(state.history[t]||0)+1; markStudiedToday(curId); updateStreak();
   const i=session.indexOf(curId); if(i>=0) session.splice(i,1);
-  if(wasNew && realLearnedToday() < state.cfg.newLimit){
+  if(wasNew && realLearnedToday() < effNewLimit()){
     const have=new Set(session);
-    const nxt=deckCards().find(c=>!P(c.id).intro && !have.has(c.id) && c.id!==curId);
-    if(nxt) session.push(nxt.id);
+    let cands=deckCards().filter(c=>!P(c.id).intro && !have.has(c.id) && c.id!==curId);
+    if(deadlineOn()) cands=orderFresh(cands);
+    if(cands.length) session.push(cands[0].id);
   }
   save(); render();
 }
@@ -747,7 +803,8 @@ function updateStreak(){
 function startMore(){
   const now=Date.now(); const pool=deckCards();
   const due=pool.filter(c=>{const p=P(c.id);return p.intro&&p.due<=now;}).sort((a,b)=>P(a.id).due-P(b.id).due);
-  const fresh=pool.filter(c=>!P(c.id).intro);
+  let fresh=pool.filter(c=>!P(c.id).intro);
+  if(deadlineOn()) fresh=orderFresh(fresh);
   const q=[]; let r=0,f=0;
   while((r<due.length||f<fresh.length) && q.length<state.cfg.sessionSize){
     for(let k=0;k<3 && r<due.length;k++) q.push(due[r++].id);
@@ -1000,6 +1057,7 @@ function sameDeck(d){
   return d.type===deck.type && d.vol===deck.vol && d.cat===deck.cat;
 }
 function recommendedDeck(){
+  if(deadlineOn()) return {type:"prazo"};   // no prazo, tudo priorizado num foco só
   for(const v of [1,2,3]){ if(CARDS_ALL.some(c=>c.vol===v && !P(c.id).intro)) return {type:"vol",vol:v}; }
   return {type:"all"};
 }
@@ -1021,7 +1079,7 @@ function renderHome(){
   const pool=deckCards();
   const unseen=pool.filter(x=>!P(x.id).intro).length;
   const learnedToday=realLearnedToday();
-  const capReached = sess===0 && unseen>0 && (state.cfg.newLimit-learnedToday)<=0;
+  const capReached = sess===0 && unseen>0 && (effNewLimit()-learnedToday)<=0;
   // Outros focos que têm cards pra estudar agora (ex.: Verbos nunca entram no "Tudo"
   // e não são recomendados sozinhos — sem isso a tela vira beco sem saída).
   const OTHER_FOCI=[
@@ -1039,6 +1097,17 @@ function renderHome(){
     .sort((a,b)=>b.sc.n-a.sc.n);
   const introd=CARDS_ALL.filter(x=>P(x.id).intro).length;
   const mastered=masteredCount();
+  const unseenAll=CARDS_ALL.length-introd;
+  const dLeft=daysLeft();
+  const deadlineBanner = deadlineOn()
+    ? `<div class="hrec" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.32);color:#bae6fd;line-height:1.6">
+         🎯 <b>Modo prazo</b> · faltam <b>${dLeft}</b> ${dLeft===1?"dia":"dias"}<br>
+         <b>${introd}</b> de <b>${CARDS_ALL.length}</b> palavras já vistas · restam <b>${unseenAll}</b>
+         ${unseenAll>0
+           ? `<br>Meta de hoje: <b>${effNewLimit()} novas/dia</b> pra terminar de introduzir a tempo`
+           : `<br><b>Tudo introduzido! 🎉</b> Agora é só revisar até a prova.`}
+       </div>`
+    : "";
   const now=Date.now(); let dueAll=0; for(const x of CARDS_ALL){ const p=P(x.id); if(p.intro&&p.due<=now) dueAll++; }
   const alertHTML = dueAll>0
     ? `<div class="hrec" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.28);color:#fcd34d">⏰ Você tem <b>${dueAll}</b> ${dueAll===1?"palavra":"palavras"} para revisar.${dueAll>=40?" Melhor revisar antes de pegar muitas novas. 📌":""}</div>`
@@ -1052,8 +1121,9 @@ function renderHome(){
        <div class="hgreet">¡Hola! Vamos nessa 👋</div>
        <div class="hsub">Foco de hoje: <b>${esc(deckLabel())}</b></div>
      </div>
+     ${deadlineBanner}
      <div>
-       <div class="hsub" style="margin-bottom:8px">Ritmo de hoje <span style="opacity:.7">(quantos cards)</span>:</div>
+       <div class="hsub" style="margin-bottom:8px">Ritmo de hoje <span style="opacity:.7">(${deadlineOn()?"tamanho da sessão · novas/dia é automático no prazo":"quantos cards"})</span>:</div>
        <div class="homeDecks" style="display:flex">${pacesHTML}</div>
      </div>
      <div class="bigcard">
@@ -1118,6 +1188,7 @@ function renderCounts(){
     `${deckLabel()} · ${masteredCount()} de ${CARDS_ALL.length} palavras dominadas no total`;
 }
 function deckLabel(){
+  if(deck.type==="prazo")return "🎯 Prazo · tudo priorizado";
   if(deck.type==="all")return "Todas as palavras";
   if(deck.type==="verbs")return "🔀 Verbos que enganam";
   if(deck.type==="mine")return "📓 Meus erros (do diário)";
@@ -1206,6 +1277,8 @@ function openSettings(){
   const ret=document.getElementById("retention"); ret.value=cfg.retention;
   document.getElementById("retentionVal").textContent=Math.round(cfg.retention*100)+"%";
   document.getElementById("maxInterval").value=String(cfg.maxInterval);
+  document.getElementById("deadlineDate").value=cfg.deadline||"";
+  updateDeadlineInfo();
   document.getElementById("autoplay").checked=cfg.autoplay;
   document.getElementById("dirSel").value=cfg.dir;
   document.getElementById("modeSel").value=cfg.studyMode||"normal";
@@ -1306,6 +1379,27 @@ document.getElementById("retention").oninput=e=>{
   document.getElementById("retentionVal").textContent=Math.round(state.cfg.retention*100)+"%"; save();
 };
 document.getElementById("maxInterval").onchange=e=>{ state.cfg.maxInterval=+e.target.value; save(); };
+function updateDeadlineInfo(){
+  const el=document.getElementById("deadlineInfo"); if(!el) return;
+  if(!deadlineOn()){
+    el.style.color="var(--muted)";
+    el.textContent = state.cfg.deadline ? "A data já passou — modo prazo desligado." : "Desligado. Escolha uma data pra ativar.";
+    return;
+  }
+  const dl=daysLeft(); const unseen=CARDS_ALL.filter(c=>!P(c.id).intro).length;
+  el.style.color="var(--accent)";
+  el.innerHTML = `✅ Ativo · faltam <b>${dl}</b> ${dl===1?"dia":"dias"} · restam <b>${unseen}</b> palavras · meta <b>${effNewLimit()} novas/dia</b>.`;
+}
+document.getElementById("deadlineDate").onchange=e=>{
+  const v=e.target.value;
+  state.cfg.deadline = v || null;
+  if(v){ userPickedDeck=false; deck=recommendedDeck(); }  // ativa o foco "prazo"
+  save(); updateDeadlineInfo();
+};
+document.getElementById("deadlineClear").onclick=()=>{
+  state.cfg.deadline=null; document.getElementById("deadlineDate").value="";
+  userPickedDeck=false; save(); updateDeadlineInfo(); toast("Modo prazo desligado");
+};
 document.getElementById("autoplay").onchange=e=>{state.cfg.autoplay=e.target.checked;save();};
 
 function updateDirBtn(){
