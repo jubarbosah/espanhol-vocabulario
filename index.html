@@ -200,6 +200,19 @@
       <div style="text-align:right"><input type="range" id="sessionSize" min="8" max="60" step="2"><div class="desc" id="sessionSizeVal" style="text-align:right"></div></div>
     </div>
     <div class="row">
+      <div><div class="label">Retenção alvo (FSRS-6)</div><div class="desc">Quanto você quer lembrar. Mais alto = revisa mais vezes (intervalos menores)</div></div>
+      <div style="text-align:right"><input type="range" id="retention" min="0.80" max="0.97" step="0.01"><div class="desc" id="retentionVal" style="text-align:right"></div></div>
+    </div>
+    <div class="row">
+      <div><div class="label">Intervalo máximo</div><div class="desc">Teto de tempo entre revisões de uma palavra dominada</div></div>
+      <select id="maxInterval">
+        <option value="180">6 meses</option>
+        <option value="365">1 ano</option>
+        <option value="730">2 anos</option>
+        <option value="1825">5 anos</option>
+      </select>
+    </div>
+    <div class="row">
       <div><div class="label">Modo de estudo</div><div class="desc">Normal: ver e avaliar · Digitar: escrever em ES (mais esforço) · Ditado: só ouvir</div></div>
       <select id="modeSel"><option value="normal">📖 Normal</option><option value="type">⌨ Digitar</option><option value="listen">🎧 Ditado</option></select>
     </div>
@@ -337,20 +350,40 @@ const EASE_START = 2.5, EASE_MIN = 1.3, EASE_MAX = 3.2;
 const GRAD_GOOD = 1, GRAD_EASY = 4, SECOND_IVL = 6; // dias
 const MATURE = 21;             // dias: a partir daqui a palavra é "dominada"
 
-// ===== FSRS-5 (mesmo algoritmo moderno do Anki) =====
-// Modela memória por estabilidade (s) e dificuldade (d) -> menos revisões p/ mesma retenção que SM-2.
-const FSRS_W=[0.40255,1.18385,3.173,15.69105,7.1949,0.5345,1.4604,0.0046,1.54575,0.1192,1.01925,1.9395,0.11,0.29605,2.2698,0.2315,2.9898,0.51655,0.6621];
-const FSRS_DECAY=-0.5, FSRS_FACTOR=Math.pow(0.9,1/FSRS_DECAY)-1, FSRS_RET=0.9; // retenção alvo 90%
+// ===== FSRS-6 (21 parâmetros, decay aprendível = -w20) =====
+// Modela a memória por estabilidade (s, dias até a retenção cair pra 90%) e dificuldade (d, 1..10).
+// Mesmo modelo do Anki moderno. Estes são os parâmetros padrão oficiais do FSRS-6.
+const FSRS_W=[0.2172,1.1771,3.2602,16.1507,7.0114,0.57,2.0966,0.0069,1.5261,0.112,1.0178,1.849,0.1133,0.3127,2.2934,0.2191,3.0004,0.7536,0.3332,0.1437,0.2];
+const FSRS_DECAY=-FSRS_W[20];                        // FSRS-6: o decay agora vem do w20 (antes era fixo -0.5)
+const FSRS_FACTOR=Math.pow(0.9,1/FSRS_DECAY)-1;
 const clampD=d=>Math.max(1,Math.min(10,d));
+function desiredRet(){ return Math.min(0.97, Math.max(0.80, state.cfg.retention||0.90)); } // retenção alvo (ajustável)
+function maxIvl(){ return Math.max(30, state.cfg.maxInterval||365); }                        // teto do intervalo (dias)
 function fsrsInitS(g){ return Math.max(0.1, FSRS_W[g-1]); }            // g: 1..4
 function fsrsInitD(g){ return clampD(FSRS_W[4]-Math.exp(FSRS_W[5]*(g-1))+1); }
 function fsrsR(t,s){ return Math.pow(1+FSRS_FACTOR*Math.max(0,t)/Math.max(s,0.01), FSRS_DECAY); }
-function fsrsIvl(s){ return Math.max(1, Math.round(s/FSRS_FACTOR*(Math.pow(FSRS_RET,1/FSRS_DECAY)-1))); }
+function fsrsIvlRaw(s){ return s/FSRS_FACTOR*(Math.pow(desiredRet(),1/FSRS_DECAY)-1); }       // dias p/ cair na retenção alvo
 function fsrsNextD(d,g){ const dl=d+(-FSRS_W[6]*(g-3))*(10-d)/9; return clampD(FSRS_W[7]*fsrsInitD(4)+(1-FSRS_W[7])*dl); }
 function fsrsRecallS(d,s,r,g){ const hard=g===2?FSRS_W[15]:1, easy=g===4?FSRS_W[16]:1;
   return s*(1+Math.exp(FSRS_W[8])*(11-d)*Math.pow(s,-FSRS_W[9])*(Math.exp((1-r)*FSRS_W[10])-1)*hard*easy); }
 function fsrsForgetS(d,s,r){ const sf=FSRS_W[11]*Math.pow(d,-FSRS_W[12])*(Math.pow(s+1,FSRS_W[13])-1)*Math.exp((1-r)*FSRS_W[14]); return Math.min(sf,s); }
-function fsrsGraduate(p,g,now){ p.learning=false; p.s=fsrsInitS(g); p.d=fsrsInitD(g); p.reps=(p.reps||0)+1; p.ivl=fsrsIvl(p.s); p.last=now; p.due=now+p.ivl*DAY; }
+function fsrsShortS(s,g){ return s*Math.exp(FSRS_W[17]*(g-3+FSRS_W[18]))*Math.pow(s,-FSRS_W[19]); } // FSRS-6: revisão no mesmo dia
+// fuzz determinístico (±5–15%) pra espalhar as revisões e não amontoar tudo no mesmo dia.
+// Determinístico (sem Math.random) pra que o preview no botão bata com a data real agendada.
+function fuzzIvl(ivl, seed){
+  if(ivl<2.5) return ivl;
+  const pct = ivl<7?0.15 : ivl<30?0.10 : 0.05;
+  const f=Math.max(1, Math.round(ivl*pct));
+  const rnd=(Math.abs(Math.sin(seed*127.1+0.37))*1000)%1;   // 0..1 determinístico
+  const off=Math.round((rnd*2-1)*f);
+  return Math.max(1, Math.min(maxIvl(), ivl+off));
+}
+function seedFuzz(p){ return (p.reps||0)+(p.lapses||0)*100+Math.round(p.s||1); }
+function fsrsCommit(p, rawDays, now){
+  p.ivl=Math.min(maxIvl(), Math.max(1, Math.round(rawDays)));    // intervalo "oficial" (sem fuzz), usado nas estatísticas
+  p.last=now; p.due=now+fuzzIvl(p.ivl, seedFuzz(p))*DAY;         // vencimento com fuzz
+}
+function fsrsGraduate(p,g,now){ p.learning=false; p.s=fsrsInitS(g); p.d=fsrsInitD(g); p.reps=(p.reps||0)+1; fsrsCommit(p, fsrsIvlRaw(p.s), now); }
 
 /* ============ STATE ============ */
 let state = load();
@@ -369,7 +402,7 @@ function load(){
   try{ s = JSON.parse(localStorage.getItem(LS)); }catch(e){}
   if(!s) s = {};
   s.prog   = s.prog   || {};      // id -> {box,due,reps,lapses,intro,introDay}
-  s.cfg    = Object.assign({newLimit:15, autoplay:true, voice:null, rate:0.9, dir:"es-pt", showCtx:true, sessionSize:18, studyMode:"normal"}, s.cfg||{});
+  s.cfg    = Object.assign({newLimit:15, autoplay:true, voice:null, rate:0.9, dir:"es-pt", showCtx:true, sessionSize:18, studyMode:"normal", retention:0.90, maxInterval:365}, s.cfg||{});
   s.streak = s.streak || 0;
   s.lastDay= s.lastDay || null;
   s.history= s.history || {};     // dayStr -> count reviewed
@@ -395,41 +428,38 @@ function P(id){
   }
   return p;
 }
-// ===== Agendador FSRS-5 =====
+// ===== Agendador FSRS-6 =====
 function schedule(p, grade){ // grade: 0 Errei · 1 Difícil · 2 Bom · 3 Fácil
   const now=Date.now(); const G=grade+1; // FSRS: 1 Again · 2 Hard · 3 Good · 4 Easy
   if(!p.intro){ p.intro=true; if(!p.introDay) p.introDay=todayStr(); }
   if(p.learning==null) p.learning = (p.ivl||0)<1;
   // ---- aprendizado / reaprendizado (passos no mesmo dia) ----
   if(p.learning){
-    if(grade===0){ p.step=0; p.due=now+LEARN_STEPS[0]*MIN; return; }
-    if(grade===1){ // Difícil: tempo ENTRE "Errei" e "Bom" (nunca igual ao de "Errei")
-      const i=Math.min(p.step||0,LEARN_STEPS.length-1);
-      const cur=LEARN_STEPS[i], nxt=LEARN_STEPS[Math.min(i+1,LEARN_STEPS.length-1)];
-      p.due=now+Math.max(cur,Math.round((cur+nxt)/2))*MIN; return;
-    }
-    if(grade===2){
-      const nx=(p.step||0)+1;
-      if(nx>=LEARN_STEPS.length){ fsrsGraduate(p,3,now); } // gradua com "Bom"
-      else { p.step=nx; p.due=now+LEARN_STEPS[nx]*MIN; }
-      return;
-    }
-    fsrsGraduate(p,4,now); return; // Fácil: gradua já como "Easy"
+    if(grade===0){ p.step=0; p.due=now+LEARN_STEPS[0]*MIN; return; } // Errei: reinicia os passos
+    if(grade===3){ fsrsGraduate(p,4,now); return; }                 // Fácil: gradua já como "Easy"
+    // Bom e Difícil AVANÇAM nos passos até graduar.
+    // (BUG antigo: "Difícil" nunca avançava nem graduava -> ficava preso a cada poucos minutos, pra sempre.)
+    const nx=(p.step||0)+1;
+    if(nx>=LEARN_STEPS.length){ fsrsGraduate(p, grade===1?2:3, now); return; } // Difícil->Hard, Bom->Good
+    p.step=nx;
+    const stepMin = grade===1 ? LEARN_STEPS[Math.max(0,nx-1)] : LEARN_STEPS[nx]; // Difícil volta mais cedo, mas progride
+    p.due=now+stepMin*MIN; return;
   }
-  // ---- revisão graduada (FSRS) ----
-  if(p.s==null){ p.s=Math.max(1,p.ivl||1); p.d=(p.d!=null)?p.d:5; } // migração de cards antigos (SM-2)
-  const t=Math.max(0,(now-(p.last||now))/DAY);
-  const r=fsrsR(t,p.s);
+  // ---- revisão graduada (FSRS-6) ----
+  if(p.s==null){ p.s=Math.max(1,p.ivl||1); p.d=(p.d!=null)?p.d:5; } // migração de cards antigos (SM-2/Leitner)
+  const last=(p.last!=null)?p.last:now;                             // BUG antigo: (p.last||now) zerava o tempo se last fosse 0
+  const elapsed=Math.max(0,(now-last)/DAY);
+  const r=fsrsR(elapsed,p.s);
   if(grade===0){ // Errei -> lapso: reduz estabilidade e volta a reaprender
     p.lapses=(p.lapses||0)+1;
     p.s=fsrsForgetS(p.d,p.s,r); p.d=fsrsNextD(p.d,1);
     p.learning=true; p.step=0; p.ivl=0; p.last=now; p.due=now+LEARN_STEPS[0]*MIN;
     return;
   }
-  const newD=fsrsNextD(p.d,G);
-  p.s=fsrsRecallS(p.d,p.s,r,G); // estabilidade usa a dificuldade anterior
-  p.d=newD; p.reps=(p.reps||0)+1;
-  p.ivl=fsrsIvl(p.s); p.last=now; p.due=now+p.ivl*DAY;
+  const oldD=p.d; p.d=fsrsNextD(oldD,G);                            // estabilidade usa a dificuldade ANTERIOR
+  p.s = elapsed<1 ? fsrsShortS(p.s,G) : fsrsRecallS(oldD,p.s,r,G);  // mesmo dia usa estabilidade de curto prazo
+  p.reps=(p.reps||0)+1;
+  fsrsCommit(p, fsrsIvlRaw(p.s), now);
 }
 // rótulo do próximo intervalo (preview no botão), sem alterar o card
 function previewLabel(p, grade){
@@ -1173,6 +1203,9 @@ function openSettings(){
   document.getElementById("newLimitVal").textContent=cfg.newLimit+" / dia";
   const ss=document.getElementById("sessionSize"); ss.value=cfg.sessionSize;
   document.getElementById("sessionSizeVal").textContent=cfg.sessionSize+" cards";
+  const ret=document.getElementById("retention"); ret.value=cfg.retention;
+  document.getElementById("retentionVal").textContent=Math.round(cfg.retention*100)+"%";
+  document.getElementById("maxInterval").value=String(cfg.maxInterval);
   document.getElementById("autoplay").checked=cfg.autoplay;
   document.getElementById("dirSel").value=cfg.dir;
   document.getElementById("modeSel").value=cfg.studyMode||"normal";
@@ -1268,6 +1301,11 @@ document.getElementById("sessionSize").oninput=e=>{
   state.cfg.sessionSize=+e.target.value;
   document.getElementById("sessionSizeVal").textContent=state.cfg.sessionSize+" cards"; save();
 };
+document.getElementById("retention").oninput=e=>{
+  state.cfg.retention=+e.target.value;
+  document.getElementById("retentionVal").textContent=Math.round(state.cfg.retention*100)+"%"; save();
+};
+document.getElementById("maxInterval").onchange=e=>{ state.cfg.maxInterval=+e.target.value; save(); };
 document.getElementById("autoplay").onchange=e=>{state.cfg.autoplay=e.target.checked;save();};
 
 function updateDirBtn(){
