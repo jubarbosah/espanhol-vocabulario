@@ -223,8 +223,7 @@
     </div>
     <div class="streak" id="streak"></div>
     <button class="cta" id="startBtn">Empezar &nbsp;→</button>
-    <button class="cta sm hidden" id="installBtn">📲 Instalar no celular</button>
-    <div class="foot hidden" id="iosHint">📲 No iPhone: toque em <b>Compartilhar</b> (o quadrado com a seta ↑) e depois <b>Adicionar à Tela de Início</b>.</div>
+    <div class="foot hidden" id="iosHint">📲 Pra instalar no iPhone: <b>Compartilhar</b> (↑) → <b>Adicionar à Tela de Início</b>.</div>
     <div class="foot">Sessão sem limite. Para quando quiser — o app continua exatamente de onde você parou.</div>
   </div>
 
@@ -696,11 +695,8 @@ show("home");
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   navigator.serviceWorker.register("sw.js").catch(()=>{});
 }
-// Botão "Instalar" (Android/Chrome/Edge) + dica no iPhone
-let deferredPrompt=null;
-window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; $("installBtn").classList.remove("hidden"); });
-$("installBtn").onclick=async()=>{ if(!deferredPrompt)return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; $("installBtn").classList.add("hidden"); };
-window.addEventListener("appinstalled",()=>{ deferredPrompt=null; $("installBtn").classList.add("hidden"); });
+// Instalação: deixamos o navegador oferecer o "Adicionar à tela inicial" nativo
+// (sem botão custom). No iPhone não há prompt automático — mostramos só a dica.
 (function(){
   const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
   const standalone=window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
