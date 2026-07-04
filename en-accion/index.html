@@ -160,6 +160,42 @@
     .card,.done{animation:fade .28s ease}
     @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
   }
+
+  /* --- Ajustes / Estatísticas (recuperados do Español 30) --- */
+  .sheet{max-height:88dvh;overflow-y:auto}
+  .setrow{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+  .setrow:first-of-type{border-top:none}
+  .setlabel{font-size:15px;font-weight:600}
+  .setdesc{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4}
+  .setctl{display:flex;align-items:center;gap:10px;white-space:nowrap}
+  .setctl b{color:var(--brand);font-weight:800;min-width:42px;text-align:right}
+  input[type=range]{accent-color:var(--brand);width:118px}
+  .dateinp{width:100%;background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:15px}
+  .seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;overflow:hidden;flex-shrink:0}
+  .seg button{padding:8px 11px;font-size:13px;font-weight:700;color:var(--muted);border-right:1px solid var(--line)}
+  .seg button:last-child{border-right:none}
+  .seg button.on{background:var(--brand);color:#06121f}
+  .rate.hard{background:var(--warn)}
+  .raterow.rate4{grid-template-columns:1fr 1fr 1fr 1fr;gap:7px}
+  .rate4 .rate{padding:12px 3px;font-size:14px}
+  .rate4 .rate small{display:block;font-size:10px;font-weight:700;opacity:.85;margin-top:1px}
+  .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stat{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+  .stat .n{font-size:24px;font-weight:850;font-variant-numeric:tabular-nums}
+  .stat .l{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .statsec{padding:12px 0;border-top:1px solid var(--line)}
+  .tbar{display:flex;align-items:center;gap:8px;font-size:12.5px;margin:6px 0}
+  .tbar .nm{width:98px;color:var(--muted)}
+  .tbar .tk{flex:1;height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+  .tbar .tk>i{display:block;height:100%;background:var(--grad);border-radius:99px}
+  .tbar .vv{width:52px;text-align:right;font-variant-numeric:tabular-nums}
+  .hardrow{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;padding:7px 0;border-bottom:1px solid var(--line)}
+  .hardrow .es{font-family:var(--es);font-weight:600}
+  .hardrow .cnt{color:var(--t-red);font-weight:700;font-size:12.5px}
+  .activity{display:flex;gap:6px;align-items:flex-end;height:46px}
+  .activity .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;justify-content:flex-end}
+  .activity .col i{width:70%;background:var(--brand);border-radius:3px;min-height:2px}
+  .activity .col span{font-size:9px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -167,8 +203,9 @@
   <div class="top">
     <div class="brand">En <em>Acción</em></div>
     <div style="display:flex;gap:8px;align-items:center">
-      <span class="daychip" id="daychip">día 1 / 60</span>
-      <button class="iconbtn" id="menuBtn" aria-label="Menú">⋯</button>
+      <span class="daychip" id="streakChip">🔥 0</span>
+      <button class="iconbtn" id="statsBtn" aria-label="Progreso">📊</button>
+      <button class="iconbtn" id="menuBtn" aria-label="Ajustes">⚙️</button>
     </div>
   </div>
 
@@ -211,17 +248,60 @@
   </div>
 </div>
 
-<!-- MENU SHEET -->
+<!-- AJUSTES -->
 <div class="menu hidden" id="menu">
   <div class="sheet">
-    <h3>Menú</h3>
-    <div class="row"><span>Novas por dia</span><span><button class="iconbtn" id="newMinus">–</button>
-      <b id="newLimitV" style="margin:0 10px;color:var(--ink)">12</b>
-      <button class="iconbtn" id="newPlus">+</button></span></div>
-    <div class="row"><span>Itens dominados</span><b id="masteredV" style="color:var(--ink)">0</b></div>
-    <div class="row"><span>Voz do áudio</span><b id="voiceV" style="color:var(--ink)">—</b></div>
+    <h3 style="margin:0 0 4px">⚙️ Ajustes</h3>
+    <div class="setrow">
+      <div><div class="setlabel">Palavras novas por dia</div><div class="setdesc">quantas inéditas liberar por dia</div></div>
+      <div class="setctl"><input type="range" id="newLimit" min="5" max="60" step="5"><b id="newLimitV">15</b></div>
+    </div>
+    <div class="setrow">
+      <div><div class="setlabel">Tamanho da sessão</div><div class="setdesc">quantos cards por vez</div></div>
+      <div class="seg" id="sessSeg"><button data-v="15">15</button><button data-v="30">30</button><button data-v="60">60</button><button data-v="0">∞</button></div>
+    </div>
+    <div class="setrow">
+      <div><div class="setlabel">Modo de estudo</div><div class="setdesc">revelar e avaliar, ou digitar em ES</div></div>
+      <div class="seg" id="modeSeg"><button data-v="normal">📖 Normal</button><button data-v="type">⌨ Digitar</button></div>
+    </div>
+    <div class="setrow">
+      <div><div class="setlabel">Retenção alvo (FSRS-6)</div><div class="setdesc">mais alto = revisa mais vezes</div></div>
+      <div class="setctl"><input type="range" id="retention" min="0.80" max="0.97" step="0.01"><b id="retentionV">90%</b></div>
+    </div>
+    <div class="setrow" style="display:block">
+      <div class="setlabel">🎯 Modo prazo</div>
+      <div class="setdesc" style="margin-bottom:8px">Aprender tudo até uma data — calcula as novas/dia sozinho e encurta os intervalos.</div>
+      <input type="date" id="deadlineDate" class="dateinp">
+      <div class="setdesc" id="deadlineInfo" style="margin-top:6px;min-height:16px"></div>
+    </div>
+    <div class="setrow" style="display:block">
+      <div class="setlabel" style="margin-bottom:8px">Backup (mover entre aparelhos)</div>
+      <button class="btn" id="exportBtn">⬇️ Exportar progresso</button>
+      <button class="btn" id="importBtn" style="margin-top:8px">⬆️ Importar progresso</button>
+      <input type="file" id="importFile" accept="application/json" class="hidden">
+    </div>
     <button class="btn ghost" id="resetBtn" style="margin-top:6px">Reiniciar progresso</button>
-    <button class="btn" id="closeMenu">Cerrar</button>
+    <button class="btn primary" id="closeMenu" style="margin-top:6px">Fechar</button>
+  </div>
+</div>
+
+<!-- ESTATÍSTICAS -->
+<div class="menu hidden" id="stats">
+  <div class="sheet">
+    <h3 style="margin:0 0 10px">📊 Seu progresso</h3>
+    <div class="statgrid">
+      <div class="stat"><div class="n" id="stMast">0</div><div class="l">dominadas ✅</div></div>
+      <div class="stat"><div class="n" id="stLearn">0</div><div class="l">aprendendo 📖</div></div>
+      <div class="stat"><div class="n" id="stNew">0</div><div class="l">não vistas 🆕</div></div>
+      <div class="stat"><div class="n" id="stDue">0</div><div class="l">revisar agora ⏰</div></div>
+    </div>
+    <div class="statsec"><div class="setlabel">Cobertura <b id="stCovPct" style="float:right;color:var(--brand)">0%</b></div>
+      <div class="pbar" style="margin-top:8px"><i id="stCovBar" style="width:0%"></i></div></div>
+    <div class="statsec"><div class="setlabel" style="margin-bottom:8px">Onde você evolui (por tipo)</div><div id="stByType"></div></div>
+    <div class="statsec"><div class="setlabel" style="margin-bottom:8px">Onde você mais erra 🔴</div>
+      <div id="stHard"></div><div class="setdesc" id="stHardEmpty"></div></div>
+    <div class="statsec"><div class="setlabel" style="margin-bottom:8px">Atividade (7 dias)</div><div class="activity" id="stActivity"></div></div>
+    <button class="btn primary" id="closeStats" style="margin-top:12px">Fechar</button>
   </div>
 </div>
 
@@ -238,79 +318,115 @@
 // verbos polissêmicos (quedar, echar…) trazem VÁRIOS sentidos = várias sentences
 /* CONTENT vem de conteudo.js */
 
-/* ----------------------------- ESTADO ----------------------------- */
+/* ----------------------------- ESTADO + CONFIG ----------------------------- */
 const KEY = "enaccion.v1";
 const MIN=60*1000, DAY=24*60*60*1000;
+const LEARN_STEPS=[1,10], MATURE=21;    // MATURE dias = "dominada"
 let S = load();
 
 function load(){
   let s;
   try{ s = JSON.parse(localStorage.getItem(KEY)); }catch(e){ s=null; }
   if(!s) s = {};
-  s.items = s.items || {};              // id -> {stage, due, ivl, lapses, seen}
-  s.newLimit = s.newLimit || 12;
-  s.dir = s.dir || "pt2es";             // direção do teste: "pt2es" ou "es2pt"
+  s.items = s.items || {};
+  s.cfg = Object.assign({newLimit:15, sessionSize:0, studyMode:"normal", dir:"pt2es",
+                         retention:0.90, maxInterval:365, deadline:null}, s.cfg||{});
+  if(s.newLimit!=null){ s.cfg.newLimit=s.newLimit; delete s.newLimit; }   // migração
+  if(s.dir){ s.cfg.dir=s.dir; delete s.dir; }
+  // migração de cards do SRS leve antigo (tinham .stage) -> reintroduz como novos
+  for(const id in s.items){ const it=s.items[id]; if(it && it.stage!=null && it.s==null){ delete s.items[id]; } }
+  s.streak = s.streak || 0;
+  s.lastDay = s.lastDay || null;
+  s.history = s.history || {};          // dayStr -> nº de revisões
   s.firstDay = s.firstDay || Date.now();
   s.today = s.today || {};              // {date, nuevas, repasos}
   rollDay(s);
   return s;
 }
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
-function rollDay(s){
-  const d = new Date().toDateString();
-  if(!s.today || s.today.date !== d){
-    s.today = {date:d, nuevas:0, repasos:0};
-  }
-}
+function todayStr(){ const d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+function rollDay(s){ const d=new Date().toDateString(); if(!s.today||s.today.date!==d) s.today={date:d,nuevas:0,repasos:0}; }
 function dayNumber(){ return Math.floor((Date.now()-S.firstDay)/DAY)+1; }
 
-/* ----------------------------- AGENDAMENTO (SRS leve) ----------------------------- */
-// stages: 0 Conocer · 1 Reconocer · 2 Completar · 3 Producir → depois, dias
-function rate(id, r){
-  const it = S.items[id] || (S.items[id]={stage:0, due:0, ivl:0, lapses:0, seen:false});
-  const now = Date.now();
-  if(r==="again"){ it.due = now + 1*MIN; it.lapses++; if(it.stage>3) it.ivl=1; }
-  else if(r==="good"){
-    if(it.stage<3){ it.stage++; it.due = now + 3*MIN; }
-    else { it.ivl = it.ivl? Math.round(it.ivl*2.4*10)/10 : 1; it.due = now + it.ivl*DAY; }
-  }
-  else if(r==="easy"){
-    if(it.stage<3){ it.stage = Math.min(3,it.stage+1); it.due = now + 8*MIN; }
-    else { it.ivl = it.ivl? Math.round(it.ivl*3.6*10)/10 : 3; it.due = now + it.ivl*DAY; }
-  }
-  else if(r==="know"){ it.stage=3; it.ivl=4; it.due = now + 4*DAY; }
-  S.today.repasos++;
-  save();
-}
-function introduce(item){
-  S.items[item.id] = {stage:0, due:Date.now(), ivl:0, lapses:0, seen:true};
-  S.today.nuevas++;
-  save();
-}
-function isMastered(it){ return it && it.stage>=3 && it.ivl>=4; }
+/* ----------------------------- FSRS-6 (mesmo motor do Español 30) ----------------------------- */
+const FSRS_W=[0.2172,1.1771,3.2602,16.1507,7.0114,0.57,2.0966,0.0069,1.5261,0.112,1.0178,1.849,0.1133,0.3127,2.2934,0.2191,3.0004,0.7536,0.3332,0.1437,0.2];
+const FSRS_DECAY=-FSRS_W[20], FSRS_FACTOR=Math.pow(0.9,1/FSRS_DECAY)-1;
+const clampD=d=>Math.max(1,Math.min(10,d));
+function desiredRet(){ return Math.min(0.97,Math.max(0.80,S.cfg.retention||0.90)); }
+function maxIvl(){ let m=Math.max(30,S.cfg.maxInterval||365); if(deadlineOn()){ const dl=daysLeft(); if(dl!=null) m=Math.min(m,Math.max(2,dl)); } return m; }
+function fsrsInitS(g){ return Math.max(0.1,FSRS_W[g-1]); }
+function fsrsInitD(g){ return clampD(FSRS_W[4]-Math.exp(FSRS_W[5]*(g-1))+1); }
+function fsrsR(t,s){ return Math.pow(1+FSRS_FACTOR*Math.max(0,t)/Math.max(s,0.01),FSRS_DECAY); }
+function fsrsIvlRaw(s){ return s/FSRS_FACTOR*(Math.pow(desiredRet(),1/FSRS_DECAY)-1); }
+function fsrsNextD(d,g){ const dl=d+(-FSRS_W[6]*(g-3))*(10-d)/9; return clampD(FSRS_W[7]*fsrsInitD(4)+(1-FSRS_W[7])*dl); }
+function fsrsRecallS(d,s,r,g){ const hard=g===2?FSRS_W[15]:1, easy=g===4?FSRS_W[16]:1;
+  return s*(1+Math.exp(FSRS_W[8])*(11-d)*Math.pow(s,-FSRS_W[9])*(Math.exp((1-r)*FSRS_W[10])-1)*hard*easy); }
+function fsrsForgetS(d,s,r){ const sf=FSRS_W[11]*Math.pow(d,-FSRS_W[12])*(Math.pow(s+1,FSRS_W[13])-1)*Math.exp((1-r)*FSRS_W[14]); return Math.min(sf,s); }
+function fsrsShortS(s,g){ return s*Math.exp(FSRS_W[17]*(g-3+FSRS_W[18]))*Math.pow(s,-FSRS_W[19]); }
+function fuzzIvl(ivl,seed){ if(ivl<2.5) return ivl; const pct=ivl<7?0.15:ivl<30?0.10:0.05; const f=Math.max(1,Math.round(ivl*pct));
+  const rnd=(Math.abs(Math.sin(seed*127.1+0.37))*1000)%1; const off=Math.round((rnd*2-1)*f); return Math.max(1,Math.min(maxIvl(),ivl+off)); }
+function seedFuzz(p){ return (p.reps||0)+(p.lapses||0)*100+Math.round(p.s||1); }
+function fsrsCommit(p,rawDays,now){ p.ivl=Math.min(maxIvl(),Math.max(1,Math.round(rawDays))); p.last=now; p.due=now+fuzzIvl(p.ivl,seedFuzz(p))*DAY; }
+function fsrsGraduate(p,g,now){ p.learning=false; p.s=fsrsInitS(g); p.d=fsrsInitD(g); p.reps=(p.reps||0)+1; fsrsCommit(p,fsrsIvlRaw(p.s),now); }
 
-// próximo item da sessão: vencidos primeiro; senão introduz novo (até a cota)
+/* ----------------------------- Modo prazo ----------------------------- */
+function daysLeft(){ if(!S.cfg.deadline) return null; const end=new Date(S.cfg.deadline+"T23:59:59"); if(isNaN(end)) return null; return Math.ceil((end-Date.now())/DAY); }
+function deadlineOn(){ const d=daysLeft(); return d!=null && d>0; }
+function unseenCount(){ let n=0; for(const c of CONTENT){ const p=S.items[c.id]; if(!p||!p.intro) n++; } return n; }
+function autoNewLimit(){ const u=unseenCount(); if(!u) return 0; const dl=Math.max(1,daysLeft()||1); return Math.min(120,Math.max(5,Math.ceil(u/dl))); }
+function effNewLimit(){ return deadlineOn()? autoNewLimit() : (S.cfg.newLimit||15); }
+
+/* ----------------------------- Agendador ----------------------------- */
+function newCard(){ return {s:null,d:null,due:0,last:0,ivl:0,reps:0,lapses:0,learning:true,step:0,intro:false,view:0}; }
+function schedule(p,grade){ // 0 Errei · 1 Difícil · 2 Bom · 3 Fácil
+  const now=Date.now(), G=grade+1;
+  if(!p.intro) p.intro=true;
+  if(p.learning==null) p.learning=(p.ivl||0)<1;
+  if(p.learning){
+    if(grade===0){ p.step=0; p.due=now+LEARN_STEPS[0]*MIN; return; }
+    if(grade===3){ fsrsGraduate(p,4,now); return; }
+    const nx=(p.step||0)+1;
+    if(nx>=LEARN_STEPS.length){ fsrsGraduate(p, grade===1?2:3, now); return; }
+    p.step=nx; const stepMin=grade===1?LEARN_STEPS[Math.max(0,nx-1)]:LEARN_STEPS[nx]; p.due=now+stepMin*MIN; return;
+  }
+  if(p.s==null){ p.s=Math.max(1,p.ivl||1); p.d=(p.d!=null)?p.d:5; }
+  const last=(p.last!=null)?p.last:now; const elapsed=Math.max(0,(now-last)/DAY); const r=fsrsR(elapsed,p.s);
+  if(grade===0){ p.lapses=(p.lapses||0)+1; p.s=fsrsForgetS(p.d,p.s,r); p.d=fsrsNextD(p.d,1);
+    p.learning=true; p.step=0; p.ivl=0; p.last=now; p.due=now+LEARN_STEPS[0]*MIN; return; }
+  const oldD=p.d; p.d=fsrsNextD(oldD,G); p.s=elapsed<1?fsrsShortS(p.s,G):fsrsRecallS(oldD,p.s,r,G); p.reps=(p.reps||0)+1; fsrsCommit(p,fsrsIvlRaw(p.s),now);
+}
+function previewLabel(p,grade){ const c=JSON.parse(JSON.stringify(p)); schedule(c,grade); const ms=c.due-Date.now();
+  if(ms<0.9*DAY){ const m=Math.max(1,Math.round(ms/MIN)); return m<60?m+" min":Math.round(m/60)+" h"; }
+  const d=Math.round(ms/DAY); if(d<7) return d+" d"; if(d<30) return Math.round(d/7)+" sem";
+  if(d<365) return Math.round(d/30)+" mes"+(Math.round(d/30)>1?"es":""); return Math.round(d/365)+" año"+(Math.round(d/365)>1?"s":""); }
+function isMastered(p){ return p && !p.learning && (p.ivl||0)>=MATURE; }
+
+function gradeItem(id,grade){
+  const p=S.items[id]||(S.items[id]=newCard());
+  schedule(p,grade);
+  S.today.repasos++;
+  const t=todayStr(); S.history[t]=(S.history[t]||0)+1;
+  updateStreak(); save();
+}
+function introduce(item){ const p=newCard(); p.intro=true; p.due=Date.now(); S.items[item.id]=p; S.today.nuevas++; save(); }
+function updateStreak(){ const t=todayStr(); if(S.lastDay===t) return;
+  if(S.lastDay){ const diff=Math.round((new Date(t)-new Date(S.lastDay))/DAY); S.streak=diff===1?S.streak+1:1; } else S.streak=1; S.lastDay=t; }
+
+/* ----------------------------- Sessão ----------------------------- */
 function nextItem(){
-  const now = Date.now();
-  let best=null, bestDue=Infinity;
-  for(const c of CONTENT){
-    const it = S.items[c.id];
-    if(it && it.due<=now){ if(it.due<bestDue){ bestDue=it.due; best=c; } }
-  }
+  if(S.cfg.sessionSize>0 && !session.over && session.done>=S.cfg.sessionSize) return null;   // sessão cheia
+  const now=Date.now(); let best=null,bestDue=Infinity;
+  for(const c of CONTENT){ const p=S.items[c.id]; if(p&&p.intro&&p.due<=now){ if(p.due<bestDue){ bestDue=p.due; best=c; } } }
   if(best) return best;
-  if(S.today.nuevas < S.newLimit){
-    const fresh = CONTENT.find(c=>!S.items[c.id]);
-    if(fresh){ introduce(fresh); return fresh; }
-  }
+  if(S.today.nuevas<effNewLimit()){ const fresh=CONTENT.find(c=>{ const p=S.items[c.id]; return !p||!p.intro; }); if(fresh){ introduce(fresh); return fresh; } }
   return null;
 }
 function counts(){
-  const now=Date.now();
-  let due=0, mastered=0;
-  for(const c of CONTENT){ const it=S.items[c.id]; if(it&&it.due<=now) due++; if(isMastered(it)) mastered++; }
-  const newLeft = Math.max(0, S.newLimit - S.today.nuevas) && CONTENT.some(c=>!S.items[c.id])
-      ? Math.min(S.newLimit - S.today.nuevas, CONTENT.filter(c=>!S.items[c.id]).length) : 0;
-  return {due, newLeft, mastered};
+  const now=Date.now(); let due=0,mastered=0,learning=0,seen=0;
+  for(const c of CONTENT){ const p=S.items[c.id]; if(!p||!p.intro) continue; seen++; if(p.due<=now) due++; if(isMastered(p)) mastered++; else learning++; }
+  const unseen=CONTENT.length-seen;
+  const newLeft=Math.min(Math.max(0,effNewLimit()-S.today.nuevas), unseen);
+  return {due,newLeft,mastered,learning,seen,unseen,total:CONTENT.length};
 }
 
 /* ----------------------------- ÁUDIO (voz ES) ----------------------------- */
@@ -355,20 +471,16 @@ function refreshHome(){
   const c = counts();
   $("dueN").textContent = c.due;
   $("newN").textContent = c.newLeft;
-  $("daychip").textContent = "día "+dayNumber()+" / 60";
-  $("masteredV").textContent = c.mastered;
-  $("newLimitV").textContent = S.newLimit;
+  $("streakChip").textContent = "🔥 "+S.streak;
   const hour = new Date().getHours();
   $("greet").innerHTML = (hour<12?"¡Buenos días!":hour<20?"¡Buenas tardes!":"¡Buenas noches!")+" <span>Vamos.</span>";
-  $("streak").innerHTML = "Hoy: <b>"+S.today.nuevas+"</b> nuevas · <b>"+S.today.repasos+"</b> repasos";
+  const dl = deadlineOn() ? " · ⏳ <b>"+daysLeft()+"</b> días ("+effNewLimit()+"/día)" : "";
+  $("streak").innerHTML = "Hoy: <b>"+S.today.nuevas+"</b> nuevas · <b>"+S.today.repasos+"</b> repasos"+dl;
   $("startBtn").innerHTML = (c.due+c.newLeft>0) ? "Empezar &nbsp;→" : "Repasar igualmente &nbsp;→";
-  // progresso: núcleo dominado + ritmo pros 60 dias
-  const total=CONTENT.length, pct=Math.round(100*c.mastered/total);
+  const pct = Math.round(100*c.mastered/c.total);
   $("masterPct").textContent = pct+"%";
   $("masterBar").style.width = pct+"%";
-  const meta=Math.min(total, Math.round(total*dayNumber()/60));   // onde você "deveria" estar
-  const ritmo = c.mastered>=meta ? "✅ no ritmo pros 60 días" : "⏳ faltan "+(meta-c.mastered)+" para el ritmo de 60 días";
-  $("masterSub").innerHTML = "<b>"+c.mastered+"</b> de "+total+" palabras · "+ritmo;
+  $("masterSub").innerHTML = "<b>"+c.mastered+"</b> de "+c.total+" dominadas · aprendendo "+c.learning+" · día "+dayNumber();
 }
 
 /* ------- render de um card conforme o degrau ------- */
@@ -379,9 +491,7 @@ function studyNext(){
   const it = S.items[item.id];
   renderCard(item, it);
 }
-function progressUI(stage){
-  $("barfill").style.width = (Math.min(stage,3)/3*100)+"%";
-}
+function progressUI(frac){ $("barfill").style.width = Math.round(Math.max(0,Math.min(1,frac))*100)+"%"; }
 
 function renderCard(item, it){
   show("study");
@@ -405,42 +515,68 @@ function renderCard(item, it){
       <div class="controls"><button class="btn primary" id="okBtn">Lo entendí &nbsp;→</button></div>`;
     card.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
     card.querySelector("[data-sayall]").onclick=()=>speakSeq(item.lines.map(l=>l.es));
-    $("okBtn").onclick=()=>{ rate(item.id,"good"); advance(); };
+    $("okBtn").onclick=()=>{ gradeItem(item.id,2); advance(); };
     return;
   }
 
-  const stage = it.stage||0;
-  progressUI(stage);
   it.view = (it.view||0)+1;                  // cicla os sentidos dos verbos a cada aparição
   const s = item.sentences[(it.view-1) % item.sentences.length];
+  progressUI(it.learning?0.25:(isMastered(it)?1:0.6));
   session.cur = {item, it, s};               // guarda o card atual (pra inverter direção)
   paintCard(item, it, s);
 }
 
-/* Pinta UM card de teste na direção atual (S.dir). Resposta escondida até revelar. */
+/* Pinta UM card de teste na direção atual. Resposta escondida até revelar. */
 function paintCard(item, it, s){
   const card=$("card");
   const tag = `<span class="tag ${TAGCLASS[item.tag]}">${TAGEMOJI[item.tag]}</span>`;
-  const dir = S.dir || "pt2es";
   const senseTag = s.use ? `<div class="note"><b>uso:</b> ${esc(s.use)}</div>` : "";
   const noteTag  = item.note ? `<div class="note">${item.note}</div>` : "";
-  $("dirBtn").textContent = (dir==="pt2es" ? "PT → ES" : "ES → PT") + " ⇄";
 
-  const esBlock = `<div class="sentence">${markTarget(s.es,s.target,"hl")}
-      <button class="playmini" data-say="${esc(s.es)}">🔊</button></div>`;
-  const ptBlock = `<div class="sentence" style="color:var(--ink)">${esc(s.pt)}</div>`;
-
-  let front, back, autoOn;                    // autoOn: "front" | "back" — onde toca o áudio ES
-  if(dir==="es2pt"){                          // vê ESPANHOL → responde PORTUGUÊS
-    front = esBlock + `<div class="trans">¿Qué significa?</div>`;
-    back  = `<div class="trans" style="font-size:18px;color:var(--ink);font-weight:600">${esc(s.pt)}</div>${senseTag}${noteTag}`;
-    autoOn = "front";                         // áudio ES já ao aparecer o card
-  } else {                                    // vê PORTUGUÊS → produz ESPANHOL
-    front = `<div class="trans" style="font-size:14px">Diga em espanhol:</div>${ptBlock}`;
-    back  = esBlock + senseTag + noteTag;
-    autoOn = "back";                          // áudio ES ao virar (revelar)
+  /* ---- MODO DIGITAR: complete a palavra em espanhol ---- */
+  if(S.cfg.studyMode==="type"){
+    $("dirBtn").textContent="⌨ digitar";
+    card.innerHTML=`
+      <div class="cardhead"><span class="typepill">${item.type} · digitar</span>${tag}</div>
+      <div class="trans" style="font-size:14px">Complete em espanhol:</div>
+      <div class="sentence">${markTarget(s.es,s.target,"gap")}</div>
+      <div class="trans">${esc(s.pt)}</div>
+      <input class="typein" id="typeIn" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="escreva a palavra…">
+      <div id="verdict"></div>
+      <div class="spacer"></div>
+      <div class="controls" id="ctr">
+        <button class="btn primary" id="checkBtn">Comprobar</button>
+        <button class="skip" id="revBtn2">No sé — mostrar</button>
+      </div>`;
+    const input=$("typeIn"); setTimeout(()=>{ if(input) input.focus(); },60);
+    input.addEventListener("keydown",e=>{ if(e.key==="Enter") doCheck(false); });
+    $("checkBtn").onclick=()=>doCheck(false);
+    $("revBtn2").onclick=()=>{ input.value=s.target; doCheck(true); };
+    function doCheck(forced){
+      const ok=norm(input.value)===norm(s.target); input.disabled=true;
+      $("verdict").innerHTML = ok
+        ? `<div class="verdict ok">✓ ¡Correcto!</div>`
+        : `<div class="verdict no">✗ Era: <span class="corr">${esc(s.target)}</span></div>`;
+      speak(s.es); showRating(item);
+    }
+    return;
   }
 
+  /* ---- MODO NORMAL: revelar ---- */
+  const dir = S.cfg.dir || "pt2es";
+  $("dirBtn").textContent = (dir==="pt2es" ? "PT → ES" : "ES → PT") + " ⇄";
+  const esBlock = `<div class="sentence">${markTarget(s.es,s.target,"hl")} <button class="playmini" data-say="${esc(s.es)}">🔊</button></div>`;
+  const ptBlock = `<div class="sentence" style="color:var(--ink)">${esc(s.pt)}</div>`;
+  let front, back, autoOn;
+  if(dir==="es2pt"){
+    front = esBlock + `<div class="trans">¿Qué significa?</div>`;
+    back  = `<div class="trans" style="font-size:18px;color:var(--ink);font-weight:600">${esc(s.pt)}</div>${senseTag}${noteTag}`;
+    autoOn = "front";
+  } else {
+    front = `<div class="trans" style="font-size:14px">Diga em espanhol:</div>${ptBlock}`;
+    back  = esBlock + senseTag + noteTag;
+    autoOn = "back";
+  }
   card.innerHTML = `
     <div class="cardhead"><span class="typepill">${item.type} · test</span>${tag}</div>
     <div id="front">${front}</div>
@@ -451,24 +587,26 @@ function paintCard(item, it, s){
       <button class="skip" id="knowBtn">Ya lo sé — saltar</button>
     </div>`;
   bindSay(card);
-  if(autoOn==="front") setTimeout(()=>speak(s.es), 120);   // áudio automático ao aparecer
+  if(autoOn==="front") setTimeout(()=>speak(s.es), 120);
   $("revBtn").onclick=()=>{
-    $("back").classList.remove("hidden");
-    bindSay(card);
-    if(autoOn==="back") speak(s.es);                        // áudio automático ao virar
+    $("back").classList.remove("hidden"); bindSay(card);
+    if(autoOn==="back") speak(s.es);
     showRating(item);
   };
-  $("knowBtn").onclick=()=>{ rate(item.id,"know"); advance(); };
+  $("knowBtn").onclick=()=>{ gradeItem(item.id,3); advance(); };
 }
 
-function showRating(item, auto){
-  const ctr=$("ctr");
-  ctr.innerHTML=`<div class="raterow">
-      <button class="rate again" data-r="again">Otra vez<small>errei</small></button>
-      <button class="rate good" data-r="good">Bien<small>com esforço</small></button>
-      <button class="rate easy" data-r="easy">Fácil<small>tranquilo</small></button>
+/* 4 botões FSRS com preview do próximo intervalo */
+function showRating(item){
+  const p=S.items[item.id]; const ctr=$("ctr");
+  const lb=g=>`<small>${previewLabel(p,g)}</small>`;
+  ctr.innerHTML=`<div class="raterow rate4">
+      <button class="rate again" data-g="0">Otra vez${lb(0)}</button>
+      <button class="rate hard"  data-g="1">Difícil${lb(1)}</button>
+      <button class="rate good"  data-g="2">Bien${lb(2)}</button>
+      <button class="rate easy"  data-g="3">Fácil${lb(3)}</button>
     </div>`;
-  ctr.querySelectorAll("[data-r]").forEach(b=> b.onclick=()=>{ rate(item.id,b.dataset.r); advance(); });
+  ctr.querySelectorAll("[data-g]").forEach(b=> b.onclick=()=>{ gradeItem(item.id,+b.dataset.g); advance(); });
 }
 
 function bindSay(card){ card.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say)); }
@@ -483,29 +621,73 @@ function advance(){ session.done++; studyNext(); }
 function finish(){
   show("done");
   const c=counts();
+  const sizeStop = S.cfg.sessionSize>0 && !session.over && session.done>=S.cfg.sessionSize && (c.due+c.newLeft>0);
+  $("doneTitle").textContent = sizeStop ? ("Sesión de "+S.cfg.sessionSize+" hecha 💪") : "¡Por hoy, listo! 🎉";
   $("doneMsg").innerHTML = `Você fez <b>${session.done}</b> cards nesta rodada.<br>
-    Hoje: <b>${S.today.nuevas}</b> nuevas · <b>${S.today.repasos}</b> repasos · <b>${c.mastered}</b> dominadas.`;
+    Hoje: <b>${S.today.nuevas}</b> nuevas · <b>${S.today.repasos}</b> repasos · <b>${c.mastered}</b> dominadas · 🔥 ${S.streak}.`;
   $("moreBtn").classList.toggle("hidden", !(c.due+c.newLeft>0));
   refreshHome();
 }
 
 /* ----------------------------- EVENTOS ----------------------------- */
 $("dirBtn").onclick=()=>{                       // inverter ES↔PT a qualquer momento
-  if(!session.cur) return;                       // (num diálogo não faz nada)
-  S.dir = (S.dir==="pt2es") ? "es2pt" : "pt2es"; save();
+  if(!session.cur || S.cfg.studyMode==="type") return;
+  S.cfg.dir = (S.cfg.dir==="pt2es") ? "es2pt" : "pt2es"; save();
   paintCard(session.cur.item, session.cur.it, session.cur.s);
 };
-$("startBtn").onclick=()=>{ session={done:0,cur:null}; studyNext(); };
+$("startBtn").onclick=()=>{ session={done:0,over:false,cur:null}; studyNext(); };
 $("pauseBtn").onclick=()=>{ refreshHome(); show("home"); speechSynthesis&&speechSynthesis.cancel(); };
-$("moreBtn").onclick=()=>{ session={done:0}; studyNext(); };
+$("moreBtn").onclick=()=>{ session.over=true; studyNext(); };      // seguir além do tamanho da sessão
 $("homeBtn").onclick=()=>{ refreshHome(); show("home"); };
 
-$("menuBtn").onclick=()=>{ $("menu").classList.remove("hidden"); };
-$("closeMenu").onclick=()=>{ $("menu").classList.add("hidden"); };
+/* ---- Ajustes ---- */
+function markSeg(id,val){ $(id).querySelectorAll("button").forEach(b=>b.classList.toggle("on", b.dataset.v===val)); }
+function updateDeadlineInfo(){ const el=$("deadlineInfo"); if(!el) return;
+  if(deadlineOn()) el.textContent="Faltam "+daysLeft()+" dias · "+autoNewLimit()+" novas/dia (automático).";
+  else el.textContent = S.cfg.deadline ? "A data já passou — modo prazo desligado." : "Desligado. Escolha uma data pra ativar."; }
+function openSettings(){
+  $("newLimit").value=S.cfg.newLimit; $("newLimitV").textContent=S.cfg.newLimit;
+  $("retention").value=S.cfg.retention; $("retentionV").textContent=Math.round(S.cfg.retention*100)+"%";
+  $("deadlineDate").value=S.cfg.deadline||"";
+  markSeg("sessSeg", String(S.cfg.sessionSize)); markSeg("modeSeg", S.cfg.studyMode);
+  updateDeadlineInfo(); $("menu").classList.remove("hidden");
+}
+$("menuBtn").onclick=openSettings;
+$("closeMenu").onclick=()=>$("menu").classList.add("hidden");
 $("menu").onclick=e=>{ if(e.target.id==="menu") $("menu").classList.add("hidden"); };
-$("newPlus").onclick=()=>{ S.newLimit=Math.min(40,S.newLimit+2); save(); refreshHome(); };
-$("newMinus").onclick=()=>{ S.newLimit=Math.max(2,S.newLimit-2); save(); refreshHome(); };
+$("newLimit").oninput=e=>{ S.cfg.newLimit=+e.target.value; $("newLimitV").textContent=S.cfg.newLimit; save(); };
+$("retention").oninput=e=>{ S.cfg.retention=+e.target.value; $("retentionV").textContent=Math.round(S.cfg.retention*100)+"%"; save(); };
+$("sessSeg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ S.cfg.sessionSize=+b.dataset.v; save(); markSeg("sessSeg",b.dataset.v); });
+$("modeSeg").querySelectorAll("button").forEach(b=>b.onclick=()=>{ S.cfg.studyMode=b.dataset.v; save(); markSeg("modeSeg",b.dataset.v); });
+$("deadlineDate").onchange=e=>{ S.cfg.deadline=e.target.value||null; save(); updateDeadlineInfo(); };
+$("exportBtn").onclick=()=>{ const blob=new Blob([JSON.stringify(S)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="enaccion_backup_"+todayStr()+".json"; a.click(); };
+$("importBtn").onclick=()=>$("importFile").click();
+$("importFile").onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ const obj=JSON.parse(r.result); localStorage.setItem(KEY,JSON.stringify(obj)); S=load(); $("menu").classList.add("hidden"); refreshHome(); alert("Progresso importado ✓"); }catch(err){ alert("Arquivo inválido."); } };
+  r.readAsText(f); };
 $("resetBtn").onclick=()=>{ if(confirm("Apagar todo o progresso?")){ localStorage.removeItem(KEY); S=load(); $("menu").classList.add("hidden"); refreshHome(); } };
+
+/* ---- Estatísticas ---- */
+const TYPENAME={noun:"Substantivos",verb:"Verbos",adjetivo:"Adjetivos",adverbio:"Advérbios",conector:"Conectores",chunk:"Expressões",dialog:"Diálogos"};
+function openStats(){ renderStats(); $("stats").classList.remove("hidden"); }
+function renderStats(){
+  const c=counts();
+  $("stMast").textContent=c.mastered; $("stLearn").textContent=c.learning; $("stNew").textContent=c.unseen; $("stDue").textContent=c.due;
+  const pct=Math.round(100*c.mastered/c.total); $("stCovPct").textContent=pct+"%"; $("stCovBar").style.width=pct+"%";
+  const g={}; for(const it of CONTENT){ (g[it.type]||(g[it.type]={t:0,m:0})).t++; if(isMastered(S.items[it.id])) g[it.type].m++; }
+  $("stByType").innerHTML=Object.keys(g).map(t=>{ const o=g[t], p=Math.round(100*o.m/o.t);
+    return `<div class="tbar"><span class="nm">${TYPENAME[t]||t}</span><span class="tk"><i style="width:${p}%"></i></span><span class="vv">${o.m}/${o.t}</span></div>`; }).join("");
+  const hard=CONTENT.map(it=>({w:it.word,p:S.items[it.id]})).filter(x=>x.p&&x.p.lapses>0).sort((a,b)=>b.p.lapses-a.p.lapses).slice(0,8);
+  $("stHard").innerHTML=hard.map(x=>`<div class="hardrow"><span class="es">${esc(x.w)}</span><span class="cnt">${x.p.lapses} ${x.p.lapses>1?"erros":"erro"}</span></div>`).join("");
+  $("stHardEmpty").textContent = hard.length ? "" : "Ainda sem erros registrados — continue estudando.";
+  const days=[], nm=["dom","seg","ter","qua","qui","sex","sáb"]; let mx=1;
+  for(let i=6;i>=0;i--){ const d=new Date(Date.now()-i*DAY); const k=d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); const n=S.history[k]||0; days.push({n,lbl:nm[d.getDay()]}); mx=Math.max(mx,n); }
+  $("stActivity").innerHTML=days.map(d=>`<div class="col"><i style="height:${Math.round(d.n/mx*36)+2}px" title="${d.n} revisões"></i><span>${d.lbl}</span></div>`).join("");
+}
+$("statsBtn").onclick=openStats;
+$("closeStats").onclick=()=>$("stats").classList.add("hidden");
+$("stats").onclick=e=>{ if(e.target.id==="stats") $("stats").classList.add("hidden"); };
 
 refreshHome();
 show("home");
