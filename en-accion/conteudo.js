@@ -875,7 +875,40 @@ const CONTENT = [
 {id:"aj_feliz",type:"adjetivo",tag:"g",word:"feliz",gloss:"feliz",sentences:[{es:"Soy muy feliz aquí.",pt:"Sou muito feliz aqui.",target:"feliz"}]},
 {id:"aj_triste",type:"adjetivo",tag:"g",word:"triste",gloss:"triste",sentences:[{es:"Estoy un poco triste.",pt:"Estou um pouco triste.",target:"triste"}]},
 {id:"aj_justo",type:"adjetivo",tag:"a",word:"justo/a",gloss:"justo / exato / apertado",sentences:[{es:"No es justo.",pt:"Não é justo.",target:"justo"}]},
-{id:"aj_solo",type:"adjetivo",tag:"b",word:"solo/a",gloss:"sozinho",note:"🔵 <span class='es'>solo/a</span> (adj.) = sozinho; <span class='es'>solo</span> (adv.) = só/apenas.",sentences:[{es:"Vivo solo.",pt:"Moro sozinho.",target:"solo"}]}
+{id:"aj_solo",type:"adjetivo",tag:"b",word:"solo/a",gloss:"sozinho",note:"🔵 <span class='es'>solo/a</span> (adj.) = sozinho; <span class='es'>solo</span> (adv.) = só/apenas.",sentences:[{es:"Vivo solo.",pt:"Moro sozinho.",target:"solo"}]},
+
+/* ===== ADVÉRBIOS · lote 2 ===== */
+{id:"av_aveces",type:"adverbio",tag:"b",word:"a veces",gloss:"às vezes",sentences:[{es:"A veces voy en bici.",pt:"Às vezes vou de bicicleta.",target:"A veces"}]},
+{id:"av_amenudo",type:"adverbio",tag:"b",word:"a menudo",gloss:"com frequência",sentences:[{es:"Voy a menudo al cine.",pt:"Vou com frequência ao cinema.",target:"a menudo"}]},
+{id:"av_derepente",type:"adverbio",tag:"g",word:"de repente",gloss:"de repente",sentences:[{es:"De repente empezó a llover.",pt:"De repente começou a chover.",target:"De repente"}]},
+{id:"av_enseguida",type:"adverbio",tag:"b",word:"enseguida",gloss:"já / num instante",sentences:[{es:"Vengo enseguida.",pt:"Já venho.",target:"enseguida"}]},
+{id:"av_seguramente",type:"adverbio",tag:"g",word:"seguramente",gloss:"provavelmente",note:"🔵 Na Espanha, seguramente = provavelmente (não «com certeza»).",sentences:[{es:"Seguramente llegue tarde.",pt:"Provavelmente vou chegar tarde.",target:"Seguramente"}]},
+{id:"av_porsupuesto",type:"adverbio",tag:"b",word:"por supuesto",gloss:"claro / com certeza",sentences:[{es:"Por supuesto que sí.",pt:"Claro que sim.",target:"Por supuesto"}]},
+{id:"av_deprisa",type:"adverbio",tag:"b",word:"deprisa",gloss:"depressa / rápido",sentences:[{es:"Come más deprisa.",pt:"Come mais depressa.",target:"deprisa"}]},
+{id:"av_juntos",type:"adverbio",tag:"g",word:"juntos/as",gloss:"juntos",sentences:[{es:"Vivimos juntos.",pt:"Moramos juntos.",target:"juntos"}]},
+{id:"av_arriba",type:"adverbio",tag:"b",word:"arriba",gloss:"em cima / para cima",sentences:[{es:"El baño está arriba.",pt:"O banheiro fica em cima.",target:"arriba"}]},
+{id:"av_abajo",type:"adverbio",tag:"b",word:"abajo",gloss:"embaixo / para baixo",sentences:[{es:"Te espero abajo.",pt:"Te espero embaixo.",target:"abajo"}]},
+{id:"av_dentro",type:"adverbio",tag:"g",word:"dentro",gloss:"dentro",sentences:[{es:"Está dentro de la caja.",pt:"Está dentro da caixa.",target:"dentro"}]},
+{id:"av_fuera",type:"adverbio",tag:"b",word:"fuera",gloss:"fora",sentences:[{es:"Vamos a cenar fuera.",pt:"Vamos jantar fora.",target:"fuera"}]},
+{id:"av_realmente",type:"adverbio",tag:"g",word:"realmente",gloss:"realmente",sentences:[{es:"Realmente no lo sé.",pt:"Realmente não sei.",target:"Realmente"}]},
+{id:"av_normalmente",type:"adverbio",tag:"g",word:"normalmente",gloss:"normalmente",sentences:[{es:"Normalmente ceno a las nueve.",pt:"Normalmente janto às nove.",target:"Normalmente"}]},
+{id:"av_porlomenos",type:"adverbio",tag:"b",word:"por lo menos",gloss:"pelo menos",sentences:[{es:"Dame por lo menos uno.",pt:"Me dá pelo menos um.",target:"por lo menos"}]},
+{id:"av_solamente",type:"adverbio",tag:"b",word:"solo / solamente",gloss:"só / apenas / somente",sentences:[{es:"Solo quiero agua.",pt:"Só quero água.",target:"Solo"}]},
+
+/* ===== CONECTORES · lote 2 (o pulo pro B2) ===== */
+{id:"co_porlotanto",type:"conector",tag:"b",word:"por lo tanto",gloss:"portanto",sentences:[{es:"Llueve, por lo tanto no salgo.",pt:"Está chovendo, portanto não saio.",target:"por lo tanto"}]},
+{id:"co_encambio",type:"conector",tag:"b",word:"en cambio",gloss:"por outro lado / já",sentences:[{es:"Yo salgo; ella, en cambio, se queda.",pt:"Eu saio; ela, por outro lado, fica.",target:"en cambio"}]},
+{id:"co_porejemplo",type:"conector",tag:"b",word:"por ejemplo",gloss:"por exemplo",sentences:[{es:"Me gusta la fruta, por ejemplo la manzana.",pt:"Gosto de fruta, por exemplo maçã.",target:"por ejemplo"}]},
+{id:"co_esdecir",type:"conector",tag:"b",word:"es decir",gloss:"isto é / ou seja",sentences:[{es:"Mañana, es decir el lunes.",pt:"Amanhã, isto é, segunda.",target:"es decir"}]},
+{id:"co_yaque",type:"conector",tag:"b",word:"ya que",gloss:"já que",sentences:[{es:"Ya que estás aquí, ayúdame.",pt:"Já que você está aqui, me ajuda.",target:"Ya que"}]},
+{id:"co_apesarde",type:"conector",tag:"b",word:"a pesar de",gloss:"apesar de",sentences:[{es:"Salí a pesar de la lluvia.",pt:"Saí apesar da chuva.",target:"a pesar de"}]},
+{id:"co_enfin",type:"conector",tag:"b",word:"en fin",gloss:"enfim",sentences:[{es:"En fin, no importa.",pt:"Enfim, não importa.",target:"En fin"}]},
+{id:"co_porfin",type:"conector",tag:"b",word:"por fin",gloss:"finalmente / até que enfim",sentences:[{es:"¡Por fin llegaste!",pt:"Até que enfim você chegou!",target:"Por fin"}]},
+{id:"co_porcierto",type:"conector",tag:"r",word:"por cierto",gloss:"a propósito / aliás",note:"🔴 <b>Falso amigo:</b> por cierto = a propósito/aliás. Não é «por certo/com certeza».",sentences:[{es:"Por cierto, ¿viste a Ana?",pt:"A propósito, você viu a Ana?",target:"Por cierto"}]},
+{id:"co_engeneral",type:"conector",tag:"b",word:"en general",gloss:"em geral",sentences:[{es:"En general, me gusta.",pt:"Em geral, eu gosto.",target:"En general"}]},
+{id:"av_otravez",type:"adverbio",tag:"b",word:"otra vez / de nuevo",gloss:"de novo / outra vez",sentences:[{es:"Inténtalo otra vez.",pt:"Tenta de novo.",target:"otra vez"}]},
+{id:"av_delante",type:"adverbio",tag:"b",word:"delante",gloss:"na frente",sentences:[{es:"Siéntate delante.",pt:"Senta na frente.",target:"delante"}]},
+{id:"av_detras",type:"adverbio",tag:"b",word:"detrás",gloss:"atrás",sentences:[{es:"El coche está detrás.",pt:"O carro está atrás.",target:"detrás"}]}
 
 ];
 if(typeof window!=="undefined") window.CONTENT = CONTENT;
