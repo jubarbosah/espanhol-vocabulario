@@ -1,0 +1,643 @@
+════════════════════════════════════════════════════════════════════
+  NÚCLEO 80/20 DO ESPANHOL PARA BRASILEIRO — meta: B2
+  A lista das palavras que REALMENTE aparecem. Se você fechar isto,
+  entende a grande maioria do espanhol falado e escrito do dia a dia.
+════════════════════════════════════════════════════════════════════
+
+COMO FOI FEITA
+  • Selecionada por FREQUÊNCIA real (as palavras que mais aparecem em
+    corpora do espanhol), não por tema.
+  • Cada palavra tem uma ETIQUETA de relação com o português. Isso te
+    deixa GASTAR ENERGIA só onde é difícil, e apenas CONFIRMAR o resto.
+  • Excluídos (você já sabe): números, dias, meses, cores.
+
+LEGENDA — onde gastar seu tempo
+  🟢 = IGUAL/quase igual ao PT → só CONFIRME, não decore
+  🟡 = PARECIDA → cuidado com grafia/acento, olhada rápida
+  🔵 = DIFERENTE → PRIORIDADE, tem que decorar
+  🔴 = FALSO AMIGO → parece PT mas ENGANA → PRIORIDADE MÁXIMA
+
+  >>> Seu esforço real está nos 🔵 e 🔴. Os 🟢/🟡 são "de graça".
+
+
+────────────────────────────────────────────────────────────────────
+1) PRONOMES, DETERMINANTES E PERGUNTAS  (a estrutura da frase)
+────────────────────────────────────────────────────────────────────
+🟢  yo — eu
+🟡  tú — você (informal)
+🔵  usted — o senhor / você (formal)
+🟢  él — ele
+🟢  ella — ela
+🟡  nosotros — nós
+🔵  vosotros — vocês (Espanha, informal)
+🔵  ustedes — vocês
+🟢  ellos / ellas — eles / elas
+🟢  me / te / nos — me / te / nos
+🔵  se — se
+🔵  os — vos (a vocês, Espanha)
+🔵  le / les — lhe / lhes
+🟡  lo / la / los / las — o / a / os / as (objeto)
+🟢  mi(s) — meu(s)
+🟢  tu(s) — teu(s) / seu(s)
+🔵  su(s) — seu / dele / dela / de vocês
+🟡  nuestro/a — nosso/a
+🟢  este / esta / esto — este / esta / isto
+🟡  ese / esa / eso — esse / essa / isso
+🟡  aquel / aquella / aquello — aquele / aquela / aquilo
+🔵  mismo — mesmo / próprio
+🟡  otro/a — outro/a
+🟢  todo/a — todo/a
+🟢  cada — cada
+🟡  alguno / algún — algum
+🟡  ninguno / ningún — nenhum
+🔵  alguien — alguém
+🔵  nadie — ninguém
+🔵  algo — algo / alguma coisa
+🟢  nada — nada
+🟡  mucho — muito
+🟡  poco — pouco
+🟡  bastante — bastante / bem
+🔵  demasiado — demais / excessivo
+🟡  varios — vários
+🟡  ambos — ambos
+🔵  cualquiera / cualquier — qualquer
+🟡  qué — que / o quê
+🔵  quién — quem
+🟡  cuál — qual
+🟡  cómo — como
+🟡  cuándo — quando
+🔵  dónde — onde
+🟡  cuánto — quanto
+🟡  por qué — por quê
+
+
+────────────────────────────────────────────────────────────────────
+2) PREPOSIÇÕES E CONJUNÇÕES  (a cola do idioma)
+────────────────────────────────────────────────────────────────────
+🟢  de — de
+🔵  en — em
+🟢  a — a / para
+🟡  con — com
+🟡  sin — sem
+🟢  por — por
+🟢  para — para
+🟢  sobre — sobre / em cima de
+🟢  entre — entre
+🔵  hasta — até
+🟡  desde — desde / a partir de
+🔵  hacia — em direção a / para
+🟡  según — segundo / conforme
+🟢  contra — contra
+🟢  durante — durante
+🔵  tras — após / atrás de
+🟡  ante — diante de
+🔵  bajo — sob / embaixo de
+🔵  y / e — e  (usa "e" antes de palavra com i-: padre e hijo)
+🔵  o / u — ou  (usa "u" antes de o-: siete u ocho)
+🟢  que — que
+🔵  pero — mas
+🔵  sino — mas sim / senão
+🟢  porque — porque
+🟢  como — como
+🟡  si — se
+🔵  aunque — embora / mesmo que
+🔵  mientras — enquanto
+🟡  pues — pois / então
+🟢  ni — nem
+
+
+────────────────────────────────────────────────────────────────────
+3) ADVÉRBIOS E MARCADORES  (os mais falados — o coração do "soar natural")
+────────────────────────────────────────────────────────────────────
+— Grau / negação —
+🟢  no — não
+🟡  sí — sim
+🟡  también — também
+🔵  tampoco — tampouco / também não
+🔵  muy — muito (antes de adjetivo: muy bueno)
+🔵  más — mais
+🟢  menos — menos
+🟡  casi — quase
+🔴  apenas — mal / quase não   (PT "apenas" = só! NÃO é isto)
+🟡  solo / sólo — só / apenas
+🔵  tan — tão
+🟢  tanto — tanto
+🔵  demasiado — demais
+— Modo / qualidade —
+🔵  así — assim
+🟡  bien — bem
+🟢  mal — mal
+🔵  mejor — melhor
+🔵  peor — pior
+🔵  despacio — devagar
+🔵  deprisa — depressa / rápido
+🟡  rápido — rápido
+— Tempo —
+🔵  ya — já
+🔴  todavía / aún — ainda   (parece "todavia" = porém — NÃO é!)
+🟡  siempre — sempre
+🟢  nunca — nunca
+🔵  jamás — jamais
+🔵  a veces — às vezes
+🔵  a menudo — com frequência
+🔵  ahora — agora
+🔵  luego — depois / logo
+🔵  después — depois
+🟢  antes — antes
+🔵  entonces — então
+🔵  temprano — cedo
+🟡  tarde — tarde
+🔴  pronto — logo / cedo   (PT "pronto" = listo — NÃO é!)
+🔵  enseguida — já / num instante
+🔵  hoy — hoje
+🔵  ayer — ontem
+🔵  mañana — amanhã (e também "manhã")
+🔵  quizás / tal vez — talvez
+— Lugar —
+🔵  aquí / acá — aqui
+🔵  ahí — aí
+🔵  allí / allá — ali / lá
+🔵  cerca — perto
+🔵  lejos — longe
+🔵  arriba — em cima / para cima
+🔵  abajo — embaixo / para baixo
+🔵  delante — na frente
+🔵  detrás — atrás
+🟢  dentro — dentro
+🔵  fuera — fora
+🔵  encima — em cima / por cima
+🔵  debajo — embaixo
+🔵  alrededor — ao redor
+🔵  enfrente — em frente
+— Foco / ênfase (muito usados na fala) —
+🟢  claro — claro
+🔵  por supuesto — claro / com certeza
+🔵  incluso — inclusive / até
+🔵  además — além disso
+🔵  sobre todo — sobretudo / principalmente
+🔵  al menos / por lo menos — pelo menos
+🔵  a lo mejor — talvez / capaz que
+
+
+────────────────────────────────────────────────────────────────────
+4) CONECTORES DE DISCURSO  (o pulo do A2→B2 — argumentar e ligar ideias)
+────────────────────────────────────────────────────────────────────
+🔵  sin embargo — no entanto / porém
+🔵  no obstante — contudo
+🔵  por lo tanto — portanto
+🔵  así que — então / portanto
+🔵  de hecho — na verdade / aliás
+🔵  en realidad — na realidade / na verdade
+🔵  o sea — ou seja
+🔵  es decir — isto é
+🔵  en cambio — por outro lado / já
+🔵  mientras que — enquanto que
+🔵  a pesar de — apesar de
+🔵  por eso — por isso
+🔵  ya que — já que
+🔵  puesto que — visto que
+🔵  siempre que — desde que / sempre que
+🔵  a menos que — a menos que
+🔵  en cuanto — assim que
+🔵  es que — é que / acontece que
+🔴  por cierto — a propósito / aliás   (parece "por certo" — NÃO é!)
+🔵  de todos modos — de qualquer forma
+🔵  por si acaso — por via das dúvidas
+🔵  en fin — enfim
+🔵  por fin — finalmente / até que enfim
+🔵  al fin y al cabo — no fim das contas
+🔵  en resumen — resumindo
+🔵  para colmo — para completar / pra piorar
+
+
+────────────────────────────────────────────────────────────────────
+5) VERBOS — OS MOTORES  (onde você mais ganha; ~180 verbos)
+────────────────────────────────────────────────────────────────────
+— Núcleo absoluto (irregulares que sustentam tudo) —
+🟡  ser — ser
+🟡  estar — estar
+🔵  haber — haver / ter (auxiliar: he comido)
+🟡  tener — ter
+🔵  hacer — fazer
+🟡  poder — poder
+🔵  decir — dizer
+🟢  ir — ir
+🟢  ver — ver
+🟢  dar — dar
+🟡  saber — saber
+🔵  querer — querer / amar
+🔵  deber — dever
+🔵  poner — pôr / colocar
+🟢  parecer — parecer
+🔵  creer — crer / achar
+🔵  hablar — falar
+🔵  llevar — levar / carregar / usar (roupa) / estar há (tempo)
+🔵  dejar — deixar
+🟡  seguir — seguir / continuar
+🟢  encontrar — encontrar / achar
+🔵  llamar — chamar / ligar (telefone)
+🔵  venir — vir
+🟢  pensar — pensar
+🔵  salir — sair
+🔴  volver — voltar / tornar a fazer   (volver a hacer = fazer de novo)
+🔵  conocer — conhecer
+🟡  vivir — viver / morar
+🟢  sentir — sentir / lamentar (lo siento)
+🟡  tratar — tratar / tratar de = tentar
+🔵  mirar — olhar
+🟢  contar — contar
+🔵  empezar / comenzar — começar
+🟢  esperar — esperar / aguardar / torcer
+🔵  buscar — procurar / buscar
+🟢  entrar — entrar
+🔵  trabajar — trabalhar
+🔵  escribir — escrever
+🟢  perder — perder
+🔵  entender — entender
+🟡  pedir — pedir
+🔵  recibir — receber
+🟢  terminar / acabar — terminar / acabar
+🟢  permitir — permitir
+🟡  conseguir — conseguir
+🔵  lograr — conseguir / alcançar
+🟢  servir — servir
+🔵  cambiar — mudar / trocar
+🔵  caer — cair
+🟡  crear — criar
+🟢  abrir — abrir
+🔵  cerrar — fechar
+🔵  oír — ouvir
+🔵  escuchar — escutar
+🔵  ganar — ganhar / vencer
+🔵  traer — trazer
+🔵  morir — morrer
+🟢  aceptar — aceitar
+🟢  explicar — explicar
+🔵  preguntar — perguntar
+🟢  responder — responder
+🟡  tocar — tocar / ser a vez de
+🟢  estudiar — estudar
+🟢  correr — correr
+🟢  usar — usar
+🟢  pagar — pagar
+🔵  ayudar — ajudar
+— Verbos de uso diário que quase todo brasileiro erra ou não sabe —
+🔵  necesitar — precisar
+🔵  gustar — gostar (estrutura invertida: me gusta = eu gosto)
+🔵  encantar — adorar (me encanta)
+🔵  jugar — jogar / brincar
+🔵  cumplir — cumprir / fazer anos (cumplo 30)
+🔵  ofrecer — oferecer
+🟡  mostrar — mostrar
+🔵  descubrir — descobrir
+🔵  levantarse — levantar-se
+🔵  sentarse — sentar-se
+🔵  acostarse — deitar-se
+🔵  despertarse — acordar
+🔵  dormir — dormir
+🔵  comer — comer
+🔵  beber / tomar — beber
+🔴  tomar — tomar / pegar (ônibus) / beber   (uso muito mais amplo que no PT)
+🔵  comprar — comprar
+🟢  vender — vender
+🔴  subir — subir / aumentar
+🔴  bajar — descer / baixar / diminuir
+🟡  andar — andar
+🔵  caminar — caminhar
+🔵  viajar — viajar
+🔵  cocinar — cozinhar
+🔵  limpiar — limpar
+🟢  lavar — lavar
+🟢  cantar — cantar
+🔵  bailar — dançar
+🔵  reír — rir
+🔵  llorar — chorar
+🔵  sonreír — sorrir
+🔵  saludar — cumprimentar
+🔵  despedirse — despedir-se
+🔵  aprender — aprender
+🔴  enseñar — ensinar / mostrar   (não confundir com "ensinar" só)
+🔵  olvidar / olvidarse — esquecer
+🟡  recordar — lembrar (de algo)
+🔵  acordarse (de) — lembrar-se
+🔵  intentar — tentar
+🔵  probar — provar / experimentar
+🔵  elegir / escoger — escolher
+🔵  mejorar — melhorar
+🟢  aumentar — aumentar
+🔵  tardar — demorar
+🟢  durar — durar
+🔵  pasar — passar / acontecer
+🔵  ocurrir / suceder — acontecer / ocorrer
+🔵  disfrutar — aproveitar / curtir
+🔵  aprovechar — aproveitar (oportunidade)
+🔵  soler — costumar (suelo ir = costumo ir)
+🔵  acostumbrarse — acostumar-se
+🔵  preocuparse — preocupar-se
+🔵  quejarse — reclamar / queixar-se
+🔵  atreverse — atrever-se / ousar
+🔵  darse cuenta (de) — perceber / notar
+🔵  fijarse (en) — reparar / prestar atenção
+🔵  enterarse (de) — ficar sabendo
+🔵  acercarse — aproximar-se
+🔵  irse / marcharse — ir embora
+🔵  quedarse — ficar
+🔵  ponerse — ficar (+ estado) / vestir
+🔵  volverse / convertirse en — tornar-se
+🔵  parecerse (a) — parecer-se com
+— Verbos-armadilha (mesma cara, sentido trocado) —
+🔴  quitar — tirar / remover   (não é "quietar")
+🔵  sacar — tirar (foto, dinheiro) / sacar
+🔵  coger — pegar (Espanha)  ⚠ vulgar em vários países da América
+🔵  agarrar — pegar / agarrar
+🔴  tirar — jogar fora / puxar   (não é "tirar" do PT)
+🔵  echar — jogar / pôr / expulsar / echar de menos = sentir falta
+🔴  guardar — guardar (salvar)   (NÃO é vigiar)
+🔵  meter — meter / pôr dentro
+🔵  soltar — soltar
+🔵  romper — quebrar / romper
+🔵  arreglar — arrumar / consertar / resolver
+🔵  apagar — apagar / desligar
+🔵  encender — acender / ligar
+🔵  llenar — encher
+🔵  cortar — cortar
+🔵  doler — doer (me duele)
+🔴  realizar — realizar / executar   (NÃO é "perceber")
+🔴  contestar — responder   (NÃO é "contestar/discutir")
+🔴  asistir (a) — comparecer / assistir a evento   (NÃO é ajudar)
+🔵  atender — atender / cuidar
+🔴  pretender — ter a intenção de   (NÃO é "fingir")
+🔵  importar — importar / importar-se (¿te importa?)
+🔵  apetecer — estar a fim de (¿te apetece un café?)
+— Perífrases de altíssimo uso (decore o molde) —
+🔵  tener que + inf. — ter que
+🔵  hay que + inf. — é preciso / tem que
+🔵  ir a + inf. — vou fazer (futuro: voy a comer)
+🔵  acabar de + inf. — acabar de
+🔵  volver a + inf. — voltar a / fazer de novo
+🔵  dejar de + inf. — parar de
+🔵  ponerse a + inf. — começar a
+🔵  estar a punto de + inf. — estar prestes a
+
+
+────────────────────────────────────────────────────────────────────
+6) SUBSTANTIVOS DE ALTA FREQUÊNCIA  (por tema; ~200)
+────────────────────────────────────────────────────────────────────
+— Abstratos frequentíssimos (aparecem em tudo) —
+🔵  tiempo — tempo (cronológico e clima)
+🔵  vez — vez
+🔵  cosa — coisa
+🔵  vida — vida
+🔵  año / día — ano / dia
+🔵  mundo — mundo
+🔵  parte — parte
+🔵  forma / manera — forma / maneira
+🔵  caso — caso
+🔵  hecho — fato
+🔵  razón — razão / motivo (tener razón = ter razão)
+🔵  lugar / sitio — lugar
+🔵  momento — momento
+🔵  ejemplo — exemplo
+🔵  problema — problema
+🔵  pregunta — pergunta
+🔵  respuesta — resposta
+🔵  palabra — palavra
+🔵  idea — ideia
+🔵  verdad — verdade
+🔵  duda — dúvida
+🔵  suerte — sorte
+🔵  ganas — vontade (tener ganas de)
+— Pessoas e relações —
+🔵  gente — gente / pessoas
+🟢  persona / hombre / mujer — pessoa / homem / mulher
+🔵  niño / niña — menino / menina / criança
+🔵  chico / chica — garoto / garota / rapaz / moça
+🔵  amigo / amiga — amigo / amiga
+🔵  novio / novia — namorado / namorada (tb. noivo)
+🔵  pareja — casal / parceiro(a)
+🔵  marido / esposa — marido / esposa
+🔵  hijo / hija — filho / filha
+🔵  padre / madre — pai / mãe
+🔵  padres — pais
+🔵  hermano / hermana — irmão / irmã
+🔵  abuelo / abuela — avô / avó
+🔵  jefe — chefe
+🔵  vecino — vizinho
+🔴  apellido — sobrenome
+— Tempo e rotina —
+🔵  semana — semana
+🔵  mes — mês
+🔵  rato — momento / instante   🔴 (parece "rato" = ratón!)
+🔵  mañana — manhã
+🔵  mediodía — meio-dia
+🔵  noche — noite
+🔵  madrugada — madrugada
+🔵  fecha — data   🔴 (parece "fecha/fechar")
+🔵  cumpleaños — aniversário
+— Lugar, cidade, transporte —
+🔵  casa — casa
+🔵  calle — rua
+🔵  ciudad — cidade
+🔵  pueblo — vila / povoado / povo
+🔵  país — país
+🔵  camino — caminho
+🔵  acera — calçada
+🔵  coche — carro (Espanha)
+🔵  carro — carro (América)
+🔵  autobús / bus — ônibus
+🔵  tren — trem
+🔵  avión — avião
+🔵  viaje — viagem
+🔵  billete / boleto — passagem / bilhete
+🔵  entrada — ingresso / entrada
+🔵  cola — fila   🔴 (parece "cola"; tb. = rabo/cola)
+🔵  esquina — esquina
+🔵  tienda — loja
+🔵  mercado — mercado / feira
+🔴  oficina — escritório   (NÃO é "oficina/mecânica")
+🔵  taller — oficina / ateliê
+🔵  trabajo / empleo — trabalho / emprego
+— Casa e objetos —
+🔵  habitación / cuarto — quarto / cômodo
+🔵  cocina — cozinha
+🔵  baño / aseo — banheiro
+🔵  puerta — porta
+🔵  ventana — janela
+🔵  suelo — chão / solo
+🔵  pared — parede
+🔵  techo — teto
+🔵  mesa — mesa
+🔵  silla — cadeira
+🔵  cama — cama
+🔵  llave — chave
+🔵  nevera / frigorífico — geladeira
+🔵  móvil — celular (Espanha)
+🔵  ordenador — computador (Espanha)
+🔵  pantalla — tela
+🔵  reloj — relógio
+🔵  gafas — óculos
+🔵  bolso — bolsa
+🔴  bolsillo — bolso (do casaco/calça)
+🔵  cartera — carteira / bolsa
+🔵  dinero / plata — dinheiro
+— Comida —
+🔵  comida — comida / refeição
+🔵  desayuno — café da manhã
+🟡  almuerzo / comida — almoço
+🔴  cena — jantar   (parece "cena/scene" — NÃO é!)
+🔵  postre — sobremesa
+🔵  pan — pão
+🔴  mantequilla — manteiga
+🔵  huevo — ovo
+🔵  leche — leite
+🔵  agua / vino / cerveza — água / vinho / cerveja
+🔵  carne / pollo / pescado — carne / frango / peixe
+🔴  vaso — copo
+🔴  taza — xícara / caneca
+🔴  copa — taça
+🔵  cuchara / tenedor / cuchillo — colher / garfo / faca
+🔵  cuenta — conta
+🔴  propina — gorjeta
+🔴  exquisito — delicioso   (parece "esquisito" — é o oposto!)
+🔴  rico — gostoso (comida) / rico
+— Corpo e saúde —
+🔵  cuerpo — corpo
+🔵  cabeza — cabeça
+🔵  cara / rostro — rosto / cara
+🔵  ojo / oído — olho / ouvido
+🔵  nariz / boca — nariz / boca
+🔵  cuello — pescoço
+🔵  espalda — costas
+🔵  brazo / mano / dedo — braço / mão / dedo
+🔵  pierna / pie — perna / pé
+🔵  rodilla — joelho
+🔵  dolor — dor
+🔵  enfermedad — doença
+🔵  médico — médico
+🔵  farmacia — farmácia
+🔴  embarazo / embarazada — gravidez / grávida
+🔴  constipado — resfriado   (NÃO é "constipado/preso")
+
+
+────────────────────────────────────────────────────────────────────
+7) ADJETIVOS DE ALTA FREQUÊNCIA  (~90)
+────────────────────────────────────────────────────────────────────
+🟢  bueno / malo — bom / mau
+🔵  mejor / peor — melhor / pior
+🔵  grande — grande
+🟢  pequeño — pequeno
+🔵  nuevo / viejo — novo / velho
+🔵  joven — jovem
+🔵  mayor — mais velho / maior
+🟢  menor — menor
+🟢  primero / último — primeiro / último
+🔵  siguiente / próximo — seguinte / próximo
+🟢  mismo / otro — mesmo / outro
+🟢  alto — alto
+🔵  bajo — baixo
+🔴  largo — comprido / longo   (PT "largo" = ancho!)
+🔵  corto — curto
+🔴  ancho — largo (de largura)
+🔵  estrecho — estreito / apertado
+🟢  gordo — gordo
+🟡  delgado / flaco — magro
+🔵  guapo — bonito (pessoa)
+🔵  feo — feio
+🔵  bonito / hermoso / precioso — bonito / lindo
+🔵  rubio — loiro
+🟡  moreno — moreno / de cabelo escuro
+🔵  fuerte / débil — forte / fraco
+🟢  duro — duro
+🔵  blando — mole / macio
+🔵  ligero — leve
+🔴  pesado — pesado / chato (pessoa)
+🔵  caliente — quente
+🟡  frío — frio
+🔵  templado / tibio — morno
+🔵  mojado — molhado
+🟢  seco — seco
+🔵  limpio / sucio — limpo / sujo
+🔵  lleno / vacío — cheio / vazio
+🔵  roto — quebrado / rasgado
+🔵  oscuro — escuro
+🟢  claro — claro
+🟢  caro / barato — caro / barato
+🟢  rápido / lento — rápido / lento
+🟢  fácil / difícil — fácil / difícil
+🔵  sencillo — simples
+🟢  importante / necesario — importante / necessário
+🟡  posible / imposible — possível / impossível
+🟡  útil / inútil — útil / inútil
+🟢  cierto — certo / verdadeiro
+🟢  seguro — seguro / certo
+🔵  verdadero / falso — verdadeiro / falso
+🟢  actual — atual
+🟢  moderno — moderno
+🔵  antiguo — antigo
+🟢  feliz — feliz
+🔵  contento — contente
+🟢  triste — triste
+🟢  cansado — cansado
+🔴  aburrido — entediado / chato
+🔵  enfadado / enojado — bravo / zangado
+🔵  preocupado — preocupado
+🟢  tranquilo — tranquilo
+🟢  ocupado / libre — ocupado / livre
+🔴  listo — pronto / esperto
+🔵  tonto — bobo / idiota
+🟢  inteligente — inteligente
+🔵  amable — gentil / amável
+🟢  simpático / antipático — simpático / antipático
+🔵  majo — legal / gente boa (Espanha)
+🔵  grosero — grosseiro
+🔵  raro / extraño — estranho / raro
+🔵  propio — próprio
+🔵  ajeno — alheio
+🔵  enfermo / sano — doente / saudável
+🔵  rico / pobre — rico / pobre
+
+
+────────────────────────────────────────────────────────────────────
+8) EXPRESSÕES E "CHUNKS" DE SOBREVIVÊNCIA  (decore inteiro; ~35)
+────────────────────────────────────────────────────────────────────
+🟢  por favor — por favor
+🔵  gracias / de nada — obrigado(a) / de nada
+🔵  lo siento — sinto muito / desculpa
+🔵  perdón / disculpe — desculpa / com licença
+🔵  vale — ok / combinado (Espanha)
+🔵  de acuerdo — de acordo / combinado
+🔵  ¿qué tal? — e aí? / tudo bem?
+🔵  ¿cómo estás? — como você está?
+🔵  ¿cómo te llamas? — qual é o seu nome?
+🔵  hay — há / tem (hay pan = tem pão)
+🔵  tener razón — ter razão
+🔵  dar igual — tanto faz (me da igual)
+🔵  echar de menos / extrañar — sentir falta / saudade
+🔵  hacer falta — fazer falta / precisar
+🔵  valer la pena — valer a pena
+🔵  hacer caso — dar atenção / obedecer
+🔵  prestar atención — prestar atenção
+🔵  tener ganas de — estar a fim de / com vontade de
+🔵  tener sueño — estar com sono
+🔵  tener hambre / sed — estar com fome / sede
+🔵  tener frío / calor — estar com frio / calor
+🔵  tener prisa — estar com pressa
+🔵  tener miedo — ter medo
+🔵  tener suerte — ter sorte
+🔵  ¿me puedes ayudar? — você pode me ajudar?
+🔵  no pasa nada — não tem problema / tudo bem
+🔵  ¡qué va! — que nada! / imagina!
+🔵  ni idea — sei lá / nem ideia
+🔵  a lo mejor — talvez / capaz que
+🔵  en seguida — já / num instante
+
+
+════════════════════════════════════════════════════════════════════
+  ESTRATÉGIA DE ESTUDO (o "20%" dentro do "20%")
+  1. Passe rápido pelos 🟢/🟡 só marcando "sei / é igual".
+  2. Concentre 80% do seu tempo nos 🔵 e principalmente nos 🔴.
+  3. Verbos > tudo: dominar os ~180 verbos daqui já destrava a maior
+     parte da conversa. Aprenda cada um dentro de uma frase curta.
+  4. Os "chunks" (seção 8) e perífrases (fim da seção 5) fazem você
+     SOAR NATURAL — valem mais que 200 substantivos soltos.
+════════════════════════════════════════════════════════════════════

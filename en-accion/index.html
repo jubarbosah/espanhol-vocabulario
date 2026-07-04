@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="En Acción">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>En Acción · Español</title>
+<style>
+  :root{
+    --bg:#0f172a; --surface:#1e293b; --surface-2:#334155;
+    --ink:#f1f5f9; --muted:#94a3b8; --line:rgba(255,255,255,.08);
+    --brand:#38bdf8; --brand-strong:#818cf8; --brand-soft:rgba(56,189,248,.14);
+    --t-green:#86efac; --t-amber:#fcd34d; --t-blue:#7dd3fc; --t-red:#fca5a5;
+    --t-green-bg:rgba(34,197,94,.16); --t-amber-bg:rgba(245,158,11,.16); --t-blue-bg:rgba(56,189,248,.16); --t-red-bg:rgba(239,68,68,.16);
+    --good:#22c55e; --warn:#f59e0b; --bad:#ef4444;
+    --grad:linear-gradient(135deg,#38bdf8,#818cf8);
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --es:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace;
+  }
+  /* tema único: azul-marinho (inspirado no Español 30) */
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{background:linear-gradient(160deg,#0f172a,#111827 60%,#0b1220);background-attachment:fixed;
+    color:var(--ink);font-family:var(--font);line-height:1.55;min-height:100dvh;
+    -webkit-font-smoothing:antialiased;overscroll-behavior:none}
+  .app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;
+    padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
+  button{font-family:inherit;font-size:16px;cursor:pointer;border:none;background:none;color:inherit}
+  button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+  .es{font-family:var(--es)}
+  .hl{color:#fff;font-weight:700;background:rgba(56,189,248,.22);padding:1px 6px;border-radius:6px}
+  .hidden{display:none!important}
+
+  /* ---------- top bar ---------- */
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .brand{font-weight:800;letter-spacing:.2px;font-size:18px;display:flex;align-items:center;gap:9px}
+  .brand::before{content:"ñ";display:grid;place-items:center;width:28px;height:28px;border-radius:9px;
+    background:var(--grad);color:#06121f;font-weight:800;font-family:Georgia,serif;font-size:18px}
+  .brand em{font-style:normal;color:var(--brand)}
+  .daychip{font-size:12.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);
+    border-radius:999px;padding:5px 11px;font-weight:600}
+  .iconbtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--surface);
+    display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--muted)}
+
+  /* ---------- home ---------- */
+  .home{flex:1;display:flex;flex-direction:column;gap:18px;justify-content:center;text-align:center;
+    padding:10px 0 30px}
+  .hi{font-size:clamp(26px,7vw,34px);font-weight:850;letter-spacing:-.02em;text-wrap:balance}
+  .hi span{color:var(--brand)}
+  .cards2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .mini{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;
+    box-shadow:var(--shadow)}
+  .mini .n{font-size:34px;font-weight:850;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+  .mini .l{font-size:13px;color:var(--muted);margin-top:5px}
+  .mini.due .n{color:var(--brand)}
+  .cta{background:var(--grad);color:#06121f;border-radius:14px;padding:18px;font-weight:800;font-size:18px;
+    box-shadow:0 8px 22px rgba(56,189,248,.28);display:flex;align-items:center;justify-content:center;gap:9px}
+  .cta:active{transform:scale(.98)}
+  .cta.sm{font-size:15px;padding:13px;background:var(--surface-2);color:var(--ink);box-shadow:none}
+  .prog{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:15px 16px;
+    box-shadow:var(--shadow);text-align:left}
+  .progtop{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:var(--muted);
+    font-weight:600;margin-bottom:8px}
+  .progtop b{font-size:20px;color:var(--brand);font-weight:850;font-variant-numeric:tabular-nums}
+  .pbar{height:9px;background:var(--line);border-radius:99px;overflow:hidden}
+  .pbar > i{display:block;height:100%;background:var(--grad);border-radius:99px;transition:width .4s}
+  .progsub{font-size:12.5px;color:var(--muted);margin-top:8px}
+  .foot{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .streak{font-size:14px;color:var(--muted)}
+  .streak b{color:var(--ink)}
+
+  /* ---------- study ---------- */
+  .studywrap{flex:1;display:flex;flex-direction:column;gap:14px}
+  .progrow{display:flex;align-items:center;gap:10px}
+  .bar{flex:1;height:7px;background:var(--line);border-radius:99px;overflow:hidden}
+  .bar > i{display:block;height:100%;background:var(--brand);border-radius:99px;transition:width .3s}
+  .steplabel{font-size:12.5px;color:var(--brand);font-weight:800;white-space:nowrap;
+    border:1.5px solid var(--brand);background:var(--brand-soft);border-radius:999px;padding:5px 11px}
+  .steplabel:active{transform:translateY(1px)}
+  .closebtn{font-size:13px;color:var(--muted);font-weight:600;padding:4px 8px}
+
+  .card{flex:1;background:linear-gradient(160deg,#1e293b,#243245);border:1px solid var(--line);border-radius:18px;
+    box-shadow:var(--shadow);padding:22px 20px;display:flex;flex-direction:column;gap:14px;min-height:340px}
+  .cardhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .tag{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:3px 10px;font-size:12.5px;
+    font-weight:700}
+  .tag.g{color:var(--t-green);background:var(--t-green-bg)}
+  .tag.a{color:var(--t-amber);background:var(--t-amber-bg)}
+  .tag.b{color:var(--t-blue);background:var(--t-blue-bg)}
+  .tag.r{color:var(--t-red);background:var(--t-red-bg)}
+  .tag.k{color:#fdba74;background:rgba(251,146,60,.16)}
+  .typepill{font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+
+  .word{font-family:var(--es);font-size:30px;font-weight:700;letter-spacing:-.01em}
+  .gloss{color:var(--muted);font-size:16px;margin-top:-6px}
+  .sentence{font-family:var(--es);font-size:22px;line-height:1.5;font-weight:600}
+  .sentence .gap{display:inline-block;min-width:70px;border-bottom:3px solid var(--brand);vertical-align:baseline}
+  .trans{color:var(--muted);font-size:15.5px}
+  .note{font-size:13.5px;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);
+    border-radius:12px;padding:10px 12px}
+  .note b{color:var(--ink)}
+  .senses{display:flex;flex-direction:column;gap:12px}
+  .sense{border-left:3px solid var(--brand-soft);padding-left:12px}
+  .sense .use{font-size:12px;color:var(--brand);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+  .sense .s{font-family:var(--es);font-size:17px;font-weight:600;margin-top:2px}
+  .sense .p{font-size:14px;color:var(--muted)}
+
+  .play{display:inline-flex;align-items:center;justify-content:center;gap:7px;align-self:flex-start;
+    background:var(--brand-soft);color:var(--brand);border:1px solid var(--line);border-radius:999px;
+    padding:8px 14px;font-size:14px;font-weight:700}
+  .playmini{width:30px;height:30px;border-radius:50%;background:var(--brand-soft);color:var(--brand);
+    border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:13px;
+    flex-shrink:0}
+
+  input.typein{width:100%;font-family:var(--es);font-size:19px;padding:13px 14px;border-radius:13px;
+    border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);outline:none}
+  input.typein:focus{border-color:var(--brand)}
+  .verdict{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .verdict.ok{color:var(--good)} .verdict.no{color:var(--bad)}
+  .verdict .corr{font-family:var(--es);color:var(--ink)}
+
+  .spacer{flex:1}
+  .controls{display:flex;flex-direction:column;gap:9px}
+  .btn{border-radius:14px;padding:16px;font-weight:800;font-size:16px;text-align:center;border:1px solid var(--line);
+    background:var(--surface-2);color:var(--ink)}
+  .btn.primary{background:var(--grad);color:#06121f;border-color:transparent}
+  .btn.ghost{background:var(--surface-2);color:var(--t-red);border-color:transparent}
+  .btn:active{transform:translateY(1px)}
+  .raterow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+  .rate{border-radius:14px;padding:15px 6px;font-weight:800;font-size:15px;text-align:center;border:none;
+    display:flex;flex-direction:column;gap:2px;line-height:1.15;color:#06121f}
+  .rate small{font-weight:600;font-size:11px;opacity:.82}
+  .rate.again{background:var(--bad);color:#fff}
+  .rate.good{background:var(--good)}
+  .rate.easy{background:var(--warn)}
+  .rate:active{transform:scale(.96)}
+  .skip{font-size:13.5px;color:var(--muted);font-weight:700;text-align:center;padding:10px}
+
+  /* ---------- done ---------- */
+  .done{flex:1;display:flex;flex-direction:column;gap:16px;justify-content:center;text-align:center;padding:20px 0}
+  .done .big{font-size:52px}
+  .done h2{font-size:26px;font-weight:850;margin:0;letter-spacing:-.02em}
+  .done p{color:var(--muted);margin:0}
+
+  .menu{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-end;justify-content:center;z-index:9}
+  .sheet{background:var(--surface);width:100%;max-width:520px;border-radius:18px 18px 0 0;padding:18px;
+    display:flex;flex-direction:column;gap:10px;border:1px solid var(--line)}
+  .sheet h3{margin:0 0 4px;font-size:16px}
+  .sheet .row{display:flex;justify-content:space-between;align-items:center;font-size:14.5px;color:var(--muted);
+    padding:8px 0;border-top:1px solid var(--line)}
+  @media (prefers-reduced-motion:no-preference){
+    .card,.done{animation:fade .28s ease}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="brand">En <em>Acción</em></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="daychip" id="daychip">día 1 / 60</span>
+      <button class="iconbtn" id="menuBtn" aria-label="Menú">⋯</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="home" id="home">
+    <div class="hi" id="greet">¡Hola! <span>Vamos.</span></div>
+    <div class="cards2">
+      <div class="mini due"><div class="n" id="dueN">0</div><div class="l">repasos pendientes</div></div>
+      <div class="mini"><div class="n" id="newN">0</div><div class="l">nuevas para hoy</div></div>
+    </div>
+    <div class="prog">
+      <div class="progtop"><span>Núcleo dominado</span><b id="masterPct">0%</b></div>
+      <div class="pbar"><i id="masterBar" style="width:0%"></i></div>
+      <div class="progsub" id="masterSub"></div>
+    </div>
+    <div class="streak" id="streak"></div>
+    <button class="cta" id="startBtn">Empezar &nbsp;→</button>
+    <div class="foot">Sessão sem limite. Para quando quiser — o app continua exatamente de onde você parou.</div>
+  </div>
+
+  <!-- STUDY -->
+  <div class="studywrap hidden" id="study">
+    <div class="progrow">
+      <button class="closebtn" id="pauseBtn">✕ pausar</button>
+      <div class="bar"><i id="barfill" style="width:0%"></i></div>
+      <button class="steplabel" id="dirBtn" title="Inverter direção">PT → ES ⇄</button>
+    </div>
+    <div class="card" id="card"><!-- rendered by JS --></div>
+  </div>
+
+  <!-- DONE -->
+  <div class="done hidden" id="done">
+    <div class="big">🎉</div>
+    <h2 id="doneTitle">¡Por hoy, listo!</h2>
+    <p id="doneMsg"></p>
+    <button class="cta" id="moreBtn">Seguir estudiando &nbsp;→</button>
+    <button class="cta sm" id="homeBtn">Volver al inicio</button>
+  </div>
+</div>
+
+<!-- MENU SHEET -->
+<div class="menu hidden" id="menu">
+  <div class="sheet">
+    <h3>Menú</h3>
+    <div class="row"><span>Novas por dia</span><span><button class="iconbtn" id="newMinus">–</button>
+      <b id="newLimitV" style="margin:0 10px;color:var(--ink)">12</b>
+      <button class="iconbtn" id="newPlus">+</button></span></div>
+    <div class="row"><span>Itens dominados</span><b id="masteredV" style="color:var(--ink)">0</b></div>
+    <div class="row"><span>Voz do áudio</span><b id="voiceV" style="color:var(--ink)">—</b></div>
+    <button class="btn ghost" id="resetBtn" style="margin-top:6px">Reiniciar progresso</button>
+    <button class="btn" id="closeMenu">Cerrar</button>
+  </div>
+</div>
+
+<script src="conteudo.js"></script>
+<script>
+/* ==================================================================
+   EN ACCIÓN · Fase 1  — protótipo
+   Conteúdo curado (Espanha · cotidiano + viagem). Tudo offline.
+   ================================================================== */
+
+/* ----------------------------- CONTEÚDO ----------------------------- */
+// tag: g/a/b/r  → 🟢🟡🔵🔴 (onde gastar esforço)
+// sentences: [{es, pt, target}]  target = palavra a destacar/completar
+// verbos polissêmicos (quedar, echar…) trazem VÁRIOS sentidos = várias sentences
+/* CONTENT vem de conteudo.js */
+
+/* ----------------------------- ESTADO ----------------------------- */
+const KEY = "enaccion.v1";
+const MIN=60*1000, DAY=24*60*60*1000;
+let S = load();
+
+function load(){
+  let s;
+  try{ s = JSON.parse(localStorage.getItem(KEY)); }catch(e){ s=null; }
+  if(!s) s = {};
+  s.items = s.items || {};              // id -> {stage, due, ivl, lapses, seen}
+  s.newLimit = s.newLimit || 12;
+  s.dir = s.dir || "pt2es";             // direção do teste: "pt2es" ou "es2pt"
+  s.firstDay = s.firstDay || Date.now();
+  s.today = s.today || {};              // {date, nuevas, repasos}
+  rollDay(s);
+  return s;
+}
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
+function rollDay(s){
+  const d = new Date().toDateString();
+  if(!s.today || s.today.date !== d){
+    s.today = {date:d, nuevas:0, repasos:0};
+  }
+}
+function dayNumber(){ return Math.floor((Date.now()-S.firstDay)/DAY)+1; }
+
+/* ----------------------------- AGENDAMENTO (SRS leve) ----------------------------- */
+// stages: 0 Conocer · 1 Reconocer · 2 Completar · 3 Producir → depois, dias
+function rate(id, r){
+  const it = S.items[id] || (S.items[id]={stage:0, due:0, ivl:0, lapses:0, seen:false});
+  const now = Date.now();
+  if(r==="again"){ it.due = now + 1*MIN; it.lapses++; if(it.stage>3) it.ivl=1; }
+  else if(r==="good"){
+    if(it.stage<3){ it.stage++; it.due = now + 3*MIN; }
+    else { it.ivl = it.ivl? Math.round(it.ivl*2.4*10)/10 : 1; it.due = now + it.ivl*DAY; }
+  }
+  else if(r==="easy"){
+    if(it.stage<3){ it.stage = Math.min(3,it.stage+1); it.due = now + 8*MIN; }
+    else { it.ivl = it.ivl? Math.round(it.ivl*3.6*10)/10 : 3; it.due = now + it.ivl*DAY; }
+  }
+  else if(r==="know"){ it.stage=3; it.ivl=4; it.due = now + 4*DAY; }
+  S.today.repasos++;
+  save();
+}
+function introduce(item){
+  S.items[item.id] = {stage:0, due:Date.now(), ivl:0, lapses:0, seen:true};
+  S.today.nuevas++;
+  save();
+}
+function isMastered(it){ return it && it.stage>=3 && it.ivl>=4; }
+
+// próximo item da sessão: vencidos primeiro; senão introduz novo (até a cota)
+function nextItem(){
+  const now = Date.now();
+  let best=null, bestDue=Infinity;
+  for(const c of CONTENT){
+    const it = S.items[c.id];
+    if(it && it.due<=now){ if(it.due<bestDue){ bestDue=it.due; best=c; } }
+  }
+  if(best) return best;
+  if(S.today.nuevas < S.newLimit){
+    const fresh = CONTENT.find(c=>!S.items[c.id]);
+    if(fresh){ introduce(fresh); return fresh; }
+  }
+  return null;
+}
+function counts(){
+  const now=Date.now();
+  let due=0, mastered=0;
+  for(const c of CONTENT){ const it=S.items[c.id]; if(it&&it.due<=now) due++; if(isMastered(it)) mastered++; }
+  const newLeft = Math.max(0, S.newLimit - S.today.nuevas) && CONTENT.some(c=>!S.items[c.id])
+      ? Math.min(S.newLimit - S.today.nuevas, CONTENT.filter(c=>!S.items[c.id]).length) : 0;
+  return {due, newLeft, mastered};
+}
+
+/* ----------------------------- ÁUDIO (voz ES) ----------------------------- */
+let esVoice=null;
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  esVoice = vs.find(v=>/es-ES/i.test(v.lang)) || vs.find(v=>/^es/i.test(v.lang)) || null;
+  const el=document.getElementById("voiceV"); if(el) el.textContent = esVoice? esVoice.name.split(" ")[0] : "padrão";
+}
+if("speechSynthesis" in window){ speechSynthesis.onvoiceschanged = pickVoice; pickVoice(); }
+function speak(text){
+  if(!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const clean = text.replace(/^—\s*/,"").replace(/[«»]/g,"");
+  const u = new SpeechSynthesisUtterance(clean);
+  u.lang="es-ES"; if(esVoice) u.voice=esVoice; u.rate=.95;
+  speechSynthesis.speak(u);
+}
+
+/* ----------------------------- HELPERS de texto ----------------------------- */
+function norm(s){ return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[¿?¡!.,]/g,"").trim(); }
+function esc(s){ return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+function markTarget(sentence, target, cls){
+  const i = sentence.toLowerCase().indexOf(target.toLowerCase());
+  if(i<0) return esc(sentence);
+  const before=esc(sentence.slice(0,i)), mid=esc(sentence.slice(i,i+target.length)), after=esc(sentence.slice(i+target.length));
+  const rep = cls==="gap" ? '<span class="gap">&nbsp;&nbsp;&nbsp;</span>' : '<span class="hl">'+mid+'</span>';
+  return before+rep+after;
+}
+const STEPNAME=["Conocer","Reconocer","Completar","Producir"];
+const TAGCLASS={g:"g",a:"a",b:"b",r:"r",k:"k"}, TAGEMOJI={g:"🟢 igual",a:"🟡 parecida",b:"🔵 diferente",r:"🔴 falso amigo",k:"⚡ vários sentidos"};
+
+/* ----------------------------- FLUXO DE TELAS ----------------------------- */
+const $=id=>document.getElementById(id);
+function show(screen){
+  $("home").classList.toggle("hidden", screen!=="home");
+  $("study").classList.toggle("hidden", screen!=="study");
+  $("done").classList.toggle("hidden", screen!=="done");
+}
+function refreshHome(){
+  rollDay(S);
+  const c = counts();
+  $("dueN").textContent = c.due;
+  $("newN").textContent = c.newLeft;
+  $("daychip").textContent = "día "+dayNumber()+" / 60";
+  $("masteredV").textContent = c.mastered;
+  $("newLimitV").textContent = S.newLimit;
+  const hour = new Date().getHours();
+  $("greet").innerHTML = (hour<12?"¡Buenos días!":hour<20?"¡Buenas tardes!":"¡Buenas noches!")+" <span>Vamos.</span>";
+  $("streak").innerHTML = "Hoy: <b>"+S.today.nuevas+"</b> nuevas · <b>"+S.today.repasos+"</b> repasos";
+  $("startBtn").innerHTML = (c.due+c.newLeft>0) ? "Empezar &nbsp;→" : "Repasar igualmente &nbsp;→";
+  // progresso: núcleo dominado + ritmo pros 60 dias
+  const total=CONTENT.length, pct=Math.round(100*c.mastered/total);
+  $("masterPct").textContent = pct+"%";
+  $("masterBar").style.width = pct+"%";
+  const meta=Math.min(total, Math.round(total*dayNumber()/60));   // onde você "deveria" estar
+  const ritmo = c.mastered>=meta ? "✅ no ritmo pros 60 días" : "⏳ faltan "+(meta-c.mastered)+" para el ritmo de 60 días";
+  $("masterSub").innerHTML = "<b>"+c.mastered+"</b> de "+total+" palabras · "+ritmo;
+}
+
+/* ------- render de um card conforme o degrau ------- */
+let session={done:0};
+function studyNext(){
+  const item = nextItem();
+  if(!item){ finish(); return; }
+  const it = S.items[item.id];
+  renderCard(item, it);
+}
+function progressUI(stage){
+  $("barfill").style.width = (Math.min(stage,3)/3*100)+"%";
+}
+
+function renderCard(item, it){
+  show("study");
+  const card=$("card");
+  const tag = `<span class="tag ${TAGCLASS[item.tag]}">${TAGEMOJI[item.tag]}</span>`;
+
+  /* ---- DIÁLOGO ---- */
+  if(item.type==="dialog"){
+    progressUI(0); $("dirBtn").textContent="diálogo"; session.cur=null;
+    const lines = item.lines.map(l=>
+      `<div style="display:flex;gap:10px;align-items:flex-start">
+         <button class="playmini" data-say="${esc(l.es)}">🔊</button>
+         <div><div class="es" style="font-size:17px;font-weight:600">${esc(l.es)}</div>
+         <div class="trans" style="font-size:14px">${esc(l.pt)}</div></div></div>`).join("");
+    card.innerHTML=`
+      <div class="cardhead"><span class="typepill">diálogo · imersão</span>${tag}</div>
+      <div class="word" style="font-size:22px">${esc(item.word)}</div>
+      <button class="play" data-sayall="1">🔊 Reproducir todo</button>
+      <div class="senses">${lines}</div>
+      <div class="spacer"></div>
+      <div class="controls"><button class="btn primary" id="okBtn">Lo entendí &nbsp;→</button></div>`;
+    card.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
+    card.querySelector("[data-sayall]").onclick=()=>speakSeq(item.lines.map(l=>l.es));
+    $("okBtn").onclick=()=>{ rate(item.id,"good"); advance(); };
+    return;
+  }
+
+  const stage = it.stage||0;
+  progressUI(stage);
+  it.view = (it.view||0)+1;                  // cicla os sentidos dos verbos a cada aparição
+  const s = item.sentences[(it.view-1) % item.sentences.length];
+  session.cur = {item, it, s};               // guarda o card atual (pra inverter direção)
+  paintCard(item, it, s);
+}
+
+/* Pinta UM card de teste na direção atual (S.dir). Resposta escondida até revelar. */
+function paintCard(item, it, s){
+  const card=$("card");
+  const tag = `<span class="tag ${TAGCLASS[item.tag]}">${TAGEMOJI[item.tag]}</span>`;
+  const dir = S.dir || "pt2es";
+  const senseTag = s.use ? `<div class="note"><b>uso:</b> ${esc(s.use)}</div>` : "";
+  const noteTag  = item.note ? `<div class="note">${item.note}</div>` : "";
+  $("dirBtn").textContent = (dir==="pt2es" ? "PT → ES" : "ES → PT") + " ⇄";
+
+  const esBlock = `<div class="sentence">${markTarget(s.es,s.target,"hl")}
+      <button class="playmini" data-say="${esc(s.es)}">🔊</button></div>`;
+  const ptBlock = `<div class="sentence" style="color:var(--ink)">${esc(s.pt)}</div>`;
+
+  let front, back, autoOn;                    // autoOn: "front" | "back" — onde toca o áudio ES
+  if(dir==="es2pt"){                          // vê ESPANHOL → responde PORTUGUÊS
+    front = esBlock + `<div class="trans">¿Qué significa?</div>`;
+    back  = `<div class="trans" style="font-size:18px;color:var(--ink);font-weight:600">${esc(s.pt)}</div>${senseTag}${noteTag}`;
+    autoOn = "front";                         // áudio ES já ao aparecer o card
+  } else {                                    // vê PORTUGUÊS → produz ESPANHOL
+    front = `<div class="trans" style="font-size:14px">Diga em espanhol:</div>${ptBlock}`;
+    back  = esBlock + senseTag + noteTag;
+    autoOn = "back";                          // áudio ES ao virar (revelar)
+  }
+
+  card.innerHTML = `
+    <div class="cardhead"><span class="typepill">${item.type} · test</span>${tag}</div>
+    <div id="front">${front}</div>
+    <div class="spacer"></div>
+    <div id="back" class="hidden">${back}</div>
+    <div class="controls" id="ctr">
+      <button class="btn primary" id="revBtn">Mostrar respuesta</button>
+      <button class="skip" id="knowBtn">Ya lo sé — saltar</button>
+    </div>`;
+  bindSay(card);
+  if(autoOn==="front") setTimeout(()=>speak(s.es), 120);   // áudio automático ao aparecer
+  $("revBtn").onclick=()=>{
+    $("back").classList.remove("hidden");
+    bindSay(card);
+    if(autoOn==="back") speak(s.es);                        // áudio automático ao virar
+    showRating(item);
+  };
+  $("knowBtn").onclick=()=>{ rate(item.id,"know"); advance(); };
+}
+
+function showRating(item, auto){
+  const ctr=$("ctr");
+  ctr.innerHTML=`<div class="raterow">
+      <button class="rate again" data-r="again">Otra vez<small>errei</small></button>
+      <button class="rate good" data-r="good">Bien<small>com esforço</small></button>
+      <button class="rate easy" data-r="easy">Fácil<small>tranquilo</small></button>
+    </div>`;
+  ctr.querySelectorAll("[data-r]").forEach(b=> b.onclick=()=>{ rate(item.id,b.dataset.r); advance(); });
+}
+
+function bindSay(card){ card.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say)); }
+function speakSeq(arr){
+  if(!("speechSynthesis" in window))return; speechSynthesis.cancel();
+  arr.forEach((t,i)=>{ const u=new SpeechSynthesisUtterance(t.replace(/^—\s*/,"")); u.lang="es-ES";
+    if(esVoice)u.voice=esVoice; u.rate=.95; speechSynthesis.speak(u); });
+}
+
+function advance(){ session.done++; studyNext(); }
+
+function finish(){
+  show("done");
+  const c=counts();
+  $("doneMsg").innerHTML = `Você fez <b>${session.done}</b> cards nesta rodada.<br>
+    Hoje: <b>${S.today.nuevas}</b> nuevas · <b>${S.today.repasos}</b> repasos · <b>${c.mastered}</b> dominadas.`;
+  $("moreBtn").classList.toggle("hidden", !(c.due+c.newLeft>0));
+  refreshHome();
+}
+
+/* ----------------------------- EVENTOS ----------------------------- */
+$("dirBtn").onclick=()=>{                       // inverter ES↔PT a qualquer momento
+  if(!session.cur) return;                       // (num diálogo não faz nada)
+  S.dir = (S.dir==="pt2es") ? "es2pt" : "pt2es"; save();
+  paintCard(session.cur.item, session.cur.it, session.cur.s);
+};
+$("startBtn").onclick=()=>{ session={done:0,cur:null}; studyNext(); };
+$("pauseBtn").onclick=()=>{ refreshHome(); show("home"); speechSynthesis&&speechSynthesis.cancel(); };
+$("moreBtn").onclick=()=>{ session={done:0}; studyNext(); };
+$("homeBtn").onclick=()=>{ refreshHome(); show("home"); };
+
+$("menuBtn").onclick=()=>{ $("menu").classList.remove("hidden"); };
+$("closeMenu").onclick=()=>{ $("menu").classList.add("hidden"); };
+$("menu").onclick=e=>{ if(e.target.id==="menu") $("menu").classList.add("hidden"); };
+$("newPlus").onclick=()=>{ S.newLimit=Math.min(40,S.newLimit+2); save(); refreshHome(); };
+$("newMinus").onclick=()=>{ S.newLimit=Math.max(2,S.newLimit-2); save(); refreshHome(); };
+$("resetBtn").onclick=()=>{ if(confirm("Apagar todo o progresso?")){ localStorage.removeItem(KEY); S=load(); $("menu").classList.add("hidden"); refreshHome(); } };
+
+refreshHome();
+show("home");
+
+// PWA: registra o service worker só quando servido por http/https (não em file://)
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){
+  navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
+</script>
+</body>
+</html>

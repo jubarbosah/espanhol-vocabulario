@@ -1,0 +1,100 @@
+NÚCLEO DE FREQUÊNCIA AUSENTE DO DECK
+Palavras basilares de alta frequência que NÃO existem como card.
+Total: 82 palavras. Adicioná-las fecha a maior lacuna de Pareto.
+
+==================================================
+
+### NÚMEROS (12 faltando)
+  uno — um
+  dos — dois
+  tres — três
+  cuatro — quatro
+  cinco — cinco
+  seis — seis
+  siete — sete
+  ocho — oito
+  nueve — nove
+  diez — dez
+  doce — doze
+  veinte — vinte
+
+### DIAS & MESES (7 faltando)
+  sábado — sábado
+  domingo — domingo
+  enero — janeiro
+  febrero — fevereiro
+  marzo — março
+  abril — abril
+  mayo — maio
+
+### CORES (10 faltando)
+  blanco — branco
+  negro — preto
+  rojo — vermelho
+  verde — verde
+  azul — azul
+  amarillo — amarelo
+  gris — cinza
+  marrón — marrom
+  rosa — rosa
+  naranja — laranja
+
+### SUBSTANTIVOS BÁSICOS (23 faltando)
+  casa — casa
+  día — dia
+  libro — livro
+  mundo — mundo
+  puerta — porta
+  ciudad — cidade
+  dinero — dinheiro
+  escuela — escola
+  cama — cama
+  tienda — loja
+  ventana — janela
+  silla — cadeira
+  papel — papel
+  sol — sol
+  aire — ar
+  tiempo — tempo
+  cosa — coisa
+  vida — vida
+  parte — parte
+  lugar — lugar
+  nombre — nome
+  palabra — palavra
+  camino — caminho
+
+### VERBOS COTIDIANOS (20 faltando)
+  tomar — tomar/pegar
+  entrar — entrar
+  aprender — aprender
+  jugar — jogar/brincar
+  correr — correr
+  viajar — viajar
+  cocinar — cozinhar
+  limpiar — limpar
+  lavar — lavar
+  responder — responder
+  cantar — cantar
+  bailar — dançar
+  acabar — acabar
+  ganar — ganhar
+  tocar — tocar
+  usar — usar
+  levantar — levantar
+  decidir — decidir
+  repetir — repetir
+  crear — criar
+
+### ADVÉRBIOS/PRONOMES-CHAVE (10 faltando)
+  aquí — aqui
+  allí — ali/lá
+  ahí — aí
+  tan — tão
+  quién — quem
+  dónde — onde
+  cuánto — quanto
+  arriba — em cima
+  abajo — embaixo
+  dentro — dentro
+

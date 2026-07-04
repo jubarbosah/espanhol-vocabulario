@@ -1,0 +1,1417 @@
+   1. el / la / los / las — o / a / os / as
+   2. un / una / unos / unas — um / uma / uns / umas
+   3. de — de / do / da
+   4. en — em / dentro de
+   5. a — a / para
+   6. que — que
+   7. y — e
+   8. o — ou
+   9. pero — mas / porém
+  10. porque — porque
+  11. si — se (condicional)
+  12. cuando — quando
+  13. como — como
+  14. para — para
+  15. por — por / através
+  16. con — com
+  17. sin — sem
+  18. sobre — sobre / acerca
+  19. hasta — até
+  20. desde — desde
+  21. entre — entre
+  22. durante — durante
+  23. aunque — embora / apesar
+  24. ni — nem
+  25. también — também
+  26. tampoco — tampouco
+  27. además — além disso
+  28. sin embargo — no entanto
+  29. entonces — então
+  30. pues — então / pois bem
+  31. ser — ser
+  32. estar — estar
+  33. tener — ter
+  34. hacer — fazer
+  35. ir — ir
+  36. poder — poder
+  37. querer — querer
+  38. decir — dizer
+  39. saber — saber
+  40. haber — haver / ter (aux)
+  41. dar — dar
+  42. ver — ver
+  43. venir — vir
+  44. pasar — passar / acontecer
+  45. deber — dever
+  46. llevar — levar / usar
+  47. dejar — deixar
+  48. hablar — falar
+  49. encontrar — encontrar
+  50. llamar — chamar / ligar
+  51. seguir — seguir / continuar
+  52. llegar — chegar
+  53. salir — sair
+  54. poner — pôr / colocar
+  55. volver — voltar + tornar a fazer
+  56. quedar — combinar de se encontrar
+  57. creer — achar / acreditar
+  58. pensar — pensar
+  59. parecer — parecer
+  60. esperar — esperar
+  61. buscar — buscar / procurar
+  62. pedir — pedir
+  63. traer — trazer
+  64. entender — entender
+  65. necesitar — precisar
+  66. gustar — gostar
+  67. sentir — sentir
+  68. recordar — lembrar
+  69. olvidar — esquecer
+  70. abrir — abrir
+  71. cerrar — fechar
+  72. comprar — comprar
+  73. pagar — pagar
+  74. coger — pegar / apanhar (neutro em ES)
+  75. ayudar — ajudar
+  76. preguntar — perguntar
+  77. contestar — responder
+  78. explicar — explicar
+  79. intentar — tentar
+  80. comer — comer
+  81. beber — beber
+  82. dormir — dormir
+  83. vivir — viver / morar
+  84. trabajar — trabalhar
+  85. estudiar — estudar
+  86. andar — andar / caminhar
+  87. conducir — dirigir / guiar
+  88. escribir — escrever
+  89. leer — ler
+  90. escuchar — escutar / ouvir
+  91. mirar — olhar
+  92. ducharse — tomar banho
+  93. levantarse — levantar-se
+  94. acostarse — deitar-se
+  95. reservar — reservar
+  96. alquilar — alugar
+  97. firmar — assinar
+  98. rellenar — preencher
+  99. perder — perder
+ 100. yo — eu
+ 101. tú / usted — tu / você (formal)
+ 102. él / ella — ele / ela
+ 103. nosotros — nós
+ 104. vosotros — vocês (Espanha)
+ 105. ellos / ellas — eles / elas
+ 106. me / te / le — me / te / lhe
+ 107. lo / la / los / las — o / a / os / as
+ 108. se — se / si mesmo
+ 109. mi / tu / su — meu / teu / seu
+ 110. nuestro — nosso
+ 111. este / esta / estos — este / esta / estes
+ 112. ese / esa / esos — esse / essa
+ 113. aquel / aquella — aquele / aquela
+ 114. todo / toda / todos — todo / toda / todos
+ 115. nada — nada
+ 116. algo — algo
+ 117. alguien — alguém
+ 118. nadie — ninguém
+ 119. cada — cada
+ 120. persona — pessoa
+ 121. gente — gente / pessoas
+ 122. hombre — homem
+ 123. mujer — mulher
+ 124. niño / niña — criança
+ 125. chico / chica — rapaz / moça (menino / menina)
+ 126. joven — jovem
+ 127. adulto — adulto
+ 128. señor / señora — senhor / senhora
+ 129. vecino — vizinho
+ 130. amigo — amigo
+ 131. compañero — colega / companheiro
+ 132. pareja — casal / parceiro
+ 133. familia — família
+ 134. padre — pai
+ 135. madre — mãe
+ 136. hijo / hija — filho / filha
+ 137. hermano — irmão
+ 138. médico — médico
+ 139. farmacéutico — farmacêutico
+ 140. dependiente — atendente
+ 141. camarero — garçom / empregado
+ 142. conductor — motorista
+ 143. policia — la policía (sempre fem.)
+ 144. propietario — proprietário
+ 145. cabeza — cabeça
+ 146. ojo — olho
+ 147. oído / oreja — ouvido / orelha
+ 148. nariz — nariz
+ 149. boca — boca
+ 150. garganta — garganta
+ 151. espalda — costas
+ 152. estómago — estômago
+ 153. rodilla — joelho
+ 154. mano — mão
+ 155. pie — pé
+ 156. fiebre — febre
+ 157. dolor — dor
+ 158. alergia — alergia
+ 159. receta — receita médica
+ 160. pastilla — comprimido / pílula
+ 161. urgencias — Pronto-socorro / emergência
+ 162. ambulancia — ambulância
+ 163. seguro médico — plano de saúde
+ 164. cita — consulta / compromisso
+ 165. comida — comida / refeição
+ 166. desayuno — café da manhã
+ 167. almuerzo — almoço
+ 168. cena — jantar
+ 169. menú del día — Almoço fixo com 3 pratos (€10-15)
+ 170. carta — cardápio
+ 171. cuenta — conta
+ 172. propina — gorjeta (NÃO: propina/suborno)
+ 173. pan — pão
+ 174. agua — água
+ 175. vino — vinho
+ 176. cerveza — cerveja
+ 177. café — café
+ 178. zumo — suco
+ 179. carné — carteira / cartão (doc.)
+ 180. pescado — peixe
+ 181. verdura — verdura / legumes
+ 182. fruta — fruta
+ 183. postre — sobremesa
+ 184. sal — sal
+ 185. aceite — azeite
+ 186. sin gluten — sem glúten
+ 187. vegetariano — vegetariano
+ 188. alérgico a — alérgico a
+ 189. para llevar — para viagem
+ 190. mesa — mesa
+ 191. reserva — reserva
+ 192. tercer — terceiro
+ 193. rico — rico / gostoso
+ 194. tapa — tapa (petisco)
+ 195. piso — apartamento (NÃO: andar)
+ 196. habitación — quarto
+ 197. baño — banheiro
+ 198. cocina — cozinha
+ 199. salón — sala de estar
+ 200. alquiler — aluguel
+ 201. contrato — contrato
+ 202. fianza — caução / depósito
+ 203. comunidad — Taxa do condomínio / assembleia
+ 204. suministros — contas de serviços
+ 205. luz — luz / eletricidade
+ 206. llave — chave
+ 207. ascensor — elevador
+ 208. portero — zelador / porteiro
+ 209. mueble — móvel
+ 210. calefacción — aquecimento central
+ 211. aire acondicionado — ar condicionado
+ 212. vecindad — vizinhança / bairro
+ 213. mudanza — mudança
+ 214. calle — rua
+ 215. plaza — praça
+ 216. barrio — bairro
+ 217. centro — centro
+ 218. semáforo — sinal de trânsito
+ 219. esquina — esquina
+ 220. izquierda — esquerda
+ 221. derecha — direita
+ 222. recto — reto / em frente
+ 223. cerca — perto
+ 224. lejos — longe
+ 225. metro — metrô
+ 226. autobús — ônibus
+ 227. tren — trem
+ 228. Renfe — Trem inter-cidades (ES)
+ 229. billete — passagem / bilhete
+ 230. abono — passe mensal
+ 231. andén — plataforma (trem)
+ 232. salida — saída
+ 233. parada — parada
+ 234. taxi — táxi
+ 235. aeropuerto — aeroporto
+ 236. maleta — mala de viagem
+ 237. vuelo — voo
+ 238. retraso — atraso
+ 239. aparcamiento — estacionamento
+ 240. mapa — mapa
+ 241. dirección — endereço / direção
+ 242. código postal — CEP / código postal
+ 243. bicicleta — bicicleta
+ 244. hoy — hoje
+ 245. ayer — ontem
+ 246. mañana — amanhã / manhã
+ 247. ahora — agora
+ 248. luego — depois / logo
+ 249. antes — antes
+ 250. después — depois
+ 251. pronto — logo / em breve
+ 252. tarde — tarde
+ 253. temprano — cedo
+ 254. semana — semana
+ 255. mes — mês
+ 256. año — ano
+ 257. hora — hora
+ 258. minuto — minuto
+ 259. lunes — segunda-feira
+ 260. martes — terça-feira
+ 261. miércoles — quarta-feira
+ 262. jueves — quinta-feira
+ 263. viernes — sexta-feira
+ 264. bueno — ok / bem / então
+ 265. malo — mau / ruim / doente
+ 266. grande — grande
+ 267. pequeño — pequeno
+ 268. mucho — muito
+ 269. poco — pouco
+ 270. nuevo — novo
+ 271. viejo — velho
+ 272. importante — importante
+ 273. necesario — necessário
+ 274. fácil — fácil
+ 275. difícil — difícil
+ 276. posible — possível
+ 277. urgente — urgente
+ 278. gratis — grátis
+ 279. caro — caro
+ 280. barato — barato / em conta
+ 281. lleno — cheio / completo
+ 282. libre — livre / disponível
+ 283. abierto — aberto
+ 284. cerrado — fechado
+ 285. roto — quebrado
+ 286. limpio — limpo
+ 287. sucio — sujo
+ 288. tranquilo — tranquilo
+ 289. ruidoso — barulhento
+ 290. seguro — seguro
+ 291. peligroso — perigoso
+ 292. correcto — correto
+ 293. equivocado — errado
+ 294. mismo — mesmo
+ 295. otro — outro
+ 296. propio — próprio
+ 297. solo — sozinho / só
+ 298. diferente — diferente
+ 299. muy — muito
+ 300. bastante — bastante
+ 301. demasiado — demais
+ 302. casi — quase
+ 303. ya — já
+ 304. todavía — ainda
+ 305. aún — ainda
+ 306. nunca — nunca
+ 307. siempre — sempre
+ 308. a veces — às vezes
+ 309. normalmente — normalmente
+ 310. generalmente — geralmente
+ 311. quizás — talvez
+ 312. de verdad — de verdade
+ 313. en serio — a sério
+ 314. claro — claro
+ 315. vale — ok / certo (Esp.)
+ 316. venga — vamos / bora (Esp.)
+ 317. por favor — por favor
+ 318. gracias — obrigada/o
+ 319. de nada — de nada
+ 320. perdón — com licença / perdão
+ 321. disculpe — desculpe (formal)
+ 322. lo siento — lamento / sinto muito
+ 323. cero a diez — zero a dez
+ 324. once a veinte — onze a vinte
+ 325. treinta — trinta
+ 326. cuarenta — quarenta
+ 327. cincuenta — cinquenta
+ 328. cien / ciento — cem / cento
+ 329. mil — mil
+ 330. primero — primeiro
+ 331. segundo — segundo
+ 332. tercero — terceiro
+ 333. mitad — metade
+ 334. euro — euro
+ 335. céntimo — centavo (euro)
+ 336. IVA — IVA
+ 337. porcentaje — porcentagem
+ 338. mucho/s — muito/s
+ 339. poco/s — pouco/s
+ 340. suficiente — suficiente
+ 341. más o menos — mais ou menos
+ 342. trabajo — trabalho
+ 343. empresa — empresa
+ 344. jefe — chefe
+ 345. sueldo — salário
+ 346. vacaciones — férias
+ 347. baja — afastamento / licença médica
+ 348. nómina — contracheque / holerite
+ 349. currículum — currículo
+ 350. entrevista — entrevista
+ 351. reunión — reunião
+ 352. correo electrónico — e-mail
+ 353. idioma — idioma (masc.)
+ 354. título — diploma / título
+ 355. autónomo — autônomo / freelancer
+ 356. cotizar — contribuir para a previdência
+ 357. seguridad social — INSS / previdência social
+ 358. número de afiliación — número do INSS
+ 359. horario — horário
+ 360. NIE — Número de Identidade Estrangeiro
+ 361. TIE — Tarjeta de Identidade Estrangeiro
+ 362. empadronamiento — Registro de residência no município
+ 363. ayuntamiento — prefeitura
+ 364. DNI — RG / documento de identidade
+ 365. pasaporte — passaporte
+ 366. cita previa — Agendamento prévio obrigatório
+ 367. formulario — formulário
+ 368. fotocopia — fotocópia / xerox
+ 369. gestión — gestão / burocracia
+ 370. tramitar — tramitar / processar
+ 371. banco — banco
+ 372. cuenta bancaria — conta bancária
+ 373. Bizum — Pagamento instantâneo por celular
+ 374. tarjeta — cartão
+ 375. cajero — caixa eletrônico
+ 376. recibo — recibo
+ 377. factura — nota fiscal / fatura
+ 378. farmacia — farmácia
+ 379. médico de cabecera — médico de família
+ 380. cita médica — consulta médica
+ 381. tarjeta sanitaria — cartão do SUS / plano de saúde ES
+ 382. Correos — Correios (empresa pública ES)
+ 383. paquete — pacote
+ 384. supermercado — supermercado
+ 385. Mercadona — Supermercado mais popular de ES
+ 386. mercado — mercado / feira
+ 387. quiosco — banca de jornal / quiosque
+ 388. ferretería — loja de ferragens
+ 389. fontanero — encanador / canalizador
+ 390. electricista — eletricista
+ 391. wifi — wi-fi
+ 392. fibra — fibra óptica (internet)
+ 393. luz (suministro) — luz (energia elétrica)
+ 394. bien — bem
+ 395. mal — mal
+ 396. cansado — cansado
+ 397. estresado — estressado
+ 398. contento — contente / feliz
+ 399. triste — triste
+ 400. nervioso — nervoso / ansioso
+ 401. emocionado — emocionado / animado
+ 402. preocupado — preocupado
+ 403. hambre — fome
+ 404. sed — sede
+ 405. sueño — sono
+ 406. frío — frio
+ 407. calor — calor
+ 408. miedo — medo
+ 409. confianza — confiança
+ 410. perdido — perdido
+ 411. acostumbrado — acostumado
+ 412. echo de menos — sinto saudade
+ 413. agotado — esgotado
+ 414. ilusión — expectativa /
+ 415. ganas — vontade
+ 416. me apetece — me dá vontade de
+ 417. aburrido — entediado / chato
+ 418. enfadado — bravo / irritado
+ 419. avergonzado — envergonhado
+ 420. orgulloso — orgulhoso
+ 421. satisfecho — satisfeito
+ 422. hola — olá
+ 423. buenos días — bom dia
+ 424. buenas tardes — boa tarde
+ 425. buenas noches — boa noite
+ 426. adiós — tchau / adeus
+ 427. hasta luego — até logo
+ 428. hasta mañana — até amanhã
+ 429. ¿cómo estás? — como você está?
+ 430. ¿qué tal? — e aí? / tudo bem?
+ 431. me llamo — me chamo
+ 432. mucho gusto — muito prazer
+ 433. encantado — encantado/a
+ 434. ¿de dónde eres? — de onde você é?
+ 435. ¿cuánto tiempo llevas? — há quanto tempo você está?
+ 436. ¿hablas español? — você fala espanhol?
+ 437. no entiendo — não entendo
+ 438. ¿puede hablar más despacio? — pode falar mais devagar?
+ 439. ¿cómo se dice? — como se diz?
+ 440. ¿qué significa? — o que significa?
+ 441. no sé — não sei
+ 442. un momento — um momento
+ 443. en seguida — já vou / imediatamente
+ 444. ¿puedo? — posso?
+ 445. ¿me puede ayudar? — pode me ajudar?
+ 446. ¿tiene...? — você tem...?
+ 447. ¿dónde está...? — onde fica...?
+ 448. ¿cuánto cuesta? — quanto custa?
+ 449. ¿a qué hora? — a que horas?
+ 450. está bien — tá bom / ok
+ 451. de acuerdo — de acordo
+ 452. no pasa nada — não tem problema
+ 453. qué lástima — que pena
+ 454. qué bien — que bom
+ 455. qué guay — que legal / que bacana
+ 456. mola — é legal / é maneiro (Esp.)
+ 457. tío / tía — cara / mano / bicho (gíria Esp.)
+ 458. ¿en serio? — A sério? / Tá brincando?
+ 459. claro que sí — claro que sim
+ 460. por supuesto — claro / com certeza
+ 461. desde luego — com certeza / claro
+ 462. a ver — vamos ver / deixa eu ver
+ 463. oye — ei / olha
+ 464. mira — olha
+ 465. la verdad es que — a verdade é que
+ 466. es que — é que / acontece que
+ 467. ¿me puedes decir? — você pode me dizer?
+ 468. muchas gracias — muito obrigada/o
+ 469. con permiso — com licença (passar)
+ 470. a tu salud — saúde! (brinde)
+ 471. buen provecho — bom apetite
+ 472. felicidades — parabéns
+ 473. suerte — sorte
+ 474. ánimo — força / coragem
+ 475. qué pena — que pena
+ 476. no te preocupes — não se preocupe
+ 477. ya verás — vai ver / logo logo
+ 478. ¿quedamos? — combinamos?
+ 479. ¿te va bien el...? — o ... te cai bem?
+ 480. me viene bien — me cai bem / me convém
+ 481. no puedo — não posso
+ 482. otro día — outro dia
+ 483. ¿cómo quedamos? — como ficamos?
+ 484. cuéntame — me conta
+ 485. ¿qué me recomiendas? — o que você recomenda?
+ 486. la próxima vez — na próxima vez
+ 487. en fin — enfim
+ 488. al final — no final / afinal
+ 489. poco a poco — aos poucos
+ 490. ¡a por ello! Davies) — vai em frente! / bora! + CREA/CORPES XXI
+ 491. a pesar de — apesar de
+ 492. en cuanto — assim que / tão logo
+ 493. siempre que — sempre que
+ 494. a menos que — a menos que
+ 495. con tal de que — contanto que
+ 496. sin que — sem que
+ 497. para que — para que
+ 498. antes de que — antes que
+ 499. después de que — depois que
+ 500. mientras — enquanto
+ 501. según — segundo / conforme
+ 502. mediante — mediante / por meio
+ 503. a través de — através de
+ 504. en vez de — em vez de
+ 505. en lugar de — em lugar de
+ 506. además de — além de
+ 507. acerca de — acerca de / sobre
+ 508. respecto a — com relação a
+ 509. en cuanto a — quanto a
+ 510. por lo tanto — portanto
+ 511. por eso — por isso
+ 512. así que — então / portanto
+ 513. o sea — ou seja / tipo
+ 514. es decir — ou seja / isto é
+ 515. no obstante — não obstante
+ 516. a lo mejor — quem sabe / talvez
+ 517. tal vez — talvez
+ 518. ojalá — tomara / oxalá
+ 519. depender de — depender de
+ 520. contar con — contar com
+ 521. pensar en — pensar em (igual)
+ 522. soñar con — sonhar com
+ 523. hablar de — falar de / sobre
+ 524. acordarse de — lembrar de
+ 525. olvidarse de — esquecer de
+ 526. darse cuenta de — perceber / notar (sem prep.)
+ 527. tratarse de — tratar-se de
+ 528. encargarse de — encarregar-se de
+ 529. quejarse de — reclamar / queixar
+ 530. alegrarse de — alegrar-se com
+ 531. arrepentirse de — arrepender-se de
+ 532. acabar de — acabar de (recém)
+ 533. dejar de — parar de
+ 534. empezar a — começar a
+ 535. volver a — tornar a / voltar a
+ 536. ponerse a — pôr-se a / começar a
+ 537. llegar a — chegar a / conseguir
+ 538. ayudar a — ajudar a
+ 539. aprender a — aprender a
+ 540. enseñar a — ensinar a
+ 541. invitar a — convidar para
+ 542. quedarse con — ficar com
+ 543. encontrarse con — encontrar-se com
+ 544. enfrentarse a — enfrentar (sem prep.)
+ 545. acostumbrarse a — acostumar-se a
+ 546. adaptarse a — adaptar-se a
+ 547. negarse a — recusar-se a
+ 548. atreverse a — atrever-se a
+ 549. ponerse — ficar (estado temp.)
+ 550. quedarse — ficar (resultado)
+ 551. volverse — tornar-se
+ 552. hacerse — tornar-se (esforço)
+ 553. convertirse en — converter-se em
+ 554. llegar a ser — chegar a ser
+ 555. mejorar — melhorar
+ 556. empeorar — piorar
+ 557. aumentar — aumentar
+ 558. reducir — reduzir
+ 559. crecer — crescer
+ 560. desaparecer — desaparecer
+ 561. aparecer — aparecer
+ 562. cambiar — mudar / cambiar
+ 563. transformar — transformar
+ 564. superar — superar
+ 565. resolver — resolver
+ 566. solucionar — solucionar
+ 567. conseguir — conseguir
+ 568. lograr — conseguir / alcançar
+ 569. opinar — opinar
+ 570. considerar — considerar
+ 571. afirmar — afirmar
+ 572. negar — negar
+ 573. confirmar — confirmar
+ 574. admitir — admitir
+ 575. reconocer — reconhecer
+ 576. proponer — propor
+ 577. sugerir — sugerir
+ 578. recomendar — recomendar
+ 579. aconsejar — aconselhar
+ 580. advertir — advertir / avisar
+ 581. insistir — insistir
+ 582. dudar — duvidar
+ 583. suponer — supor
+ 584. imaginar — imaginar
+ 585. mentir — mentir
+ 586. quejarse — reclamar / queixar
+ 587. felicitar — parabenizar
+ 588. agradecer — agradecer
+ 589. borracha/o — bêbado (NÃO: borracha)
+ 590. embarazada — grávida (NÃO: envergonhada)
+ 591. polvo — pó / poeira (NÃO: polvo)
+ 592. borrar — apagar / deletar (NÃO: borrar)
+ 593. largo — comprido / longo (NÃO: largo)
+ 594. ancho — largo (NÃO: largo)
+ 595. sensible — sensível (NÃO: sensato)
+ 596. sensato — sensato / prudente
+ 597. en absoluto — de jeito nenhum (NÃO: absolutamente)
+ 598. pretender — ter a intenção de (NÃO: fingir)
+ 599. realizar — realizar / executar (NÃO: perceber)
+ 600. darse cuenta — perceber / notar (NÃO: realizar)
+ 601. molestar — incomodar (NÃO: molestar)
+ 602. asistir a — assistir (evento) (NÃO: ajudar)
+ 603. atender — atender / ajudar (NÃO: assistir)
+ 604. colar — colar (grudar) / furar fila
+ 605. sujeto — sujeito / fixo / preso
+ 606. soborno — suborno (NÃO: propina)
+ 607. constipado — resfriado (NÃO: constipado)
+ 608. estreñido — preso (intestinal)
+ 609. carpeta — pasta (arquivo)
+ 610. manta — cobertor / manta (NÃO: manteiga)
+ 611. mantequilla — manteiga
+ 612. bolígrafo — caneta esferográfica
+ 613. vosotros / os — vocês (só na Espanha)
+ 614. planta — andar (NÃO: piso)
+ 615. móvil — celular
+ 616. ordenador — computador
+ 617. guay — legal / bacana (Esp.)
+ 618. hostia — caramba! / cara! (palavrão suave Esp.)
+ 619. joder — merda! / puta! (Esp.)
+ 620. coña — gozação / brincadeira
+ 621. en plan — tipo / assim / como
+ 622. hombre / mujer — cara / moça (interjeição)
+ 623. ¿verdad? — né? / não é?
+ 624. ¿no? — né?
+ 625. vaya — puxa / nossa (surpresa)
+ 626. hace frío — está frio
+ 627. hace calor — está calor
+ 628. hace viento — está ventando
+ 629. llueve / llovizna — chove / garoa
+ 630. nieva — está nevando
+ 631. nublado — nublado / encoberto
+ 632. soleado — ensolarado
+ 633. temperatura — temperatura
+ 634. grados — graus
+ 635. paraguas — guarda-chuva
+ 636. abrigo — casaco / agasalho
+ 637. primavera — primavera
+ 638. verano — verão
+ 639. otoño — outono
+ 640. invierno — inverno
+ 641. talla — tamanho / numeração
+ 642. número — número (calçado)
+ 643. probador — provador
+ 644. probar — experimentar / provar
+ 645. quedar bien — cair bem
+ 646. queda grande/pequeño — fica grande/pequeno
+ 647. descuento — desconto
+ 648. rebajas — liquidação / saldos
+ 649. oferta — oferta / promoção
+ 650. devolver — devolver
+ 651. ticket — recibo / ticket
+ 652. caja — caixa / checkout
+ 653. bolsa — sacola / bolsa
+ 654. ropa — roupa
+ 655. zapatos — sapatos
+ 656. tela / tejido — tecido / material
+ 657. algodón — algodão
+ 658. centro comercial — shopping center
+ 659. tienda de ropa — loja de roupas
+ 660. supermercado / súper — supermercado
+ 661. lista de la compra — lista de compras
+ 662. pesarlo — pesar (produto)
+ 663. fecha de caducidad — data de validade
+ 664. sin stock — sem estoque
+ 665. salir de fiesta — sair / ir balada
+ 666. bar de copas — bar / balada
+ 667. discoteca — boate / discoteca
+ 668. concierto — show / concerto
+ 669. exposición — exposição
+ 670. museo — museu
+ 671. entrada — ingresso
+ 672. gratuito — gratuito
+ 673. aperitivo — aperitivo
+ 674. vermut — vermute
+ 675. caña — chopp (cerveja pequeña)
+ 676. copa — taça / dose alcoólica
+ 677. chupito — shot
+ 678. sin alcohol — sem álcool
+ 679. terraza — terraço / varanda externa
+ 680. pintxo / pincho — petisco / tira
+ 681. partido — partida / jogo
+ 682. fútbol — futebol
+ 683. senderismo — trilha / caminhada
+ 684. turismo — turismo
+ 685. visita guiada — visita guiada
+ 686. escapada — escapadinha / fuga
+ 687. plan — programa / plano
+ 688. finde — fds / fim de semana (gíria)
+ 689. hacer un plan — fazer um programa
+ 690. cargar el móvil — carregar o celular
+ 691. batería — bateria
+ 692. cargador — carregador
+ 693. datos móviles — dados móveis
+ 694. tarifa — plano / tarifa
+ 695. SIM — chip / SIM
+ 696. contraseña — senha
+ 697. aplicación / app — aplicativo / app
+ 698. actualizar — atualizar
+ 699. instalar — instalar
+ 700. pantalla — tela
+ 701. almacenamiento — armazenamento
+ 702. nube — nuvem (cloud)
+ 703. buscar en Google — pesquisar no Google
+ 704. mapa / GPS — mapa / GPS
+ 705. videollamada — videochamada
+ 706. mensaje de voz — mensagem de voz
+ 707. notificación — notificação
+ 708. modo avión — modo avião
+ 709. reiniciar — reiniciar
+ 710. comunidad autónoma — Estado / região autônoma
+ 711. padrón municipal — registro civil / padrón
+ 712. certificado — certidão / certificado
+ 713. apostilla — apostila de Haia
+ 714. homologación — validação / equivalência
+ 715. extranjería — imigração / estrangeiros
+ 716. permiso de residencia — permissão de residência
+ 717. plazo — prazo
+ 718. recurso — recurso / apelação
+ 719. tasas — Taxas / emolumentos (pagamento obrigatório)
+ 720. impreso — formulário impresso
+ 721. sellado — carimbado / selado
+ 722. notario — tabelião / notário
+ 723. abogado — advogado
+ 724. alta / baja — ativar / desativar serviço ou contrato
+ 725. burofax — Carta registada com AR e valor legal
+ 726. IBI — IPTU (imposto predial)
+ 727. comunidad de vecinos — condomínio / assembleia de moradores
+ 728. portería — portaria
+ 729. síntoma — sintoma
+ 730. diagnóstico — diagnóstico
+ 731. análisis — exame / análise
+ 732. radiografía — raio-X
+ 733. ecografía — ultrassom
+ 734. derivar — encaminhar (médico)
+ 735. especialista — especialista
+ 736. guardia — plantão
+ 737. genérico — genérico
+ 738. sin receta — sem receita
+ 739. efectos secundarios — efeitos colaterais
+ 740. dosis — dose
+ 741. en ayunas — em jejum
+ 742. baja médica — atestado / licença médica
+ 743. mutua — plano de saúde privado
+ 744. mareo — tontura / enjoo
+ 745. náuseas — náuseas
+ 746. tensión — pressão arterial
+ 747. diabetes — diabetes
+ 748. vacuna — vacina
+ 749. conocer — conhecer (pessoa)
+ 750. caer bien / mal — cair bem / mal
+ 751. llevarse bien — se dar bem / ter boa relação
+ 752. llevarse mal — dar-se mal
+ 753. discutir — discutir (brigar) „ debater
+ 754. pelear — brigar (físico e verbal)
+ 755. hacer las paces — fazer as pazes
+ 756. disculparse — pedir desculpas
+ 757. malentendido — mal-entendido
+ 758. reclamar — reclamar / exigir
+ 759. queja — queixa / reclamação
+ 760. denuncia — denúncia / boletim
+ 761. confiar en — confiar em
+ 762. traicionar — trair
+ 763. apoyar — apoiar
+ 764. echar de menos — sentir saudade / sentir falta
+ 765. extrañar — sentir falta / estranhar
+ 766. adaptarse — adaptar-se
+ 767. integrarse — integrar-se
+ 768. hacer amigos — fazer amigos
+ 769. quedar con alguien — combinar de sair
+ 770. salir en grupo — sair em grupo
+ 771. invitar — Pagar a conta de alguém
+ 772. pagar a medias — rachar / dividir a conta
+ 773. invitar (pagar) — pagar (a conta de alguém)
+ 774. simpático — simpático
+ 775. antipático — antipático
+ 776. amable — amável / gentil
+ 777. maleducado — mal-educado
+ 778. educado — educado
+ 779. sincero — sincero
+ 780. honesto — honesto
+ 781. pesado — pesado / chato (pessoa)
+ 782. enrollado — gente boa / descolado
+ 783. gracioso — gracioso / engraçado
+ 784. listo — esperto / pronto
+ 785. tonto — bobo / idiota (suave)
+ 786. vago — preguiçoso
+ 787. trabajador — trabalhador / esforçado
+ 788. serio — sério
+ 789. guapo / guapa — bonito/a / gato/a
+ 790. feo / fea — feio / feia
+ 791. alto / bajo — alto / baixo
+ 792. delgado / gordo — magro / gordo
+ 793. mayor — mais velho / maior
+ 794. rubio / moreno — loiro / moreno
+ 795. calvo — careca
+ 796. barba / bigote — barba / bigode
+ 797. concreto — concreto / específico
+ 798. exacto — exato
+ 799. aproximado — aproximado
+ 800. válido — válido
+ 801. vigente — vigente / em vigor
+ 802. provisional — provisório
+ 803. definitivo — definitivo
+ 804. obligatorio — obrigatório
+ 805. voluntario — voluntário
+ 806. disponible — disponível
+ 807. incluido — incluído
+ 808. excluido — excluído
+ 809. ilimitado — ilimitado
+ 810. compartido — compartilhado
+ 811. individual — individual
+ 812. exterior — exterior / que dá para rua
+ 813. interior — interior / que dá para dentro
+ 814. luminoso — luminoso
+ 815. reformado — reformado / renovado
+ 816. amueblado — mobilado
+ 817. céntrico — central / bem localizado
+ 818. anticuado — antiquado
+ 819. moderno — moderno
+ 820. estrecho — estreito / apertado
+ 821. no hay mal que por bien no venga — não há mal que não venha para bem
+ 822. a otro perro con ese hueso — para outro com essa conversa
+ 823. estar en las nubes — estar no mundo da lua
+ 824. costar un ojo de la cara — custar os olhos da cara
+ 825. ser pan comido — ser moleza / ser fácil
+ 826. no hay mal que dure cien años — tudo passa
+ 827. ponerse las pilas — se ligar / se mexer
+ 828. meter la pata — meter os pés pelas mãos
+ 829. dar en el clavo — acertar em cheio
+ 830. ir al grano — ir direto ao ponto
+ 831. no dar abasto — não dar conta
+ 832. tirar la toalla — jogar a toalha
+ 833. dar la lata — encher o saco / chatear
+ 834. estar hasta las narices — estar de saco cheio
+ 835. no pegar ojo — não pregar olho
+ 836. hacer la vista gorda — fazer vista grossa
+ 837. armarse un lío — criar uma confusão
+ 838. liarse — se embaralhar / se complicar
+ 839. pillar — pegar / entender / flagrar
+ 840. flipar — ficar boquiaberto / enlouquecer
+ 841. molar un montón — ser muito legal
+ 842. ser un rollo — ser um saco / ser chato
+ 843. dar igual — tanto faz / não importar
+ 844. como mucho — no máximo
+ 845. como mínimo — no mínimo
+ 846. de vez en cuando — de vez em quando
+ 847. a partir de ahora — a partir de agora
+ 848. de momento — por enquanto
+ 849. en principio — em princípio
+ 850. hasta cierto punto — até certo ponto
+ 851. en primer lugar — em primeiro lugar
+ 852. en segundo lugar — em segundo lugar
+ 853. por último — por último / finalmente
+ 854. por un lado — por um lado
+ 855. por otro lado — por outro lado
+ 856. en cambio — por outro lado / em contrapartida
+ 857. de hecho — de fato
+ 858. en realidad — na realidade
+ 859. en teoría — em teoria
+ 860. en la práctica — na prática
+ 861. en general — em geral
+ 862. en particular — em particular
+ 863. sobre todo — sobretudo / acima de tudo
+ 864. ante todo — antes de tudo
+ 865. en definitiva — em definitiva / enfim
+ 866. en resumen — em resumo
+ 867. en conclusión — em conclusão
+ 868. dicho esto — dito isso
+ 869. al contrario — ao contrário
+ 870. de todas formas — de qualquer forma
+ 871. de todas maneras — de qualquer maneira
+ 872. de todos modos — de todo jeito
+ 873. a propósito — a propósito / aliás
+ 874. por cierto — aliás / por sinal
+ 875. hablando de — falando em
+ 876. según yo — na minha opinião
+ 877. desde mi punto de vista — do meu ponto de vista
+ 878. que yo sepa — que eu saiba
+ 879. por lo que sé — pelo que sei
+ 880. que conste — que fique registado / claro
+ 881. a mi modo de ver — a meu ver
+ 882. está claro que — está claro que
+ 883. hay que reconocer — há que reconhecer
+ 884. lo que es más — o que é mais
+ 885. lo que pasa es que — o que acontece é que
+ 886. el caso es que — o fato é que
+ 887. la cuestión es — a questão é
+ 888. lo importante es — o importante é
+ 889. lo mejor sería — o melhor seria
+ 890. sería mejor que — seria melhor que
+ 891. no estaría mal — não seria mau
+ 892. merece la pena — vale a pena
+ 893. no merece la pena — não vale a pena
+ 894. tiene sentido — faz sentido
+ 895. no tiene sentido — não faz sentido
+ 896. me parece bien — me parece bem
+ 897. me parece mal — me parece mal
+ 898. no me convence — não me convence
+ 899. estoy de acuerdo — concordo
+ 900. no estoy de acuerdo — não concordo
+ 901. depende — depende
+ 902. no necesariamente — não necessariamente
+ 903. en cierta medida — em certa medida
+ 904. hasta qué punto — até que ponto
+ 905. en todo caso — em todo caso
+ 906. sea como sea — seja como for
+ 907. pase lo que pase — aconteça o que acontecer
+ 908. cuanto antes — o quanto antes
+ 909. tarde o temprano — mais cedo ou mais tarde
+ 910. a largo plazo — a longo prazo
+ 911. a corto plazo — a curto prazo
+ 912. sin duda — sem dúvida
+ 913. con razón — com razão
+ 914. no tiene razón — não tem razão
+ 915. llevar razón — ter razão
+ 916. como bien dices — como você bem disse
+ 917. a lo que iba — voltando ao que eu dizia
+ 918. volviendo al tema — voltando ao assunto
+ 919. para concluir — para concluir
+ 920. en pocas palabras — em poucas palavras
+ 921. paso a paso — passo a passo
+ 922. con el tiempo — com o tempo
+ 923. a fin de cuentas — afinal de contas
+ 924. lo dicho — o que foi dito / dito e feito
+ 925. ¿me sigues? — você está me acompanhando?
+ 926. ¿entiendes? — entende?
+ 927. ¿ves lo que digo? — vê o que estou dizendo?
+ 928. dicho de otro modo — em outras palavras
+ 929. para ser exactos — para ser exato
+ 930. más bien — mais bem / na verdade
+ 931. mejor dicho — melhor dizendo
+ 932. en otras palabras — em outras palavras
+ 933. para empezar — para começar
+ 934. para continuar — para continuar
+ 935. encima — por cima / ainda por cima
+ 936. encima de todo — além de tudo
+ 937. para colmo — para piorar / para completar
+ 938. aun así — mesmo assim
+ 939. a pesar de todo — apesar de tudo
+ 940. con todo — com tudo isso
+ 941. al fin y al cabo — afinal / no fundo
+ 942. en el fondo — no fundo
+ 943. a grandes rasgos — em linhas gerais
+ 944. con detalle — em detalhes
+ 945. en detalle — em detalhe
+ 946. en conjunto — em conjunto / no geral
+ 947. tomando todo en cuenta — levando tudo em conta
+ 948. dadas las circunstancias — dadas as circunstâncias
+ 949. llegados a este punto — chegados a este ponto
+ 950. siguiendo con el tema — continuando com o tema
+ 951. tal como dijimos — tal como dissemos
+ 952. como acordamos — como combinamos
+ 953. según lo previsto — conforme previsto
+ 954. contra todo pronóstico — contra tudo que se esperava
+ 955. a estas alturas — a esta altura
+ 956. de ahora en adelante — daqui para frente
+ 957. en lo sucesivo — doravante / daqui em diante
+ 958. que sepas — para que saiba
+ 959. fíjate — veja bem / repara
+ 960. resulta que — resulta que
+ 961. lo bueno es que — o bom é que
+ 962. lo malo es que — o ruim é que
+ 963. lo raro es que — o estranho é que
+ 964. lo que más me gusta — o que mais gosto
+ 965. lo que menos me gusta — o que menos gosto
+ 966. ¡a por ello! — vai em frente! / bora!
+ 967. pulpo — polvo (animal)
+ 968. goma — borracha / elástico
+ 969. embarcar — embarcar (navio/avião apenas)
+ 970. guardar — guardar (salvar / guardar)
+ 971. tirar — jogar fora / puxar (depende)
+ 972. vaso — copo
+ 973. taza — xícara / caneca
+ 974. subir — subir + aumentar
+ 975. bajar — baixar + diminuir
+ 976. quitar — tirar / remover
+ 977. aparcar — estacionar
+ 978. coste / costo — coste (ES) / costo (LA)
+ 979. presupuesto — orçamento
+ 980. coche — carro
+ 981. maletero — porta-malas
+ 982. gasolinera — posto de gasolina
+ 983. acera — calçada
+ 984. carretera — estrada / rodovia
+ 985. consigna — guarda-volumes
+ 986. nevera — geladeira
+ 987. frigorífico — frigorífico / geladeira
+ 988. lavavajillas — lava-louças
+ 989. lavadora — máquina de lavar
+ 990. grifo — torneira
+ 991. enchufe — tomada
+ 992. bombilla — lâmpada
+ 993. persiana — veneziana / persiana
+ 994. percha — cabide
+ 995. cajón — gaveta
+ 996. estantería — estante / prateleira
+ 997. fregadero — pia (cozinha)
+ 998. lavabo — pia (banheiro) / lavatório
+ 999. inodoro — vaso sanitário
+1000. cubo de basura — lixeira
+1001. basura — lixo
+1002. contenedor — caçamba / contêiner lixo
+1003. farmacia de guardia — farmácia de plantão
+1004. paro — desemprego
+1005. chorizo — chouriço (diferente!)
+1006. bocadillo — sanduíche de baguete
+1007. tupper — pote / marmita
+1008. pensar de — achar de / pensar sobre
+1009. casarse con — casar com
+1010. enamorarse de — apaixonar-se por
+1011. reírse de — rir de
+1012. enterarse de — ficar sabendo de
+1013. aprovecharse de — aproveitar-se de
+1014. tratar de — tentar / tratar de
+1015. obligar a — obrigar a
+1016. comprometerse a — comprometer-se a
+1017. resistirse a — resistir a / resistir
+1018. ir a — ir a / ir para
+1019. ir de — ir de / sair para
+1020. quedar en — combinar de
+1021. padrón — Registo municipal de moradores
+1022. abono transportes — passe mensal de transporte
+1023. Cercanías — Trem regional / suburbano
+1024. gestoría — Despachante / escritório de burocracia
+1025. mercadillo — Feira livre / mercado popular
+1026. ONCE — Loteria dos cegos (organização social)
+1027. sanidad pública — Sistema único de saúde (gratuito)
+1028. paga extra — 13º e 14º salário
+1029. ERTE — Lay-off temporário
+1030. conciliación — Equilíbrio trabalho-família
+1031. teletrabajo — Home office
+1032. contrato indefinido — contrato por prazo indeterminado
+1033. finiquito — Rescisão / acerto final
+1034. carta de despido — carta de demissão (da empresa)
+1035. alucinar — ficar chocado / não acreditar
+1036. menudo/a — que + adjetivo / que coisa
+1037. qué lío — que bagunça / que confusão
+1038. lío — bagunça / confusão / encrenca
+1039. pesado/a — chato/a (pessoa)
+1040. enrollado/a — gente boa / descolado / legal
+1041. majete — gente boa / simpático (ES)
+1042. guiri — estrangeiro (esp. turista)
+1043. bocata — sanduíche (gíria de bocadillo)
+1044. currar — trabalhar
+1045. curro — trabalho / trampo
+1046. pasta — grana / dinheiro
+1047. tío duro — cara difícil / duro de roer
+1048. flipante — inacreditável / impressionante
+1049. mogollón — muito / um monte de
+1050. un montón — um monte de / muito
+1051. chungo — difícil / problemático / feio
+1052. mando — controle remoto
+1053. profe — professor/a
+1054. tutear — Tratar por 'tu' / ser informal
+1055. apetecer — dar vontade de / estar com vontade
+1056. madrugar — acordar / levantar cedo
+1057. trasnochar — ficar acordado até tarde / virar a noite
+1058. cotillear — fofocar
+1059. cotilleo — fofoca
+1060. ligar — paquerar / ficar com alguém
+1061. morirse de — morrer de (exagero)
+1062. hacerse ilusiones — criar expectativas / se iludir
+1063. tener ilusión — estar empolgado / animado
+1064. merecer la pena — valer a pena
+1065. dar rabia — dar raiva
+1066. dar asco — dar nojo
+1067. dar miedo — dar medo
+1068. dar vergüenza — dar vergonha
+1069. dar pena — dar pena / dó
+1070. ponerse rojo — ficar vermelho (de vergonha)
+1071. quedarse en blanco — dar um branco / esquecer tudo
+1072. tirar adelante — seguir em frente / se virar
+1073. salir adelante — se virar / vencer
+1074. hacerse con — se apossar de / dominar
+1075. caer bien/mal — cair bem / mal (pessoa)
+1076. echar una mano — dar uma mão / ajudar
+1077. costar trabajo — ser difícil / custar
+1078. hacerse tarde — ficar tarde / estar ficando tarde
+1079. pedir cita — marcar consulta
+1080. poner una denuncia — registrar um boletim
+1081. echar la culpa — botar a culpa
+1082. tomar una decisión — tomar uma decisão
+1083. hacer cola — fazer fila
+1084. hacer la compra — fazer as compras
+1085. hacer un viaje — fazer uma viagem
+1086. dar un paseo — dar uma volta / passear
+1087. sacar una foto — tirar uma foto
+1088. poner la mesa — pôr a mesa
+1089. quitar la mesa — tirar a mesa
+1090. hacer la cama — fazer a cama
+1091. pasar la aspiradora — passar o aspirador
+1092. poner una multa — dar / passar uma multa
+1093. coger el tren — pegar o trem (em ES)
+1094. perder el tren — perder o trem
+1095. pedir prestado — pedir emprestado
+1096. echar un vistazo — dar uma olhada
+1097. hacer falta — fazer falta / ser necessário
+1098. darse prisa — se apressar / correr
+1099. tener en cuenta — ter em conta / levar em consideração
+1100. dar las gracias — agradecer / dar obrigado
+1101. pedir disculpas — pedir desculpas
+1102. romper con — terminar com (namorado)
+1103. salir con — sair com / namorar
+1104. quedar con — combinar de se encontrar
+1105. apuntarse a — se inscrever em
+1106. baja por maternidad — licença maternidade
+1107. ll → y (yeísmo) — distingue lh e y; ES funde
+1108. c/z → [q] (ceceo) — sem este som
+1109. v = b — distingue v e b
+1110. h sempre mudo — h mudo também
+1111. j / g(e,i) → [x] — som mais suave
+1112. r vs rr — similar, mas mais vibrante
+1113. acento escrito — uso diferente do acento
+1114. tú vs tu — sem distinção escrita
+1115. sé vs se — sem distinção
+1116. más vs mas — sem distinção escrita
+1117. cuándo vs cuando — sem distinção
+1118. sólo vs solo — sem distinção
+1119. qué vs que — sem distinção
+1120. dónde vs donde — sem distinção
+1121. ll → nome das letras — 'erre', 'esse'
+1122. y = 'i griega' — 'ípsilon'
+1123. ñ — 'nh'
+1124. ch → [tn] — similar
+1125. d intervocálico — mais forte
+1126. -d final — geralmente não existe
+1127. el problema — o problema (masc.)
+1128. el mapa — o mapa (masc.)
+1129. el idioma — o idioma (masc.)
+1130. la mano — a mão (fem.)
+1131. la foto — a foto (fem.)
+1132. la moto — a moto (fem.)
+1133. el día — o dia (masc.)
+1134. el calor — o calor (masc.)
+1135. el color — a cor → masc. em ES
+1136. la flor — a flor (fem.)
+1137. el mar — o mar (masc.) / poético fem.
+1138. la sal — o sal → fem. em ES
+1139. la leche — o leite → fem. em ES
+1140. la sangre — o sangue → fem. em ES
+1141. el puente — Feriado prolongado (quinta+sexta)
+1142. el arte — a arte → masc. (sing.) em ES
+1143. la carne — a carne (fem.)
+1144. el viaje — a viagem → masc. em ES
+1145. la costumbre — o costume → fem. em ES
+1146. el orden — a ordem → masc. em ES
+1147. vosotros coméis — vocês comem
+1148. vosotros tenéis — vocês têm
+1149. vosotros sois — vocês são
+1150. vosotros vais — vocês vão
+1151. vosotros podéis — vocês podem
+1152. yo soy / tú eres — eu sou / tu és
+1153. yo voy / tú vas — eu vou / tu vais
+1154. yo hago — eu faço
+1155. yo pongo — eu ponho
+1156. yo traigo — eu trago
+1157. yo conozco — eu conheço
+1158. yo traduzco — eu traduzo
+1159. yo conduzco — eu dirijo / conduzo
+1160. hay / había — há / havia
+1161. me gusta / gustan — eu gosto (sujeito diferente)
+1162. duele / duelen — dói / doem
+1163. falta / faltan — falta / faltam
+1164. subjuntivo presente — subjuntivo presente
+1165. pretérito perfecto — pretérito perfeito composto
+1166. pretérito indefinido — pretérito perfeito simples
+1167. enfadarse — ficar bravo / zangado
+1168. divertido — divertido
+1169. bruto — bruto / grosseiro / sueldo bruto
+1170. delgado — magro
+1171. gordo — gordo / importante (coloq.)
+1172. fresco — fresco / atrevido / atual
+1173. salado — salgado / engraçado (coloq.)
+1174. flojo — frouxo / preguiçoso / fraco
+1175. vivo — vivo / esperto
+1176. lento — lento / lerdo
+1177. celoso — ciumento
+1178. vergüenza — vergonha
+1179. coño — Palavrão forte (ES)
+1180. me cago en — Expressão de raiva (muito vulgar)
+1181. mierda — Merda (vulgar)
+1182. ostras — Caramba! (suave, usável)
+1183. mecachis — Puxa! / Droga! (eufemismo)
+1184. usted — Você (formal)
+1185. le/les (usted) — lhe/lhes (forma. de você formal)
+1186. estimado/a — Caro/a (carta formal)
+1187. un saludo — Atenciosamente (email)
+1188. a su disposición — Ao dispor (formal)
+1189. disculpe usted — Desculpe (formal)
+1190. tenga la bondad — Seja tão gentil de / por favor (formal)
+1191. le ruego que — Peço-lhe que (formal escrito)
+1192. me permito — Permito-me (formal)
+1193. en espera de — Aguardando (formal)
+1194. adjunto — Em anexo (email)
+1195. según se acordó — Conforme combinado (formal)
+1196. ¡venga ya! — Não acredito! / Isso não!
+1197. a mí plin — estou-me nas tintas / não ligo
+1198. ¡ni hablar! — Nem pensar! / De jeito nenhum!
+1199. ¡qué va! — Que nada! / Claro que não!
+1200. ¡ya está! — Pronto! / Acabou! / Tchau!
+1201. no me digas — Não me diga! / Sério?
+1202. ¡fíjate! — Olha só! / Imagina!
+1203. ¡menudo lío! — Que confusão danada!
+1204. de eso nada — Isso não / De jeito nenhum
+1205. ahí está — Aí está / Exatamente isso
+1206. ¿cómo que no? — Como assim não?
+1207. lo que hay — É o que tem / É a realidade
+1208. a lo hecho, pecho — o que foi foi / não tem como voltar
+1209. no hay manera — Não tem jeito / Impossível
+1210. ¡buf! — Ufa! / Puxa! (cansaço/tédio)
+1211. ¡uf! — Ufa! (alívio ou esforço)
+1212. ¡hala! — Nossa! / Caramba! / Vai lá!
+1213. ¡anda! — Nossa! / Olha! / Vai embora!
+1214. ¡anda ya! — Não acredito! / Vai embora!
+1215. ¿a que sí? — Aposto que sim / Não é?
+1216. ¿a que no? — Aposto que não
+1217. tener morro — ter lata / ter cara
+1218. tener cara — ter cara de pau
+1219. ser un caradura — ser um cara de pau
+1220. no tener abuela — ser convencido / se achar
+1221. ¡qué pesadilla! — Que pesadelo!
+1222. ¡qué rollo! — Que saco! / Que chatice!
+1223. ¡qué barbaridad! — Que absurdo! / Que barbaridade!
+1224. ¡toma ya! — Isso aí! / Tomem! (vitória)
+1225. ¡ahí va! — Nossa! / Caramba! (surpresa)
+1226. ¡madre mía! — Meu Deus! / Nossa mãe!
+1227. ¡por Dios! — Pelo amor de Deus!
+1228. ¡ostras! — Caramba! / Puxa! (suave)
+1229. ¡leches! — Caramba! (suave)
+1230. ¡jolín! — Caramba! (infantil/suave)
+1231. ¡mecachis! — Droga! (eufemismo muito suave)
+1232. ¡vamos! — Vamos! / Força! / Bora!
+1233. ¡ánimo! — Força! / Coragem! / Vai!
+1234. ¡suerte! — Boa sorte!
+1235. dos besos — Dois beijos (cumprimento ES)
+1236. el tuteo — Uso do 'tu' em vez de 'usted'
+1237. la siesta — Sesta (pausa a meia tarde)
+1238. horario español — Horário tardio de refeições
+1239. horario de tiendas — Lojas fecham a tarde e domingo
+1240. las tapas — Petisco grátis ou barato com bebida
+1241. el aperitivo — Saída antes do almoço para tapas
+1242. el vermut — Vermute + tapas (ritual dominical)
+1243. sobremesa — Conversa após a refeição à mesa
+1244. la caña — Copo pequeno de cerveja (~20cl)
+1245. el botellón — Beber na rua em grupo (jovens)
+1246. ir de tapas — Ir de bar em bar comendo tapas
+1247. el Rastro — Mercado de pulgas de Madrid (dom)
+1248. las fiestas patronales — Festas do bairro / cidade
+1249. la Nochebuena — Véspera de Natal (24 dez)
+1250. la Nochevieja — Réveillon (31 dez)
+1251. las uvas — 12 uvas à meia-noite (ritual ES)
+1252. los Reyes Magos — Reis Magos trazem presentes (6 jan)
+1253. la Semana Santa — Procissões e feriadão (ES)
+1254. el agosto — Madrid fica vazia em agosto
+1255. piso de estudiantes — República / apartamento
+1256. el portero — Zelador / porteiro
+1257. la terraza — Mesas na calçada do bar
+1258. pedir en barra — Pedir no balcão (mais barato)
+1259. ronda — Rodada de bebidas
+1260. hacer una transferencia — Fazer uma transferência
+1261. el día del espagueti — Cada um paga o seu
+1262. hacerse el sueco — Fazer de conta que não viu
+1263. el madrugón — Acordar muito cedo
+1264. el atasco — Engarrafamento
+1265. las oposiciones — Concurso público (muito comum em ES)
+1266. el AVE — Trem de alta velocidade espanhol
+1267. la jornada intensiva — Jornada contínua sem pausa longa
+1268. el colacao — Achocolatado (marca ES)
+1269. el bocata de calamares — Sanduíche de lula (típico Madrid)
+1270. churros con chocolate — Churros com chocolate espesso
+1271. soy — ser (ser)
+1272. estoy — estar (estar)
+1273. voy — ir (ir)
+1274. doy — dar (dar)
+1275. sé — saber (saber)
+1276. he — haber (ter (aux.))
+1277. hay — haber (haver)
+1278. tengo — tener (ter)
+1279. vengo — venir (vir)
+1280. pongo — poner (pôr/colocar)
+1281. hago — hacer (fazer)
+1282. digo — decir (dizer)
+1283. salgo — salir (sair)
+1284. traigo — traer (trazer)
+1285. oigo — oír (ouvir)
+1286. caigo — caer (cair)
+1287. quepo — caber (caber)
+1288. veo — ver (ver)
+1289. conozco — conocer (conhecer)
+1290. conduzco — conducir (dirigir/guiar)
+1291. parezco — parecer (parecer)
+1292. quiero — querer (querer)
+1293. pienso — pensar (pensar)
+1294. empiezo — empezar (começar)
+1295. entiendo — entender (entender)
+1296. pierdo — perder (perder)
+1297. siento — sentir (sentir)
+1298. prefiero — preferir (preferir)
+1299. puedo — poder (poder)
+1300. vuelvo — volver (voltar)
+1301. cuento — contar (contar)
+1302. encuentro — encontrar (encontrar)
+1303. duermo — dormir (dormir)
+1304. muero — morir (morrer)
+1305. juego — jugar (jogar/brincar)
+1306. pido — pedir (pedir)
+1307. sigo — seguir (seguir)
+1308. sirvo — servir (servir)
+1309. tiene — tener (ter)
+1310. viene — venir (vir)
+1311. puede — poder (poder)
+1312. quiere — querer (querer)
+1313. dice — decir (dizer)
+1314. fui — ser/ir (ser ou ir)
+1315. fue — ser/ir (ser ou ir)
+1316. fueron — ser/ir (ser ou ir)
+1317. tuve — tener (ter)
+1318. tuvo — tener (ter)
+1319. tuvieron — tener (ter)
+1320. hice — hacer (fazer)
+1321. hizo — hacer (fazer)
+1322. hicieron — hacer (fazer)
+1323. dije — decir (dizer)
+1324. dijo — decir (dizer)
+1325. dijeron — decir (dizer)
+1326. supe — saber (saber)
+1327. supo — saber (saber)
+1328. puse — poner (pôr/colocar)
+1329. puso — poner (pôr/colocar)
+1330. pude — poder (poder)
+1331. pudo — poder (poder)
+1332. quise — querer (querer)
+1333. quiso — querer (querer)
+1334. vine — venir (vir)
+1335. vino — venir (vir)
+1336. anduve — andar (andar/caminhar)
+1337. estuve — estar (estar)
+1338. estuvo — estar (estar)
+1339. traje — traer (trazer)
+1340. trajo — traer (trazer)
+1341. cupe — caber (caber)
+1342. di — dar (dar)
+1343. dio — dar (dar)
+1344. vi — ver (ver)
+1345. vio — ver (ver)
+1346. hubo — haber (haver)
+1347. leyó — leer (ler)
+1348. oyó — oír (ouvir)
+1349. cayó — caer (cair)
+1350. creyó — creer (achar/acreditar)
+1351. durmió — dormir (dormir)
+1352. murió — morir (morrer)
+1353. pidió — pedir (pedir)
+1354. sintió — sentir (sentir)
+1355. siguió — seguir (seguir)
+1356. tendré — tener (ter)
+1357. tendría — tener (ter)
+1358. haré — hacer (fazer)
+1359. haría — hacer (fazer)
+1360. diré — decir (dizer)
+1361. pondré — poner (pôr/colocar)
+1362. podré — poder (poder)
+1363. podría — poder (poder)
+1364. sabré — saber (saber)
+1365. saldré — salir (sair)
+1366. vendré — venir (vir)
+1367. querré — querer (querer)
+1368. habrá — haber (haver)
+1369. hecho — hacer (fazer)
+1370. dicho — decir (dizer)
+1371. puesto — poner (pôr/colocar)
+1372. visto — ver (ver)
+1373. vuelto — volver (voltar)
+1374. muerto — morir (morrer)
+1375. escrito — escribir (escrever)
+1376. roto — romper (quebrar)
+1377. abierto — abrir (abrir)
+1378. cubierto — cubrir (cobrir)
+1379. resuelto — resolver (resolver)
+1380. sea — ser (ser)
+1381. vaya — ir (ir)
+1382. haya — haber (ter (aux.))
+1383. sepa — saber (saber)
+1384. dé — dar (dar)
+1385. esté — estar (estar)
+1386. tenga — tener (ter)
+1387. venga — venir (vir)
+1388. haga — hacer (fazer)
+1389. diga — decir (dizer)
+1390. pueda — poder (poder)
+1391. quiera — querer (querer)
+1392. fuera — ser/ir (ser ou ir)
+1393. tuviera — tener (ter)
+1394. hiciera — hacer (fazer)
+1395. dijera — decir (dizer)
+1396. pudiera — poder (poder)
+1397. supiera — saber (saber)
+1398. quisiera — querer (querer)
+1399. viniera — venir (vir)
+1400. estuviera — estar (estar)
+1401. hubiera — haber (ter (aux.))
+1402. yendo — ir (ir)
+1403. diciendo — decir (dizer)
+1404. durmiendo — dormir (dormir)
+1405. pidiendo — pedir (pedir)
+1406. sintiendo — sentir (sentir)
+1407. siguiendo — seguir (seguir)
+1408. leyendo — leer (ler)
+1409. oyendo — oír (ouvir)
+1410. viniendo — venir (vir)
+1411. trayendo — traer (trazer)
+1412. ven — venir (vir)
+1413. ten — tener (ter)
+1414. pon — poner (pôr/colocar)
+1415. haz — hacer (fazer)
+1416. sal — salir (sair)
+1417. ve — ir/ver (ir ou ver)
