@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2b1a14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Stars Hollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});}</script>
+<title>Stars Hollow · Español con Gilmore Girls</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* paleta Stars Hollow (mantida) + tons de apoio */
+    --bg:#241611; --bg-2:#180d09; --glow:#4a2f22;
+    --paper:#f7efe1; --paper-2:#f0e5d1; --edge:#e3d3bb;
+    --ink:#2c1c15; --ink-soft:#6b5142; --ink-faint:#9c8471;
+    --wine:#8c2f39; --wine-d:#6f242c; --coffee:#a9703f; --gold:#c99a3b; --gold-d:#a87d27;
+    --green:#3f7d5a;
+    --on-dark:#f4e9da; --on-dark-soft:#cbb49d; --on-dark-faint:#9a806b;
+    --hair:rgba(255,255,255,.09); --hair-2:rgba(255,255,255,.16);
+    --r-s:10px; --r-m:14px; --r-l:20px;
+    --shadow:0 30px 60px -30px rgba(0,0,0,.7), 0 10px 24px -14px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif; color:var(--on-dark);
+    background:
+      radial-gradient(1100px 620px at 50% -8%, var(--glow) 0%, transparent 58%),
+      linear-gradient(168deg, var(--bg) 0%, var(--bg-2) 100%);
+    background-attachment:fixed;
+    min-height:100vh; display:flex; flex-direction:column; align-items:center;
+    padding:clamp(1.1rem,3vw,2rem) 1rem 3.5rem; line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--gold); color:#241611; }
+
+  /* ---------- masthead ---------- */
+  .top{ text-align:center; max-width:600px; margin-bottom:1.7rem; }
+  .kicker{ font-size:.66rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:.6rem; }
+  .top h1{ font-family:'Fraunces',serif; font-weight:800; font-size:clamp(1.95rem,6vw,2.6rem);
+    line-height:1.02; letter-spacing:-.02em; }
+  .top h1 span{ font-style:italic; font-weight:600; color:var(--gold); }
+  .lede{ color:var(--on-dark-soft); font-size:.92rem; margin-top:.65rem; }
+  .rule{ width:42px; height:2px; background:var(--gold); border-radius:2px; margin:1.05rem auto 0; opacity:.75; }
+
+  .panel{ width:100%; max-width:600px; }
+
+  /* ---------- stats ---------- */
+  .stats{ display:flex; border:1px solid var(--hair); border-radius:var(--r-m); overflow:hidden;
+    margin-bottom:1.5rem; background:var(--hair); gap:1px; }
+  .stat{ flex:1; background:rgba(0,0,0,.16); padding:.85rem .4rem; text-align:center; }
+  .stat b{ display:block; font-family:'Fraunces',serif; font-weight:700; font-size:1.5rem; line-height:1;
+    color:var(--on-dark); font-variant-numeric:tabular-nums; }
+  .stat.hot b{ color:var(--gold); }
+  .stat span{ display:block; margin-top:.4rem; font-size:.6rem; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--on-dark-faint); }
+
+  /* ---------- chips ---------- */
+  .chips{ display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; margin-bottom:1.3rem; }
+  .chip{ display:inline-flex; align-items:center; gap:.45rem; padding:.42rem .8rem; border-radius:999px;
+    border:1px solid var(--hair-2); background:rgba(255,255,255,.03); color:var(--on-dark-soft);
+    font-size:.78rem; font-weight:600; cursor:pointer; user-select:none; transition:.15s; }
+  .chip:hover{ border-color:var(--gold-d); color:var(--on-dark); }
+  .chip .dot{ width:.5rem; height:.5rem; border-radius:50%; background:var(--c,currentColor); flex:none; }
+  .chip.on{ background:var(--wine); border-color:var(--wine); color:#fff; }
+  .chip.on .dot{ background:#fff; }
+  .chip.all{ font-weight:700; letter-spacing:.02em; }
+  .chip.all.on{ background:var(--gold); border-color:var(--gold); color:#241611; }
+
+  /* ---------- controles (sentido, voz) ---------- */
+  .controls{ display:flex; flex-wrap:wrap; gap:.7rem 1.1rem; justify-content:center; align-items:center;
+    margin-bottom:1.35rem; }
+  .field{ display:flex; align-items:center; gap:.5rem; font-size:.74rem; font-weight:600;
+    letter-spacing:.02em; text-transform:uppercase; color:var(--on-dark-faint); }
+  .seg{ display:inline-flex; border:1px solid var(--hair-2); border-radius:999px; overflow:hidden; }
+  .seg button{ border:none; background:transparent; color:var(--on-dark-soft); font:inherit; font-size:.76rem;
+    font-weight:600; padding:.42rem .85rem; cursor:pointer; transition:.15s; letter-spacing:.02em; }
+  .seg button.on{ background:var(--gold); color:#241611; }
+  select.voice{ font:inherit; font-size:.76rem; font-weight:600; color:var(--on-dark);
+    background:rgba(0,0,0,.22); border:1px solid var(--hair-2); border-radius:999px;
+    padding:.42rem 1.9rem .42rem .85rem; cursor:pointer; appearance:none; max-width:210px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23cbb49d' stroke-width='1.5'><path d='M1 1l4 4 4-4'/></svg>");
+    background-repeat:no-repeat; background-position:right .75rem center; }
+
+  /* ---------- botão principal ---------- */
+  .startbtn{ display:flex; align-items:center; justify-content:center; gap:.5rem; width:100%;
+    padding:.95rem 1.4rem; border:none; border-radius:var(--r-m); cursor:pointer;
+    background:linear-gradient(180deg,var(--gold),var(--gold-d)); color:#241611;
+    font-family:'Fraunces',serif; font-weight:700; font-size:1.1rem; letter-spacing:.01em;
+    box-shadow:0 14px 30px -14px rgba(201,154,59,.85); transition:transform .12s, box-shadow .2s; }
+  .startbtn:hover{ box-shadow:0 18px 36px -14px rgba(201,154,59,.95); }
+  .startbtn:active{ transform:translateY(1px); }
+  .startbtn.ghost{ background:none; color:var(--on-dark); border:1px solid var(--hair-2); box-shadow:none; font-size:1rem; }
+  .hint{ text-align:center; color:var(--on-dark-faint); font-size:.78rem; margin-top:.95rem; min-height:1.1em; }
+
+  /* ---------- app / sessão ---------- */
+  #app{ display:none; width:100%; max-width:520px; }
+  .hud{ display:flex; align-items:center; gap:.8rem; margin-bottom:1.15rem; }
+  .hud .count{ font-size:.74rem; font-weight:700; color:var(--on-dark-soft);
+    font-variant-numeric:tabular-nums; letter-spacing:.04em; min-width:3.4em; }
+  .bar{ flex:1; height:5px; background:rgba(255,255,255,.1); border-radius:99px; overflow:hidden; }
+  .bar>i{ display:block; height:100%; width:0; border-radius:99px;
+    background:linear-gradient(90deg,var(--coffee),var(--gold)); transition:width .35s ease; }
+  .iconbtn{ border:1px solid var(--hair-2); background:transparent; color:var(--on-dark-soft);
+    border-radius:999px; padding:.36rem .75rem; font:inherit; font-size:.72rem; font-weight:600;
+    cursor:pointer; transition:.15s; white-space:nowrap; }
+  .iconbtn:hover{ border-color:var(--gold-d); color:var(--on-dark); }
+
+  /* ---------- cartão ---------- */
+  .card{ position:relative; --accent:var(--coffee);
+    background:linear-gradient(180deg,var(--paper),var(--paper-2));
+    color:var(--ink); border-radius:var(--r-l); box-shadow:var(--shadow);
+    padding:1.9rem 1.6rem 1.5rem; min-height:352px; display:flex; flex-direction:column; overflow:hidden; }
+  .card::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--accent); }
+  .card__head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
+  .cat-tag{ display:inline-flex; align-items:center; gap:.45rem; font-size:.68rem; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+  .cat-tag .emoji{ font-size:.95rem; }
+  .card__n{ font-size:.66rem; font-weight:700; color:var(--ink-faint); font-variant-numeric:tabular-nums;
+    letter-spacing:.06em; }
+
+  .lang-flag{ display:block; font-size:.62rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:.5rem; }
+  .prompt{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(1.5rem,4.6vw,1.95rem);
+    line-height:1.24; color:var(--ink); letter-spacing:-.01em; }
+
+  .say{ margin-top:1.15rem; display:inline-flex; align-items:center; gap:.5rem; align-self:flex-start;
+    background:var(--ink); color:var(--paper); border:none; padding:.55rem .95rem; border-radius:999px;
+    font:inherit; font-weight:600; font-size:.8rem; cursor:pointer; transition:transform .1s, opacity .2s; }
+  .say:hover{ opacity:.9; } .say:active{ transform:translateY(1px); }
+  .say svg{ width:15px; height:15px; fill:currentColor; }
+
+  .reveal{ margin-top:1.35rem; padding-top:1.25rem; border-top:1px solid var(--edge); display:none; }
+  .reveal.show{ display:block; animation:rise .3s ease; }
+  @keyframes rise{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+  .answer{ font-family:'Fraunces',serif; font-size:1.4rem; font-weight:600; color:var(--wine-d); line-height:1.28; }
+  .block{ margin-top:1.05rem; }
+  .block .lbl{ font-size:.58rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:.3rem; }
+  .note{ font-size:.9rem; color:#5a4230; line-height:1.5; }
+  .note b{ color:var(--coffee); }
+  .ctx{ font-size:.87rem; color:var(--ink-soft); font-style:italic; line-height:1.45; }
+  .ep{ display:inline-block; font-size:.73rem; font-weight:700; color:var(--wine-d);
+    background:rgba(140,47,57,.08); border:1px solid rgba(140,47,57,.16); padding:.3rem .62rem; border-radius:8px; }
+  .ep.rec{ color:var(--ink-soft); background:rgba(0,0,0,.04); border-color:var(--edge); font-weight:600; }
+
+  .spacer{ flex:1; min-height:1rem; }
+
+  /* ---------- ações ---------- */
+  .flipbtn{ margin-top:1.35rem; width:100%; padding:.9rem; border:none; border-radius:var(--r-m);
+    background:var(--ink); color:var(--paper); font:inherit; font-family:'Fraunces',serif;
+    font-weight:700; font-size:1.05rem; cursor:pointer; transition:transform .1s, opacity .2s; }
+  .flipbtn:hover{ opacity:.93; } .flipbtn:active{ transform:translateY(1px); }
+  .grades{ display:grid; grid-template-columns:repeat(4,1fr); gap:.5rem; margin-top:1.35rem; }
+  .grade{ display:flex; flex-direction:column; align-items:center; gap:.18rem; padding:.7rem .3rem;
+    border:none; border-radius:var(--r-m); cursor:pointer; color:#fff; transition:transform .1s, filter .15s; }
+  .grade:hover{ filter:brightness(1.08); } .grade:active{ transform:translateY(1px); }
+  .grade strong{ font-size:.85rem; font-weight:700; }
+  .grade em{ font-size:.65rem; font-style:normal; opacity:.85; font-variant-numeric:tabular-nums; }
+  .g1{ background:var(--wine); } .g2{ background:var(--coffee); } .g3{ background:var(--green); }
+  .g4{ background:linear-gradient(180deg,var(--gold),var(--gold-d)); color:#241611; }
+
+  .kbd{ margin-top:1.05rem; text-align:center; color:var(--on-dark-faint); font-size:.7rem; letter-spacing:.02em; }
+  .kbd b{ color:var(--on-dark-soft); font-weight:700; }
+
+  /* ---------- adivinar quién ---------- */
+  .guessbox{ margin-top:1.35rem; }
+  .guesslbl{ font-family:'Fraunces',serif; font-weight:600; font-size:1.05rem; color:var(--ink);
+    text-align:center; margin-bottom:.75rem; }
+  .guessopts{ display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; }
+  .gopt{ display:flex; align-items:center; justify-content:center; gap:.4rem; padding:.72rem .4rem;
+    border:1px solid var(--edge); border-radius:var(--r-m); background:#fff; color:var(--ink);
+    font:inherit; font-weight:700; font-size:.92rem; cursor:pointer; transition:.12s; }
+  .gopt:hover:not(:disabled){ border-color:var(--accent); transform:translateY(-1px); }
+  .gopt:disabled{ cursor:default; opacity:.85; }
+  .gopt.ok{ background:#e7f2ec; border-color:var(--green); color:#245c3f; opacity:1; }
+  .gopt.no{ background:#f6e7e8; border-color:var(--wine); color:var(--wine-d); }
+  .who{ display:inline-flex; align-items:center; gap:.4rem; font-size:.82rem; font-weight:600;
+    color:var(--ink); background:rgba(0,0,0,.05); border:1px solid var(--edge);
+    padding:.34rem .72rem; border-radius:999px; }
+  .who .mark{ font-weight:800; margin-left:.15rem; }
+  .who.ok{ background:#e7f2ec; border-color:var(--green); } .who.ok .mark{ color:#245c3f; }
+  .who.no{ background:#f6e7e8; border-color:var(--wine); } .who.no .mark{ color:var(--wine-d); }
+
+  /* ---------- fim de sessão ---------- */
+  .done{ display:none; text-align:center; background:linear-gradient(180deg,var(--paper),var(--paper-2));
+    color:var(--ink); border-radius:var(--r-l); box-shadow:var(--shadow); padding:2.7rem 1.6rem; }
+  .done .big{ font-size:2.5rem; line-height:1; }
+  .done h2{ font-family:'Fraunces',serif; font-size:1.55rem; margin:.7rem 0 .5rem; color:var(--ink); }
+  .done p{ color:var(--ink-soft); font-size:.92rem; margin-bottom:1.6rem; line-height:1.55; }
+
+  /* ---------- rodapé ---------- */
+  .footer{ margin-top:1.9rem; max-width:520px; text-align:center; color:var(--on-dark-faint);
+    font-size:.72rem; line-height:1.6; }
+  .footer b{ color:var(--on-dark-soft); font-weight:600; }
+</style>
+</head>
+<body>
+
+  <header class="top">
+    <p class="kicker">Flashcards · FSRS-6</p>
+    <h1>Stars Hollow <span>Español</span></h1>
+    <p class="lede">Castellano de España con el día a día de <i>Gilmore Girls</i> — café, rutina, familia y frases geniales que además sirven.</p>
+    <div class="rule"></div>
+  </header>
+
+  <!-- pantalla inicio -->
+  <div class="panel" id="start">
+    <div class="stats">
+      <div class="stat hot"><b id="stStreak">0</b><span>🔥 racha · días</span></div>
+      <div class="stat"><b id="stDue">0</b><span>para hoy</span></div>
+      <div class="stat"><b id="stMature">0</b><span>aprendidas</span></div>
+    </div>
+
+    <div class="chips" id="chips"></div>
+
+    <div class="controls">
+      <div class="field">Sentido
+        <div class="seg" id="dirSeg">
+          <button data-dir="es2pt">ES→PT</button>
+          <button data-dir="pt2es">PT→ES</button>
+        </div>
+      </div>
+      <div class="field">Voz
+        <select class="voice" id="voiceSel" aria-label="Elegir voz"></select>
+      </div>
+      <div class="field">Adivina quién
+        <div class="seg" id="guessSeg">
+          <button data-guess="off">No</button>
+          <button data-guess="on">Sí</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="startbtn" id="go">Empezar sesión</button>
+    <p class="hint" id="count"></p>
+  </div>
+
+  <!-- app -->
+  <div id="app">
+    <div class="hud">
+      <span class="count" id="prog">1 / 40</span>
+      <div class="bar"><i id="barfill"></i></div>
+      <button class="iconbtn" id="dirMini">ES→PT</button>
+      <button class="iconbtn" id="quit">Salir</button>
+    </div>
+
+    <div class="card" id="card">
+      <div class="card__head">
+        <span class="cat-tag" id="cat"><span class="emoji" id="cup">☕</span> <span id="catName">Café</span></span>
+        <span class="card__n" id="cardN"></span>
+      </div>
+
+      <span class="lang-flag" id="frontFlag">Español</span>
+      <div class="prompt" id="es" lang="es">…</div>
+      <button class="say" id="say">
+        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4z"/></svg>
+        Escuchar
+      </button>
+
+      <div class="reveal" id="reveal">
+        <span class="lang-flag" id="backFlag">Português</span>
+        <div class="answer" id="pt" lang="pt">…</div>
+        <button class="say" id="sayReveal" style="display:none; margin-top:.75rem">
+          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4z"/></svg>
+          Escuchar en español
+        </button>
+        <div class="block" id="whoBlock" style="display:none"><span class="who" id="who"></span></div>
+        <div class="block"><div class="lbl">Cómo se usa</div><div class="note" id="note">…</div></div>
+        <div class="block"><div class="lbl">Escena</div><div class="ctx" id="ctx">…</div></div>
+        <div class="block"><span class="ep" id="ep">…</span></div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="guessbox" id="guessBox" style="display:none">
+        <div class="guesslbl">¿A quién le pega?</div>
+        <div class="guessopts" id="guessOpts"></div>
+      </div>
+      <button class="flipbtn" id="flip">Ver respuesta</button>
+      <div class="grades" id="actGrade" style="display:none">
+        <button class="grade g1" data-g="1"><strong>Otra vez</strong><em id="iv1"></em></button>
+        <button class="grade g2" data-g="2"><strong>Difícil</strong><em id="iv2"></em></button>
+        <button class="grade g3" data-g="3"><strong>Bien</strong><em id="iv3"></em></button>
+        <button class="grade g4" data-g="4"><strong>Fácil</strong><em id="iv4"></em></button>
+      </div>
+    </div>
+
+    <p class="kbd"><b>Espacio</b> revelar · <b>1–4</b> calificar · <b>S</b> escuchar</p>
+
+    <div class="done" id="done">
+      <div class="big">☕</div>
+      <h2>¡Sesión terminada!</h2>
+      <p id="doneMsg">…</p>
+      <button class="startbtn ghost" id="again2">Volver al inicio</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    Frases <b>adaptadas al castellano de España</b>, inspiradas en <i>Gilmore Girls</i> (serie original en inglés).
+    El contexto indica escena/personaje; sin minutaje inventado. Repetición espaciada <b>FSRS-6</b> —
+    tu progreso se guarda solo en este navegador.
+  </div>
+
+<script>
+/* ---------- BARALHO (40 frases · castelhano da Espanha) ---------- */
+const DECK = [
+  // ☕ CAFÉ
+  {cat:"café", es:"No me hables antes de mi café.", pt:"Não fala comigo antes do meu café.",
+   note:"<b>Rutina pura:</b> 'hablar' + <b>me</b> (pronombre antes del verbo). Puro Lorelai.",
+   ctx:"Lorelai, esencia del personaje — la cafeína como religión.",
+   ep:"Motivo recorrente · estabelecido no Piloto (T1·E1)"},
+  {cat:"café", es:"¿Me pones un café para llevar, por favor?", pt:"Me vê um café pra viagem, por favor?",
+   note:"<b>Muy útil:</b> 'poner' = servir/pedir en España. 'para llevar' = pra viagem.",
+   ctx:"Cualquier mañana en Luke's Diner — el pedido de siempre.",
+   ep:"Recorrente · Luke's Diner (toda a série)"},
+  {cat:"café", es:"Necesito un café ya. Es una emergencia.", pt:"Preciso de um café já. É uma emergência.",
+   note:"<b>Dramático y práctico:</b> 'ya' = agora mesmo. Exageración muy Gilmore.",
+   ctx:"Lorelai entrando en pánico pre-cafeína.",
+   ep:"Recorrente (toda a série)"},
+  {cat:"café", es:"¿Te lo vas a beber o te lo vas a poner por vía intravenosa?", pt:"Vai beber isso ou vai colocar na veia?",
+   note:"<b>Frase genial:</b> ironía sobre la adicción al café. 'por vía intravenosa' se usa igual.",
+   ctx:"El tono con que Luke se burla de la obsesión cafeínica de Lorelai.",
+   ep:"Gag recorrente Luke↔Lorelai (desde a T1)"},
+
+  // 🍕 COMIDA
+  {cat:"comida", es:"¿Te apetece pedir comida china?", pt:"Tá a fim de pedir comida chinesa?",
+   note:"<b>Peninsular clave:</b> 'apetecer' = estar a fim. En España casi no se dice 'tener ganas de' para esto.",
+   ctx:"Noche de chicas Gilmore: comida a domicilio y peli.",
+   ep:"Recorrente · noites Gilmore (toda a série)"},
+  {cat:"comida", es:"Hoy toca noche de pizza y peli.", pt:"Hoje é noite de pizza e filme.",
+   note:"<b>Idiom:</b> 'hoy toca' = hoje é a vez de / hoje é dia de. 'peli' = filme (coloquial).",
+   ctx:"El ritual de Lorelai y Rory en el sofá.",
+   ep:"Recorrente · ritual mãe-filha"},
+  {cat:"comida", es:"No tengo nada en casa, solo café y tarta.", pt:"Não tenho nada em casa, só café e bolo.",
+   note:"<b>Cotidiano:</b> 'tarta' = bolo/torta en España. La nevera Gilmore resumida.",
+   ctx:"Rory descubriendo, otra vez, que nadie hace la compra.",
+   ep:"Recorrente (toda a série)"},
+  {cat:"comida", es:"Vamos a desayunar a Luke's.", pt:"Vamos tomar café da manhã no Luke's.",
+   note:"<b>Verbo del día:</b> 'desayunar'. 'vamos a + infinitivo' = vamos + verbo.",
+   ctx:"El plan por defecto de cualquier mañana en Stars Hollow.",
+   ep:"Recorrente · Luke's Diner"},
+
+  // 🏠 CASA / RUTINA
+  {cat:"rutina", es:"Llego tarde, otra vez.", pt:"Tô atrasada, de novo.",
+   note:"<b>Frecuentísimo:</b> 'llegar tarde' = chegar atrasado. 'otra vez' = de novo.",
+   ctx:"Lorelai corriendo hacia la posada Independence Inn.",
+   ep:"Recorrente · Independence Inn"},
+  {cat:"rutina", es:"¿Has visto mis llaves? No las encuentro.", pt:"Você viu minhas chaves? Não acho.",
+   note:"<b>Pretérito perfecto (¡España!):</b> 'has visto' para el pasado reciente. 'las' = las llaves.",
+   ctx:"Caos matutino en la casa Gilmore antes de salir.",
+   ep:"Recorrente (toda a série)"},
+  {cat:"rutina", es:"Mañana tengo que madrugar.", pt:"Amanhã tenho que acordar cedo.",
+   note:"<b>Palabra top:</b> 'madrugar' = acordar cedo (un solo verbo, no hay equivalente directo).",
+   ctx:"Rory antes de un día largo en el colegio Chilton.",
+   ep:"Contexto Chilton · desde T1·E2 ('First Day at Chilton')"},
+  {cat:"rutina", es:"Voy a echarme una siesta rápida.", pt:"Vou tirar uma soneca rápida.",
+   note:"<b>Peninsular:</b> 'echarse una siesta'. 'echarse' = deitar-se/dar-se a.",
+   ctx:"Un lujo raro en la vida acelerada de las Gilmore.",
+   ep:"Recorrente (toda a série)"},
+
+  // 📚 TRABAJO / ESTUDIO
+  {cat:"estudio", es:"Mañana tengo un examen importante.", pt:"Amanhã tenho uma prova importante.",
+   note:"<b>Base:</b> 'examen' = prova. 'tener' para posse/compromisso.",
+   ctx:"Rory — su vida entera en Chilton (T1–T3) y luego en Yale (T4–T7).",
+   ep:"Recorrente · Chilton (T1) → Yale (T4)"},
+  {cat:"estudio", es:"Se me ha hecho tardísimo, me tengo que ir.", pt:"Ficou super tarde, tenho que ir.",
+   note:"<b>Doble joya:</b> 'se me ha hecho tarde' (construcción reflexiva) + '-ísimo' (super-).",
+   ctx:"Rory saliendo disparada de una cena que se alargó.",
+   ep:"Recorrente (toda a série)"},
+  {cat:"estudio", es:"Necesito estudiar, en serio esta vez.", pt:"Preciso estudar, sério dessa vez.",
+   note:"<b>Útil:</b> 'en serio' = a sério. 'esta vez' = dessa vez.",
+   ctx:"La promesa (dudosa) tras una noche de peli con Lorelai.",
+   ep:"Recorrente (toda a série)"},
+  {cat:"estudio", es:"Estoy hasta arriba de trabajo.", pt:"Tô atolada de trabalho.",
+   note:"<b>Idiom peninsular:</b> 'estar hasta arriba' = estar sobrecarregado. Se usa muchísimo.",
+   ctx:"Lorelai gestionando la posada al borde del colapso.",
+   ep:"Recorrente · Independence Inn / Dragonfly (T5)"},
+
+  // ❤️ FAMILIA / RELACIONES
+  {cat:"familia", es:"El viernes hay cena en casa de mis padres. No hay escapatoria.", pt:"Sexta tem jantar na casa dos meus pais. Não tem escapatória.",
+   note:"<b>Mítico + útil:</b> las 'Friday night dinners'. 'no hay escapatoria' = não tem como fugir.",
+   ctx:"El trato entre Lorelai y Emily: dinero para Chilton a cambio de cenas semanales.",
+   ep:"Origem no Piloto (T1·E1) · recorrente toda a série"},
+  {cat:"familia", es:"¿Estás bien? Cuéntamelo todo.", pt:"Você tá bem? Me conta tudo.",
+   note:"<b>Doble pronombre:</b> 'cuénta-me-lo' (conta-me-o). Muy natural entre madre e hija.",
+   ctx:"Lorelai y Rory: más amigas que madre e hija.",
+   ep:"Recorrente (toda a série)"},
+  {cat:"familia", es:"Te quiero, pero ahora mismo me estás volviendo loca.", pt:"Te amo, mas agora você tá me deixando louca.",
+   note:"<b>Real:</b> 'querer' = amar (afeto). 'volver loco/a' = deixar louco. 'ahora mismo' = agora mesmo.",
+   ctx:"Cualquier discusión cariñosa entre las Gilmore.",
+   ep:"Recorrente (toda a série)"},
+  {cat:"familia", es:"No estoy enfadada, solo... decepcionada.", pt:"Não tô brava, só... decepcionada.",
+   note:"<b>Peninsular:</b> 'enfadado' = bravo (no 'enojado', que es más de América).",
+   ctx:"El tono marca Emily Gilmore, maestra de la culpa elegante.",
+   ep:"Recorrente · registro Emily Gilmore"},
+
+  // 😏 IRONÍA / FRASES GENIALES
+  {cat:"genial", es:"Estoy bien. 'Bien' entre comillas.", pt:"Tô bem. 'Bem' entre aspas.",
+   note:"<b>Ironía útil:</b> 'entre comillas' = entre aspas, para marcar sarcasmo. Muy Gilmore.",
+   ctx:"El humor defensivo cuando algo claramente NO va bien.",
+   ep:"Estilo recorrente (toda a série)"},
+  {cat:"genial", es:"Es una larga historia. Ponte cómodo.", pt:"É uma longa história. Se ajeita aí.",
+   note:"<b>Genial:</b> 'ponerse cómodo' = ficar à vontade. Perfecta antes de un monólogo.",
+   ctx:"El preámbulo típico de cualquier enredo de Stars Hollow.",
+   ep:"Estilo recorrente (toda a série)"},
+  {cat:"genial", es:"El sarcasmo es mi lengua materna.", pt:"O sarcasmo é minha língua materna.",
+   note:"<b>Frase-bandera:</b> 'lengua materna' = língua materna. Define a las Gilmore.",
+   ctx:"El lenguaje oficial de la casa Gilmore.",
+   ep:"Estilo recorrente (toda a série)"},
+  {cat:"genial", es:"No es que sea vaga, es que estoy ahorrando energía.", pt:"Não é que eu seja preguiçosa, é que tô economizando energia.",
+   note:"<b>Estructura oro:</b> 'no es que... es que...' + subjuntivo ('sea'). 'vago/a' = preguiçoso.",
+   ctx:"La filosofía de fin de semana de Lorelai en el sofá.",
+   ep:"Estilo recorrente (toda a série)"},
+  {cat:"genial", es:"Prefiero no hablar de ello. Vale, hablemos de ello.", pt:"Prefiro não falar disso. Tá, vamos falar disso.",
+   note:"<b>Timing cómico:</b> 'hablemos' = falemos (imperativo). 'vale' = tá/ok (¡España!).",
+   ctx:"La contradicción emocional a máxima velocidad, marca de la casa.",
+   ep:"Estilo recorrente (toda a série)"},
+  {cat:"genial", es:"Puedo con esto. Probablemente.", pt:"Eu dou conta disso. Provavelmente.",
+   note:"<b>Idiom:</b> 'poder con algo' = dar conta de algo. El 'probablemente' lo hace genial.",
+   ctx:"El optimismo frágil de Lorelai ante un lío nuevo.",
+   ep:"Estilo recorrente (toda a série)"},
+
+  // 🗣️ COLOQUIAL DE ESPAÑA (día a día)
+  {cat:"coloquial", es:"¿Qué tal el día?", pt:"Como foi o dia?",
+   note:"<b>Saludo diario:</b> '¿qué tal?' es el rey en España, más que '¿cómo estás?'.",
+   ctx:"El reencuentro de la tarde entre Lorelai y Rory.",
+   ep:"Recorrente (toda a série)"},
+  {cat:"coloquial", es:"Vale, vale, ya voy.", pt:"Tá, tá, já vou.",
+   note:"<b>Puro España:</b> 'vale' = ok. 'ya voy' = já vou.",
+   ctx:"Respuesta a los mil llamados de la vida en Stars Hollow.",
+   ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Venga, date prisa, que llegamos tarde.", pt:"Vamos, se apressa, que vamos chegar atrasadas.",
+   note:"<b>Doble peninsular:</b> 'venga' = vamos/anda. 'darse prisa' = se apressar.",
+   ctx:"Lorelai arreando a Rory hacia la puerta.",
+   ep:"Recorrente · manhãs Gilmore"},
+  {cat:"coloquial", es:"Estoy reventada.", pt:"Tô acabada / exausta.",
+   note:"<b>Slang de España:</b> 'reventado/a' = morto de cansaço. Muy común.",
+   ctx:"Lorelai tras un turno doble en la posada.",
+   ep:"Adaptação peninsular · contexto Inn"},
+  {cat:"coloquial", es:"Un momento, que cojo el móvil.", pt:"Um segundo, que vou pegar o celular.",
+   note:"<b>Peninsular x2:</b> 'coger' = pegar (normal en España) · 'móvil' = celular.",
+   ctx:"Interrupción típica en pleno cotilleo del pueblo.",
+   ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"¿Me acercas en coche?", pt:"Me dá uma carona?",
+   note:"<b>Vocab clave:</b> 'coche' = carro. 'acercar a alguien' = dar carona/levar.",
+   ctx:"Rory pidiendo salir corriendo hacia el colegio.",
+   ep:"Adaptação peninsular · contexto Chilton"},
+  {cat:"coloquial", es:"Me da igual, elige tú.", pt:"Tanto faz, escolhe você.",
+   note:"<b>Súper útil:</b> 'me da igual' = tanto faz. 'elige tú' = escolhe você.",
+   ctx:"Negociando qué peli ver, cada viernes.",
+   ep:"Recorrente · noite de filme"},
+  {cat:"coloquial", es:"¿En serio? No me lo puedo creer.", pt:"Sério? Não acredito.",
+   note:"<b>Reacción diaria:</b> 'no me lo puedo creer' con el 'lo'. Chismes de Stars Hollow.",
+   ctx:"Miss Patty y Babette soltando el último rumor del pueblo.",
+   ep:"Recorrente · fofocas do vilarejo"},
+  {cat:"coloquial", es:"Tranquila, no pasa nada.", pt:"Calma, não tem problema.",
+   note:"<b>Frase-abrazo:</b> 'no pasa nada' = tá tudo bem/sem problema. Se usa a todas horas.",
+   ctx:"Lorelai consolando a Rory tras un pequeño desastre.",
+   ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"No me apetece nada salir hoy.", pt:"Não tô nem um pouco a fim de sair hoje.",
+   note:"<b>'apetecer' otra vez:</b> 'no me apetece nada' = não tô nada a fim.",
+   ctx:"El plan preferido: sofá, manta y comida.",
+   ep:"Adaptação peninsular · noites em casa"},
+  {cat:"coloquial", es:"Qué mono, ¿no?", pt:"Que fofo, né?",
+   note:"<b>Peninsular:</b> 'mono/a' = fofo/bonitinho. Nada que ver con el animal aquí.",
+   ctx:"Comentando algo (o alguien) por las calles del pueblo.",
+   ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Me lo pienso y te digo algo.", pt:"Vou pensar e te falo.",
+   note:"<b>Natural:</b> 'pensárselo' = pensar no assunto. 'te digo algo' = te dou um retorno.",
+   ctx:"Lorelai ganando tiempo ante una decisión.",
+   ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"¿Nos tomamos algo después?", pt:"A gente toma alguma coisa depois?",
+   note:"<b>Social:</b> 'tomar algo' = beber/comer algo junto. Invitación clásica.",
+   ctx:"Plan improvisado tras un día en Stars Hollow.",
+   ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Qué fuerte, no me esperaba eso para nada.", pt:"Que loucura, não esperava isso de jeito nenhum.",
+   note:"<b>Expresión top:</b> '¡qué fuerte!' = que absurdo/inacreditável. 'para nada' = de jeito nenhum.",
+   ctx:"Reacción a uno de los mil giros dramáticos del pueblo.",
+   ep:"Recorrente · reviravoltas do vilarejo"},
+
+  // ===== LOTE 2 · cobertura de vocabulário de alta frequência =====
+  // ☕ CAFÉ
+  {cat:"café", es:"Sin café no soy persona.", pt:"Sem café não sou gente.",
+   note:"<b>Palavra frequente — SER:</b> 'soy' (1ª pessoa de <i>ser</i>), o verbo nº1 do espanhol.",
+   ctx:"El lema de Lorelai antes de la primera taza.", ep:"Recorrente (toda a série)"},
+  {cat:"café", es:"¿Me pones otro, por favor?", pt:"Me traz mais um, por favor?",
+   note:"<b>Palavra frequente — OTRO:</b> 'otro/a' = outro. 'poner' = servir (España).",
+   ctx:"El clásico 'un café más' en la barra de Luke's.", ep:"Recorrente · Luke's Diner"},
+
+  // 🍕 COMIDA
+  {cat:"comida", es:"Me muero de hambre, ¿comemos ya?", pt:"Tô morrendo de fome, comemos já?",
+   note:"<b>Palavra frequente — COMER:</b> 'comemos'. 'morirse de hambre' = idiom de fome.",
+   ctx:"Las Gilmore, cuya dieta desafía la biología.", ep:"Recorrente (toda a série)"},
+  {cat:"comida", es:"Siempre hay sitio para el postre.", pt:"Sempre tem espaço pra sobremesa.",
+   note:"<b>Palavra frequente — HABER:</b> 'hay' = tem/há. 'siempre' = sempre; 'postre' = sobremesa.",
+   ctx:"Filosofía alimentaria oficial de la casa Gilmore.", ep:"Estilo recorrente (toda a série)"},
+  {cat:"comida", es:"¿Qué quieres cenar hoy?", pt:"O que você quer jantar hoje?",
+   note:"<b>Palavra frequente — QUERER:</b> 'quieres'. 'cenar' = jantar; 'hoy' = hoje.",
+   ctx:"La gran pregunta cada noche en Stars Hollow.", ep:"Recorrente (toda a série)"},
+  {cat:"comida", es:"Este sitio está petado.", pt:"Esse lugar tá lotado.",
+   note:"<b>Palavra frequente — ESTAR:</b> 'está'. 'sitio' = lugar; 'petado' = lotado (España).",
+   ctx:"Cualquier local del pueblo en día de festival.", ep:"Adaptação peninsular · fala genérica"},
+
+  // 🏠 RUTINA
+  {cat:"rutina", es:"Voy a ducharme, no tardo.", pt:"Vou tomar banho, não demoro.",
+   note:"<b>Palavra frequente — IR:</b> 'voy a' + infinitivo = futuro próximo. 'tardar' = demorar.",
+   ctx:"El apuro matutino habitual antes de salir.", ep:"Recorrente (toda a série)"},
+  {cat:"rutina", es:"Tengo que poner una lavadora.", pt:"Tenho que botar uma máquina de roupa.",
+   note:"<b>Palavra frequente — TENER:</b> 'tengo que' = tenho que. 'poner una lavadora' = lavar roupa (España).",
+   ctx:"Las tareas que Lorelai siempre pospone.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"rutina", es:"No encuentro el móvil por ningún lado.", pt:"Não acho o celular em lugar nenhum.",
+   note:"<b>Palavra frequente — ENCONTRAR:</b> 'encuentro'. 'ningún' = nenhum; 'móvil' = celular (España).",
+   ctx:"Otra mañana caótica en casa de las Gilmore.", ep:"Recorrente (toda a série)"},
+  {cat:"rutina", es:"Me voy a la cama, estoy muerta.", pt:"Vou pra cama, tô morta.",
+   note:"<b>Palavra frequente — IRSE:</b> 'me voy'. 'estar muerto/a' = estar exausto (informal).",
+   ctx:"El final de un día de mil recados.", ep:"Recorrente (toda a série)"},
+  {cat:"rutina", es:"¿Puedes bajar la basura?", pt:"Você pode descer o lixo?",
+   note:"<b>Palavra frequente — PODER:</b> 'puedes'. 'bajar' = descer/baixar; 'basura' = lixo.",
+   ctx:"El reparto de tareas madre-hija.", ep:"Recorrente (toda a série)"},
+
+  // 📚 TRABAJO / ESTUDIO
+  {cat:"estudio", es:"Tengo una reunión a primera hora.", pt:"Tenho reunião logo cedo.",
+   note:"<b>Palavra frequente — HORA:</b> 'a primera hora' = logo de manhã cedo. 'reunión' = reunião.",
+   ctx:"Lorelai al frente de la posada.", ep:"Recorrente · Independence Inn"},
+  {cat:"estudio", es:"Estoy currando un montón últimamente.", pt:"Tô trabalhando muito ultimamente.",
+   note:"<b>Palavra frequente — TRABAJAR:</b> 'currar' = gíria de España para trabalhar. 'un montón' = pra caramba.",
+   ctx:"Lorelai entre la posada y la vida real.", ep:"Adaptação peninsular · contexto Inn"},
+  {cat:"estudio", es:"¿Puedes ayudarme con esto?", pt:"Você pode me ajudar com isso?",
+   note:"<b>Palavra frequente — ESTO:</b> 'esto' = isto (neutro). 'ayudar' = ajudar.",
+   ctx:"Rory y Lorelai resolviendo líos juntas.", ep:"Recorrente (toda a série)"},
+  {cat:"estudio", es:"No entiendo nada de este tema.", pt:"Não entendo nada desse assunto.",
+   note:"<b>Palavra frequente — ENTENDER:</b> 'entiendo'. 'nada' = nada; 'tema' = assunto.",
+   ctx:"Rory (raramente) o Lorelai ante los deberes.", ep:"Recorrente (toda a série)"},
+
+  // ❤️ FAMILIA
+  {cat:"familia", es:"No te lo tomes a mal.", pt:"Não leva a mal.",
+   note:"<b>Palavra frequente — TOMAR:</b> 'tomarse algo a mal' = levar a mal. Doble pronombre 'te lo'.",
+   ctx:"Antes de un comentario sincero entre las Gilmore.", ep:"Recorrente (toda a série)"},
+  {cat:"familia", es:"Mamá, no empieces, por favor.", pt:"Mãe, não começa, por favor.",
+   note:"<b>Palavra frequente — EMPEZAR:</b> 'empieces' (subjuntivo em ordem negativa).",
+   ctx:"Lorelai anticipando un sermón de Emily.", ep:"Recorrente · Lorelai ↔ Emily"},
+  {cat:"familia", es:"Estoy muy orgullosa de ti.", pt:"Tô muito orgulhosa de você.",
+   note:"<b>Palavra frequente — TI:</b> 'de ti' = de você. 'orgulloso/a de' = orgulhoso de.",
+   ctx:"Uno de los momentos tiernos Lorelai-Rory.", ep:"Recorrente (toda a série)"},
+  {cat:"familia", es:"¿Me escuchas o no?", pt:"Você tá me ouvindo ou não?",
+   note:"<b>Palavra frequente — O:</b> 'o' = ou. 'escuchar' = escutar/ouvir.",
+   ctx:"Cualquier discusión a toda velocidad en casa.", ep:"Recorrente (toda a série)"},
+
+  // 😏 GENIALES
+  {cat:"genial", es:"El café primero, los problemas después.", pt:"Café primeiro, os problemas depois.",
+   note:"<b>Palavras frequentes — PRIMERO/DESPUÉS:</b> ordem no tempo. 'problema' é masculino (el problema).",
+   ctx:"El orden de prioridades de Lorelai.", ep:"Estilo recorrente (toda a série)"},
+  {cat:"genial", es:"No necesito terapia, necesito café.", pt:"Não preciso de terapia, preciso de café.",
+   note:"<b>Palavra frequente — NECESITAR:</b> 'necesito'. Estrutura 'no... , ...' de contraste.",
+   ctx:"Autoconocimiento nivel Lorelai Gilmore.", ep:"Estilo recorrente (toda a série)"},
+  {cat:"genial", es:"La vida es corta, habla rápido.", pt:"A vida é curta, fala rápido.",
+   note:"<b>Palavra frequente — VIDA:</b> 'la vida'. Piada meta: as Gilmore falam <i>rapidísimo</i>.",
+   ctx:"El ritmo de diálogo que define la serie.", ep:"Estilo recorrente (toda a série)"},
+  {cat:"genial", es:"No soy rara, soy edición limitada.", pt:"Não sou estranha, sou edição limitada.",
+   note:"<b>Palavra frequente — RARO:</b> 'raro/a' = estranho. Repetição de 'ser' (soy... soy).",
+   ctx:"La autodefensa con encanto marca de la casa.", ep:"Estilo recorrente (toda a série)"},
+  {cat:"genial", es:"Si no hay café, no hay trato.", pt:"Se não tem café, não tem acordo.",
+   note:"<b>Palavras frequentes — SI/HAY:</b> 'si' = se (condição); 'no hay' = não tem. 'trato' = acordo.",
+   ctx:"Negociación estilo Lorelai.", ep:"Estilo recorrente (toda a série)"},
+
+  // 🗣️ COLOQUIAL
+  {cat:"coloquial", es:"No tengo ni idea.", pt:"Não faço a menor ideia.",
+   note:"<b>Palavra frequente — IDEA:</b> 'no tener ni idea' = não fazer ideia. Super comum.",
+   ctx:"Reacción honesta ante los enredos del pueblo.", ep:"Recorrente (toda a série)"},
+  {cat:"coloquial", es:"¿Me estás vacilando?", pt:"Tá me zoando?",
+   note:"<b>Peninsular — VACILAR:</b> 'vacilar a alguien' = zoar/tirar sarro (España).",
+   ctx:"Cuando alguien suelta algo increíble en Stars Hollow.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Ni de coña.", pt:"Nem a pau.",
+   note:"<b>Peninsular — NI DE COÑA:</b> = de jeito nenhum (informal, muito de España).",
+   ctx:"Lorelai rechazando una idea absurda.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Está chupado.", pt:"Tá moleza.",
+   note:"<b>Peninsular — CHUPADO:</b> 'estar chupado' = ser muito fácil (España).",
+   ctx:"Rory quitándole hierro a un examen (o Lorelai fanfarroneando).", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Paso de todo hoy.", pt:"Hoje não tô nem aí pra nada.",
+   note:"<b>Peninsular — PASAR DE:</b> 'pasar de algo' = não ligar/estar de saco cheio. 'todo' = tudo.",
+   ctx:"El modo sofá total de Lorelai.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Qué agobio, en serio.", pt:"Que sufoco, sério.",
+   note:"<b>Peninsular — AGOBIO:</b> = sufoco/estresse. 'agobiarse' = estressar-se (muito España).",
+   ctx:"Lorelai con mil cosas a la vez.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Vale la pena, te lo prometo.", pt:"Vale a pena, prometo.",
+   note:"<b>Palavra frequente — PROMETER:</b> 'prometo'. 'valer la pena' = valer a pena.",
+   ctx:"Lorelai convenciendo a Rory de algún plan.", ep:"Recorrente (toda a série)"},
+  {cat:"coloquial", es:"Anda ya, no me lo creo.", pt:"Ah, fala sério, não acredito.",
+   note:"<b>Peninsular — ANDA YA:</b> = 'qual é!/fala sério'. 'creer' = acreditar.",
+   ctx:"Reacción a un cotilleo jugoso del pueblo.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Déjame en paz un rato.", pt:"Me deixa em paz um pouco.",
+   note:"<b>Palavra frequente — DEJAR:</b> 'déjame' (imperativo + me). 'un rato' = um tempinho.",
+   ctx:"Adolescente Rory, o Lorelai sin café.", ep:"Recorrente (toda a série)"},
+  {cat:"coloquial", es:"¿Te apuntas o no?", pt:"Tá dentro ou não?",
+   note:"<b>Peninsular — APUNTARSE:</b> 'apuntarse a algo' = topar/entrar num plano.",
+   ctx:"Invitación a un plan improvisado del pueblo.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Estoy de bajón.", pt:"Tô pra baixo.",
+   note:"<b>Peninsular — BAJÓN:</b> 'estar de bajón' = estar pra baixo/triste (España).",
+   ctx:"Un día gris, incluso en Stars Hollow.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"coloquial", es:"Menudo día llevo.", pt:"Que dia puxado o meu.",
+   note:"<b>Peninsular — MENUDO:</b> 'menudo día' = ironia (que dia!). 'llevar' aqui = estar tendo.",
+   ctx:"Lorelai tras una jornada imposible.", ep:"Adaptação peninsular · fala genérica"},
+
+  // 🛒 COMPRAS
+  {cat:"compras", es:"¿Cuánto es todo?", pt:"Quanto é tudo?",
+   note:"<b>Palavra frequente — CUÁNTO:</b> 'cuánto' = quanto. Pergunta essencial ao pagar.",
+   ctx:"En cualquier tienda de Stars Hollow (Doose's Market).", ep:"Adaptação peninsular · recados"},
+  {cat:"compras", es:"¿Se puede pagar con tarjeta?", pt:"Dá pra pagar no cartão?",
+   note:"<b>Palavra frequente — PAGAR:</b> 'pagar'. 'se puede' = dá/pode. 'tarjeta' = cartão.",
+   ctx:"Compras del día a día en el pueblo.", ep:"Adaptação peninsular · recados"},
+  {cat:"compras", es:"Me lo llevo.", pt:"Vou levar (esse).",
+   note:"<b>Palavra frequente — LLEVAR:</b> 'llevarse algo' = levar (na compra). 'lo' = o item.",
+   ctx:"Decisión rápida de compra.", ep:"Adaptação peninsular · recados"},
+  {cat:"compras", es:"Solo estoy mirando, gracias.", pt:"Só tô olhando, obrigada.",
+   note:"<b>Palavra frequente — MIRAR:</b> 'estar mirando' = estar (só) olhando. 'solo' = só.",
+   ctx:"Esquivando a un vendedor amable.", ep:"Adaptação peninsular · recados"},
+  {cat:"compras", es:"¿Tienes cambio de veinte?", pt:"Tem troco de vinte?",
+   note:"<b>Palavras frequentes — VEINTE/CAMBIO:</b> número 'veinte'; 'cambio' = troco (España).",
+   ctx:"Pagando algo pequeño en el mercado.", ep:"Adaptação peninsular · recados"},
+  {cat:"compras", es:"Voy a hacer la compra.", pt:"Vou fazer o mercado / as compras.",
+   note:"<b>Palavra frequente — HACER:</b> 'hacer la compra' = fazer mercado (España, singular).",
+   ctx:"La tarea que en casa Gilmore nunca se hace.", ep:"Adaptação peninsular · recados"},
+  {cat:"compras", es:"Es demasiado caro.", pt:"Tá caro demais.",
+   note:"<b>Palavra frequente — DEMASIADO:</b> 'demasiado' = demais. 'caro' = caro.",
+   ctx:"Lorelai frente a algo carísimo.", ep:"Adaptação peninsular · recados"},
+
+  // 🚌 CIUDAD
+  {cat:"ciudad", es:"¿Cómo llego a la estación?", pt:"Como chego na estação?",
+   note:"<b>Palavras frequentes — CÓMO/LLEGAR:</b> 'cómo' = como; 'llegar a' = chegar a.",
+   ctx:"Rory rumbo al tren para Nueva York/Yale.", ep:"Adaptação peninsular · deslocamentos"},
+  {cat:"ciudad", es:"Está aquí al lado.", pt:"É aqui do lado / pertinho.",
+   note:"<b>Palavras frequentes — AQUÍ/LADO:</b> 'aquí' = aqui; 'al lado' = do lado.",
+   ctx:"Todo en Stars Hollow queda 'al lado'.", ep:"Adaptação peninsular · deslocamentos"},
+  {cat:"ciudad", es:"Coge la primera a la derecha.", pt:"Pega a primeira à direita.",
+   note:"<b>Palavras frequentes — COGER/DERECHA:</b> 'coger' = pegar (España); 'derecha' = direita.",
+   ctx:"Dando indicaciones por el pueblo.", ep:"Adaptação peninsular · deslocamentos"},
+  {cat:"ciudad", es:"Se me ha pasado la parada.", pt:"Passei do ponto.",
+   note:"<b>Palavra frequente — PASAR:</b> 'pasársele la parada' = perder o ponto/parada. Perfecto (has/ha).",
+   ctx:"Rory distraída con un libro en el bus.", ep:"Adaptação peninsular · deslocamentos"},
+  {cat:"ciudad", es:"Vamos andando, está cerca.", pt:"Vamos a pé, é perto.",
+   note:"<b>Palavra frequente — CERCA:</b> 'cerca' = perto. 'ir andando' = ir a pé.",
+   ctx:"Paseo típico por las calles de Stars Hollow.", ep:"Adaptação peninsular · deslocamentos"},
+  {cat:"ciudad", es:"¿Está muy lejos?", pt:"É muito longe?",
+   note:"<b>Palavras frequentes — MUY/LEJOS:</b> 'muy' = muito; 'lejos' = longe.",
+   ctx:"Antes de decidir si ir andando o en coche.", ep:"Adaptação peninsular · deslocamentos"},
+
+  // 🩺 SALUD
+  {cat:"salud", es:"No me encuentro bien.", pt:"Não tô me sentindo bem.",
+   note:"<b>Peninsular — ENCONTRARSE:</b> 'no me encuentro bien' = não me sinto bem (España).",
+   ctx:"Rory o Lorelai un día flojo.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"salud", es:"Me duele la cabeza.", pt:"Tô com dor de cabeça.",
+   note:"<b>Palavra frequente — DOLER:</b> 'me duele' (como 'gustar'). 'cabeza' = cabeça.",
+   ctx:"Después de una noche de poco dormir.", ep:"Recorrente (toda a série)"},
+  {cat:"salud", es:"Necesito dormir más.", pt:"Preciso dormir mais.",
+   note:"<b>Palavras frequentes — DORMIR/MÁS:</b> 'dormir'; 'más' = mais.",
+   ctx:"El eterno déficit de sueño de las Gilmore.", ep:"Recorrente (toda a série)"},
+  {cat:"salud", es:"Estoy hecha polvo.", pt:"Tô destruída / acabada.",
+   note:"<b>Peninsular — HECHO POLVO:</b> 'estar hecho/a polvo' = estar exausto (España).",
+   ctx:"Lorelai tras un día imposible en la posada.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"salud", es:"Creo que me estoy resfriando.", pt:"Acho que tô ficando resfriada.",
+   note:"<b>Palavra frequente — CREER:</b> 'creo que' = acho que. 'resfriarse' = ficar resfriado.",
+   ctx:"Otoño en Stars Hollow, temporada de resfriados.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"salud", es:"Tómate esto, te sentará bien.", pt:"Toma isso, vai te fazer bem.",
+   note:"<b>Peninsular — SENTAR BIEN:</b> 'sentar bien' = fazer bem/cair bem (comida, remédio).",
+   ctx:"Sookie o Lorelai en modo cuidadora.", ep:"Adaptação peninsular · fala genérica"},
+
+  // 📅 PLANES / TIEMPO
+  {cat:"planes", es:"¿Quedamos mañana?", pt:"Combinamos de nos ver amanhã?",
+   note:"<b>Peninsular-chave — QUEDAR:</b> 'quedar (con alguien)' = marcar de se encontrar. Uso nº1 na Espanha!",
+   ctx:"Lorelai organizando un plan con Sookie.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"planes", es:"¿Qué planes tienes para el finde?", pt:"Que planos você tem pro fim de semana?",
+   note:"<b>Peninsular — FINDE:</b> 'el finde' = fim de semana (informal, España). 'planes' = planos.",
+   ctx:"La eterna pregunta de los viernes (antes de la cena de Emily).", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"planes", es:"Nos vemos sobre las ocho.", pt:"A gente se vê lá pelas oito.",
+   note:"<b>Palavras frequentes — VER/OCHO:</b> 'nos vemos' = a gente se vê; 'sobre las ocho' = por volta das 8.",
+   ctx:"Cerrando un plan en Stars Hollow.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"planes", es:"¿A qué hora quedamos?", pt:"Que horas a gente marca?",
+   note:"<b>Palavra frequente — HORA:</b> '¿a qué hora?' = a que horas. 'quedar' = marcar (España).",
+   ctx:"Afinando los detalles de un encuentro.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"planes", es:"Hoy hace un frío que pela.", pt:"Hoje tá um frio de rachar.",
+   note:"<b>Palavra frequente — HACER (clima):</b> 'hace frío' = está frio. 'que pela' = de rachar (España).",
+   ctx:"Invierno en Connecticut, nieve incluida.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"planes", es:"Te llamo luego, ¿vale?", pt:"Te ligo depois, tá?",
+   note:"<b>Palavra frequente — LLAMAR:</b> 'te llamo' = te ligo. 'luego' = depois; 'vale' = tá (España).",
+   ctx:"Cerrando una conversación a la carrera.", ep:"Adaptação peninsular · fala genérica"},
+
+  // ===== LOTE 3 · vozes dos personagens =====
+  // ☕🍔 LUKE (rabugento, prático, dono do diner)
+  {cat:"café", es:"Eso no es café, es un batido con nombre elegante.", pt:"Isso não é café, é um milk-shake com nome chique.",
+   note:"<b>Genial — 'eso no es X, es Y':</b> molde perfeito de ironia. 'batido' = milk-shake (España).",
+   ctx:"Luke criticando los pedidos azucarados de Lorelai.", ep:"Gag recorrente Luke↔Lorelai"},
+  {cat:"café", es:"No pienso ponerte más café.", pt:"Não vou te servir mais café.",
+   note:"<b>Estrutura — 'no pienso + infinitivo':</b> me recuso a / nem vou. 'poner' = servir (España).",
+   ctx:"Luke intentando (en vano) frenar a Lorelai.", ep:"Gag recorrente Luke↔Lorelai"},
+  {cat:"comida", es:"Cómete algo de verdura, por el amor de Dios.", pt:"Come uma verdura, pelo amor de Deus.",
+   note:"<b>Imperativo — 'cómete':</b> come (+te). 'verdura' = legume/verdura; 'por el amor de Dios' = pelo amor de Deus.",
+   ctx:"Luke preocupado con la dieta imposible de las Gilmore.", ep:"Gag recorrente · dieta Gilmore"},
+  {cat:"coloquial", es:"Deja de darme la lata.", pt:"Para de me encher o saco.",
+   note:"<b>Peninsular — 'dar la lata':</b> importunar/encher o saco. 'deja de + inf' = para de.",
+   ctx:"Luke gruñón con los clientes del diner.", ep:"Adaptação peninsular · registro Luke"},
+  {cat:"genial", es:"No me hace ninguna gracia.", pt:"Não tô achando a menor graça.",
+   note:"<b>Idiom — 'hacer gracia':</b> achar graça. 'no... ninguna' = nenhuma.",
+   ctx:"Luke sin paciencia para las bromas del pueblo.", ep:"Adaptação peninsular · registro Luke"},
+  {cat:"planes", es:"Cierro en cinco minutos.", pt:"Fecho em cinco minutos.",
+   note:"<b>Frequente — 'cerrar':</b> fechar. Número + tempo, útil no dia a dia.",
+   ctx:"Luke echando a los últimos clientes del diner.", ep:"Recorrente · Luke's Diner"},
+
+  // ☕😏 LORELAI (rápida, irônica, café + comida ruim)
+  {cat:"comida", es:"Necesito comida basura y la necesito ya.", pt:"Preciso de porcaria pra comer e preciso já.",
+   note:"<b>Peninsular — 'comida basura':</b> junk food. 'ya' = agora mesmo.",
+   ctx:"Lorelai en modo crisis total.", ep:"Recorrente · dieta Lorelai"},
+  {cat:"genial", es:"Soy una adulta muy responsable. Es broma.", pt:"Sou uma adulta super responsável. Brincadeira.",
+   note:"<b>Coloquial — 'es broma':</b> é brincadeira. 'adulta' = adulta.",
+   ctx:"Lorelai riéndose de su propia vida caótica.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"genial", es:"Voy a fingir que no he oído eso.", pt:"Vou fingir que não ouvi isso.",
+   note:"<b>Útil — 'fingir' + pretérito perfecto 'he oído':</b> fazer de conta que não ouviu.",
+   ctx:"Lorelai esquivando un comentario de su madre.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"genial", es:"Tengo un don especial para meterme en líos.", pt:"Tenho um dom especial pra arranjar confusão.",
+   note:"<b>Idiom — 'tener un don' + 'meterse en líos':</b> ter um dom / se meter em enrascada.",
+   ctx:"Autoconciencia clásica de Lorelai.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"comida", es:"No juzgues mi desayuno.", pt:"Não julga meu café da manhã.",
+   note:"<b>Imperativo negativo — 'no juzgues' (juzgar):</b> não julgue. 'desayuno' = café da manhã.",
+   ctx:"Lorelai defendiendo donuts a las siete de la mañana.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"genial", es:"Puedo explicarlo todo. Bueno, casi todo.", pt:"Posso explicar tudo. Bom, quase tudo.",
+   note:"<b>Timing cómico — 'explicar' + 'casi':</b> explicar / quase.",
+   ctx:"Lorelai pillada en un aprieto.", ep:"Estilo recorrente · Lorelai"},
+
+  // 🍳❤️ SOOKIE (chef desastrada e calorosa)
+  {cat:"comida", es:"¡Cuidado, que quema!", pt:"Cuidado, tá pelando!",
+   note:"<b>Cozinha — 'quemar':</b> queimar/estar quente. '¡cuidado!' = cuidado.",
+   ctx:"Sookie en la cocina del hotel, siempre en pleno accidente.", ep:"Recorrente · cozinha (Sookie)"},
+  {cat:"comida", es:"Prueba esto, te va a encantar.", pt:"Experimenta isso, você vai amar.",
+   note:"<b>Dupla útil — 'probar' + 'encantar':</b> experimentar / adorar.",
+   ctx:"Sookie empujando un plato nuevo a quien pase.", ep:"Recorrente · Sookie chef"},
+  {cat:"comida", es:"Se me ha quemado la salsa otra vez.", pt:"Queimei o molho de novo.",
+   note:"<b>Reflexivo — 'se me ha quemado':</b> (a culpa é do molho!). 'salsa' = molho.",
+   ctx:"Sookie y sus desastres deliciosos.", ep:"Recorrente · cozinha (Sookie)"},
+  {cat:"comida", es:"He preparado comida para un ejército.", pt:"Fiz comida pra um exército.",
+   note:"<b>Exagero — 'para un ejército':</b> pra um batalhão. 'preparar' = preparar.",
+   ctx:"Sookie nunca cocina poco.", ep:"Recorrente · Sookie chef"},
+  {cat:"estudio", es:"En mi cocina mando yo.", pt:"Na minha cozinha quem manda sou eu.",
+   note:"<b>Frequente — 'mandar':</b> mandar/dar as ordens.",
+   ctx:"Sookie, dulce pero territorial entre los fogones.", ep:"Recorrente · Sookie chef"},
+
+  // 📚🎓 RORY (leitora, ambiciosa, educada)
+  {cat:"estudio", es:"Me he quedado leyendo hasta tardísimo.", pt:"Fiquei lendo até tardíssimo.",
+   note:"<b>'quedarse + gerúndio' + '-ísimo':</b> ficar fazendo algo / super. 'leer' = ler.",
+   ctx:"Rory y su amor incurable por los libros.", ep:"Recorrente · Rory leitora"},
+  {cat:"estudio", es:"Saqué muy buena nota en el examen.", pt:"Tirei uma nota muito boa na prova.",
+   note:"<b>Peninsular — 'sacar nota':</b> tirar nota. 'examen' = prova.",
+   ctx:"Rory, alumna modelo en Chilton y Yale.", ep:"Recorrente · Chilton/Yale"},
+  {cat:"estudio", es:"Quiero estudiar Periodismo.", pt:"Quero estudar Jornalismo.",
+   note:"<b>Frequente — 'querer' + carreira:</b> 'Periodismo' = Jornalismo.",
+   ctx:"El sueño de Rory desde niña.", ep:"Recorrente · ambição de Rory"},
+  {cat:"ciudad", es:"Tengo que devolver estos libros a la biblioteca.", pt:"Tenho que devolver esses livros na biblioteca.",
+   note:"<b>Frequente — 'devolver':</b> devolver. 'biblioteca' = biblioteca.",
+   ctx:"Rory, clienta número uno de la biblioteca.", ep:"Recorrente · Rory leitora"},
+  {cat:"estudio", es:"No quiero llegar tarde a clase.", pt:"Não quero chegar atrasada na aula.",
+   note:"<b>Útil — 'llegar tarde a clase':</b> chegar atrasado na aula.",
+   ctx:"Rory, puntualidad obsesiva rumbo a Chilton.", ep:"Recorrente · Chilton"},
+
+  // 🎩💎 EMILY (protocolo, controle, culpa elegante)
+  {cat:"familia", es:"Esto es totalmente inaceptable.", pt:"Isso é totalmente inaceitável.",
+   note:"<b>Registro Emily — 'inaceptable':</b> inaceitável. 'totalmente' = totalmente.",
+   ctx:"Emily ante cualquier cosa fuera del protocolo.", ep:"Recorrente · registro Emily"},
+  {cat:"familia", es:"¿Y así piensas salir a la calle?", pt:"E você pensa em sair assim na rua?",
+   note:"<b>Crítica elegante — 'pensar + inf':</b> 'salir a la calle' = sair na rua.",
+   ctx:"Emily evaluando el look de Lorelai o Rory.", ep:"Recorrente · registro Emily"},
+  {cat:"familia", es:"Espero verte el viernes, sin excusas.", pt:"Espero te ver sexta, sem desculpas.",
+   note:"<b>Útil — 'espero verte' + 'sin excusas':</b> as cenas de sexta em uma frase.",
+   ctx:"Emily cobrando la cena semanal a Lorelai.", ep:"Origem T1·E1 · jantares de sexta"},
+  {cat:"familia", es:"No seas ridícula, Lorelai.", pt:"Não seja ridícula, Lorelai.",
+   note:"<b>Imperativo negativo — 'no seas' (ser):</b> não seja.",
+   ctx:"Emily descartando un argumento de su hija.", ep:"Recorrente · Emily ↔ Lorelai"},
+  {cat:"familia", es:"La criada nueva no durará ni una semana.", pt:"A empregada nova não dura nem uma semana.",
+   note:"<b>Gag recorrente — 'criada' + 'durar':</b> empregada / durar. Emily troca de empregada sem parar.",
+   ctx:"La puerta giratoria de criadas de la mansión Gilmore.", ep:"Gag recorrente · casa dos Gilmore"},
+
+  // 🥃📈 RICHARD (digno, homem de negócios, coração mole)
+  {cat:"familia", es:"En mis tiempos, esto no se hacía así.", pt:"No meu tempo, isso não se fazia assim.",
+   note:"<b>Estrutura — 'en mis tiempos' + 'se hacía' (impessoal):</b> no meu tempo.",
+   ctx:"Richard, patriarca de la vieja escuela.", ep:"Recorrente · registro Richard"},
+  {cat:"estudio", es:"Los negocios son los negocios.", pt:"Negócios são negócios.",
+   note:"<b>Ditado — 'los negocios':</b> os negócios. Richard, homem de seguros.",
+   ctx:"Richard sentando cátedra sobre el trabajo.", ep:"Recorrente · registro Richard"},
+  {cat:"familia", es:"Siéntate, tenemos que hablar de tu futuro.", pt:"Senta, temos que falar do seu futuro.",
+   note:"<b>Imperativo — 'siéntate' + 'hablar de':</b> senta / falar sobre. 'futuro' = futuro.",
+   ctx:"Richard tomando las riendas, casi siempre con Rory.", ep:"Recorrente · Richard & Rory"},
+
+  // 🛎️😤 MICHEL + vilarejo + Lorelai/Rory
+  {cat:"coloquial", es:"No pienso hacer eso, ni hablar.", pt:"Não vou fazer isso, nem pensar.",
+   note:"<b>Enfático — 'ni hablar':</b> nem pensar/de jeito nenhum.",
+   ctx:"Michel, el conserje esnob del Independence Inn.", ep:"Adaptação peninsular · registro Michel"},
+  {cat:"estudio", es:"El teléfono no para de sonar.", pt:"O telefone não para de tocar.",
+   note:"<b>Idiom — 'no parar de + inf' + 'sonar':</b> não parar de / tocar (telefone).",
+   ctx:"Recepción del Independence Inn en un día de locos.", ep:"Recorrente · Independence Inn"},
+  {cat:"familia", es:"Eres mi persona favorita en el mundo entero.", pt:"Você é minha pessoa favorita no mundo inteiro.",
+   note:"<b>Afeto — 'favorita' + 'el mundo entero':</b> favorita / o mundo inteiro.",
+   ctx:"Lorelai y Rory, el corazón de la serie.", ep:"Recorrente · Lorelai & Rory"},
+  {cat:"coloquial", es:"Para el carro, ¿qué acabas de decir?", pt:"Peraí, o que você acabou de dizer?",
+   note:"<b>Idiom — 'para el carro':</b> espera aí/calma lá. 'acabar de + inf' = acabar de.",
+   ctx:"Reacción a una bomba de cotilleo del pueblo.", ep:"Adaptação peninsular · fala genérica"},
+  {cat:"genial", es:"Café, tú nunca me fallas.", pt:"Café, você nunca me decepciona.",
+   note:"<b>Frequente — 'fallar':</b> falhar/decepcionar.",
+   ctx:"La relación más estable de la vida de Lorelai.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"planes", es:"¿Te recojo a las siete?", pt:"Te pego às sete?",
+   note:"<b>Peninsular — 'recoger a alguien':</b> buscar/pegar alguém. 'a las siete' = às sete.",
+   ctx:"Cerrando quién lleva a quién por el pueblo.", ep:"Adaptação peninsular · deslocamentos"},
+  {cat:"rutina", es:"Se me ha hecho tarde otra vez, típico.", pt:"Me atrasei de novo, típico.",
+   note:"<b>'hacérsele tarde' + 'típico':</b> ficar tarde / clássico.",
+   ctx:"La puntualidad dudosa de Lorelai.", ep:"Recorrente (toda a série)"},
+  {cat:"familia", es:"No te preocupes por mí, estoy bien.", pt:"Não se preocupa comigo, tô bem.",
+   note:"<b>Frequente — 'preocuparse por':</b> se preocupar com.",
+   ctx:"Lorelai minimizando las cosas, como siempre.", ep:"Recorrente (toda a série)"},
+
+  // ===== LOTE 4 · rumo às 200 (foco nos principais + Paris/Kirk/Michel) =====
+  // 😏 LORELAI
+  {cat:"genial", es:"Yo funciono a base de café y sarcasmo.", pt:"Eu funciono à base de café e sarcasmo.",
+   note:"<b>Idiom — 'a base de':</b> à base de. 'funcionar' = funcionar.",
+   ctx:"Autodefinición perfecta de Lorelai.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"comida", es:"¿Postre antes de cenar? Obviamente.", pt:"Sobremesa antes do jantar? Óbvio.",
+   note:"<b>Vocab — 'postre'/'cenar' + 'obviamente':</b> sobremesa / jantar / óbvio.",
+   ctx:"La lógica alimentaria de Lorelai.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"genial", es:"No estoy de mal humor, estoy sin café.", pt:"Não tô de mau humor, tô sem café.",
+   note:"<b>Idiom — 'estar de mal humor':</b> estar de mau humor.",
+   ctx:"Lorelai antes de la primera taza.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"familia", es:"Hablo demasiado cuando estoy nerviosa.", pt:"Falo demais quando tô nervosa.",
+   note:"<b>Frequente — 'demasiado' + 'nervioso':</b> demais / nervoso.",
+   ctx:"Lorelai en una escena tensa con Emily.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"coloquial", es:"Es una idea malísima. Me encanta.", pt:"É uma ideia péssima. Adorei.",
+   note:"<b>'-ísimo' (malísima) + 'encantar':</b> super ruim / adorar.",
+   ctx:"Lorelai apuntándose a un plan dudoso.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"rutina", es:"Cinco minutos más y me levanto, lo prometo.", pt:"Mais cinco minutos e eu levanto, prometo.",
+   note:"<b>Frequente — 'levantarse' + 'prometer':</b> levantar / prometer.",
+   ctx:"Lorelai peleándose con la mañana.", ep:"Recorrente (toda a série)"},
+  {cat:"genial", es:"Improviso. Es mi mayor talento.", pt:"Improviso. É meu maior talento.",
+   note:"<b>Vocab — 'improvisar' + 'mayor':</b> improvisar / maior.",
+   ctx:"Lorelai gestionando el caos con gracia.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"familia", es:"Te lo digo como madre y como amiga.", pt:"Te falo como mãe e como amiga.",
+   note:"<b>Chave da série — 'como madre y como amiga':</b> a relação Lorelai–Rory.",
+   ctx:"Lorelai aconsejando a Rory.", ep:"Recorrente · Lorelai & Rory"},
+  {cat:"planes", es:"¿Nos escapamos y comemos tortitas?", pt:"A gente foge e come panqueca?",
+   note:"<b>'escaparse' + 'tortitas' (panqueca, España):</b> fugir / panquecas.",
+   ctx:"Lorelai proponiendo escapismo con comida.", ep:"Recorrente · noites Gilmore"},
+  {cat:"coloquial", es:"Venga, cuéntamelo todo con pelos y señales.", pt:"Vai, me conta tudo com todos os detalhes.",
+   note:"<b>Peninsular — 'con pelos y señales':</b> com todos os detalhes.",
+   ctx:"Lorelai hambrienta de cotilleo.", ep:"Adaptação peninsular · Lorelai"},
+  {cat:"comida", es:"Un trozo de tarta lo arregla casi todo.", pt:"Um pedaço de bolo resolve quase tudo.",
+   note:"<b>'trozo' + 'arreglar':</b> pedaço / resolver. 'tarta' = bolo.",
+   ctx:"La filosofía reparadora de Lorelai.", ep:"Estilo recorrente · Lorelai"},
+
+  // 🍔 LUKE
+  {cat:"café", es:"Te lo aviso: es el último de hoy.", pt:"Te aviso: é o último de hoje.",
+   note:"<b>Frequente — 'avisar' + 'el último':</b> avisar / o último.",
+   ctx:"Luke racionando el café de Lorelai.", ep:"Gag recorrente Luke↔Lorelai"},
+  {cat:"comida", es:"Aquí no servimos eso, esto es un diner.", pt:"Aqui a gente não serve isso, isso é um diner.",
+   note:"<b>Frequente — 'servir':</b> servir. 'esto es' = isto é.",
+   ctx:"Luke rechazando pedidos exóticos.", ep:"Recorrente · Luke's Diner"},
+  {cat:"coloquial", es:"No te enfades, solo digo la verdad.", pt:"Não fica bravo, só falo a verdade.",
+   note:"<b>Peninsular — 'enfadarse' + 'la verdad':</b> ficar bravo / a verdade.",
+   ctx:"Luke sincero hasta doler.", ep:"Adaptação peninsular · registro Luke"},
+  {cat:"rutina", es:"Tengo que arreglar el grifo otra vez.", pt:"Tenho que consertar a torneira de novo.",
+   note:"<b>Peninsular — 'arreglar' + 'grifo' (torneira):</b> consertar / torneira.",
+   ctx:"Luke, el manitas del pueblo.", ep:"Recorrente · registro Luke"},
+  {cat:"familia", es:"Cuida de ella, ¿me oyes?", pt:"Cuida dela, tá me ouvindo?",
+   note:"<b>Frequente — 'cuidar de' + 'oír':</b> cuidar de / ouvir.",
+   ctx:"Luke, protector a su manera gruñona.", ep:"Recorrente · registro Luke"},
+  {cat:"comida", es:"Si tienes hambre, te hago una hamburguesa.", pt:"Se tá com fome, faço um hambúrguer pra você.",
+   note:"<b>'tener hambre' + 'hacer':</b> estar com fome / fazer.",
+   ctx:"Luke demostrando cariño con comida.", ep:"Recorrente · Luke's Diner"},
+  {cat:"coloquial", es:"Ya está bien, se acabó.", pt:"Já chega, acabou.",
+   note:"<b>Peninsular — 'ya está bien' + 'se acabó':</b> já chega / acabou.",
+   ctx:"Luke poniendo punto final a algo.", ep:"Adaptação peninsular · registro Luke"},
+  {cat:"café", es:"¿De verdad necesitas otro café?", pt:"Você precisa mesmo de mais um café?",
+   note:"<b>'de verdad' + 'otro':</b> de verdade/mesmo / mais um.",
+   ctx:"Luke, incrédulo ante Lorelai.", ep:"Gag recorrente Luke↔Lorelai"},
+
+  // 📚 RORY
+  {cat:"estudio", es:"Tengo que entregar el trabajo mañana.", pt:"Tenho que entregar o trabalho amanhã.",
+   note:"<b>Frequente — 'entregar' + 'trabajo':</b> entregar / trabalho (acadêmico).",
+   ctx:"Rory, siempre dentro del plazo.", ep:"Recorrente · Chilton/Yale"},
+  {cat:"estudio", es:"Me han aceptado en la universidad.", pt:"Fui aceita na universidade.",
+   note:"<b>Pretérito perfecto — 'me han aceptado' + 'universidad':</b> aceitar / universidade.",
+   ctx:"Rory viviendo uno de sus grandes logros.", ep:"Recorrente · ambição de Rory"},
+  {cat:"estudio", es:"Necesito silencio para concentrarme.", pt:"Preciso de silêncio pra me concentrar.",
+   note:"<b>Vocab — 'silencio' + 'concentrarse':</b> silêncio / se concentrar.",
+   ctx:"Rory en pleno estudio.", ep:"Recorrente · Rory leitora"},
+  {cat:"coloquial", es:"No sé qué hacer, estoy hecha un lío.", pt:"Não sei o que fazer, tô super confusa.",
+   note:"<b>Peninsular — 'estar hecho un lío':</b> estar confuso/enrolado.",
+   ctx:"Rory ante un dilema (chicos, facultad).", ep:"Adaptação peninsular · Rory"},
+  {cat:"familia", es:"No quiero decepcionarte, mamá.", pt:"Não quero te decepcionar, mãe.",
+   note:"<b>Frequente — 'decepcionar':</b> decepcionar.",
+   ctx:"La presión que Rory se pone a sí misma.", ep:"Recorrente · Lorelai & Rory"},
+  {cat:"ciudad", es:"El autobús a Yale sale a las ocho.", pt:"O ônibus pra Yale sai às oito.",
+   note:"<b>Vocab — 'autobús' + 'salir':</b> ônibus / sair (partir).",
+   ctx:"Rory rumbo a la universidad.", ep:"Recorrente · Yale (T4)"},
+  {cat:"estudio", es:"Leo más rápido de lo que hablo.", pt:"Leio mais rápido do que falo.",
+   note:"<b>Estrutura — 'más... de lo que...':</b> comparação. 'leer'/'hablar'.",
+   ctx:"Rory, rata de biblioteca declarada.", ep:"Recorrente · Rory leitora"},
+  {cat:"genial", es:"Prefiero un buen libro a una fiesta.", pt:"Prefiro um bom livro a uma festa.",
+   note:"<b>Estrutura — 'preferir X a Y':</b> preferir. 'libro'/'fiesta'.",
+   ctx:"Rory, introvertida sin complejos.", ep:"Recorrente · Rory leitora"},
+  {cat:"planes", es:"¿Vienes conmigo a la librería?", pt:"Vem comigo na livraria?",
+   note:"<b>Falso amigo — 'librería' = livraria</b> (≠ biblioteca). 'venir conmigo' = vir comigo.",
+   ctx:"Rory arrastrando a alguien a por libros.", ep:"Recorrente · Rory leitora"},
+
+  // 💎 EMILY
+  {cat:"familia", es:"¿Por qué nunca me cuentas nada?", pt:"Por que você nunca me conta nada?",
+   note:"<b>Frequente — 'contar' + 'nunca... nada':</b> contar / nunca nada.",
+   ctx:"Emily dolida por la distancia de su hija.", ep:"Recorrente · Emily ↔ Lorelai"},
+  {cat:"familia", es:"He contratado a un organizador para la fiesta.", pt:"Contratei um organizador pra festa.",
+   note:"<b>Vocab — 'contratar' + 'fiesta':</b> contratar / festa.",
+   ctx:"Emily y sus eventos sociales impecables.", ep:"Recorrente · registro Emily"},
+  {cat:"familia", es:"Compórtate, hay invitados.", pt:"Se comporta, tem convidados.",
+   note:"<b>Imperativo — 'compórtate' + 'invitados':</b> se comporte / convidados.",
+   ctx:"Emily antes de una cena formal.", ep:"Recorrente · registro Emily"},
+  {cat:"familia", es:"En esta casa se cena a las siete en punto.", pt:"Nesta casa se janta às sete em ponto.",
+   note:"<b>Impessoal — 'se cena' + 'en punto':</b> janta-se / em ponto.",
+   ctx:"La rigidez de horarios de Emily.", ep:"Recorrente · jantares de sexta"},
+  {cat:"genial", es:"No pienso discutir esto contigo.", pt:"Não vou discutir isso com você.",
+   note:"<b>'no pienso + inf' + 'discutir':</b> me recuso a / discutir.",
+   ctx:"Emily cerrando el tema en seco.", ep:"Recorrente · Emily ↔ Lorelai"},
+  {cat:"familia", es:"Te he echado de menos, aunque no lo creas.", pt:"Senti sua falta, mesmo que você não acredite.",
+   note:"<b>Peninsular — 'echar de menos' (sentir falta) + 'aunque' + subj.:</b> sentir falta.",
+   ctx:"Emily en un raro momento de vulnerabilidad.", ep:"Recorrente · Emily ↔ Lorelai"},
+  {cat:"compras", es:"Esto lo compramos en París, naturalmente.", pt:"Isso a gente comprou em Paris, claro.",
+   note:"<b>'comprar' + 'naturalmente':</b> comprar / naturalmente (com pose).",
+   ctx:"Emily exhibiendo su refinamiento.", ep:"Recorrente · registro Emily"},
+
+  // 🥃 RICHARD
+  {cat:"familia", es:"Estoy muy orgulloso de mi nieta.", pt:"Tô muito orgulhoso da minha neta.",
+   note:"<b>'orgulloso de' + 'nieta':</b> orgulhoso de / neta.",
+   ctx:"Richard y Rory, el dúo entrañable.", ep:"Recorrente · Richard & Rory"},
+  {cat:"estudio", es:"El trabajo duro siempre da sus frutos.", pt:"O trabalho duro sempre dá frutos.",
+   note:"<b>Idiom — 'trabajo duro' + 'dar frutos':</b> trabalho duro / render frutos.",
+   ctx:"Richard soltando lecciones de vida.", ep:"Recorrente · registro Richard"},
+  {cat:"familia", es:"Ven a verme al despacho.", pt:"Vem me ver no escritório.",
+   note:"<b>Peninsular — 'venir a ver' + 'despacho' (escritório):</b> vir ver / escritório.",
+   ctx:"Richard llamando a Rory para charlar.", ep:"Recorrente · Richard & Rory"},
+  {cat:"genial", es:"Un caballero siempre cumple su palabra.", pt:"Um cavalheiro sempre cumpre a palavra.",
+   note:"<b>'caballero' + 'cumplir su palabra':</b> cavalheiro / cumprir a palavra.",
+   ctx:"El código de honor de Richard.", ep:"Recorrente · registro Richard"},
+  {cat:"planes", es:"Reservé mesa en el club para las ocho.", pt:"Reservei mesa no clube pras oito.",
+   note:"<b>'reservar mesa' + hora:</b> reservar mesa. 'para las ocho' = pras oito.",
+   ctx:"Richard y la vida de club social.", ep:"Recorrente · registro Richard"},
+
+  // 🍳 SOOKIE
+  {cat:"comida", es:"Le falta un poquito de sal.", pt:"Tá faltando um pouquinho de sal.",
+   note:"<b>Frequente — 'faltar' + 'sal':</b> faltar / sal.",
+   ctx:"Sookie ajustando el punto de un plato.", ep:"Recorrente · cozinha (Sookie)"},
+  {cat:"comida", es:"Este pastel me ha salido perfecto.", pt:"Esse bolo ficou perfeito.",
+   note:"<b>'salir' (dar certo) + 'pastel':</b> ficar (bem feito) / bolo.",
+   ctx:"Sookie orgullosa de una dulce victoria.", ep:"Recorrente · Sookie chef"},
+  {cat:"salud", es:"Me he cortado un dedo, pero estoy bien.", pt:"Cortei o dedo, mas tô bem.",
+   note:"<b>'cortarse' + 'dedo':</b> se cortar / dedo.",
+   ctx:"Sookie y sus accidentes de cocina.", ep:"Recorrente · cozinha (Sookie)"},
+  {cat:"comida", es:"¿A que está riquísimo?", pt:"Não é que tá uma delícia?",
+   note:"<b>Peninsular — '¿a que...?' + 'riquísimo':</b> né que? / gostosíssimo.",
+   ctx:"Sookie buscando aprobación al instante.", ep:"Recorrente · Sookie chef"},
+  {cat:"planes", es:"Yo me encargo de la comida, tú de lo demás.", pt:"Eu cuido da comida, você do resto.",
+   note:"<b>'encargarse de' + 'lo demás':</b> se encarregar de / o resto.",
+   ctx:"Sookie y Lorelai montando un evento.", ep:"Recorrente · Sookie & Lorelai"},
+  {cat:"genial", es:"La comida es amor, así de simple.", pt:"Comida é amor, simples assim.",
+   note:"<b>Idiom — 'así de simple':</b> simples assim.",
+   ctx:"La filosofía de vida de Sookie.", ep:"Recorrente · Sookie chef"},
+
+  // 🎯 PARIS (rival intensa e competitiva)
+  {cat:"estudio", es:"Yo no pierdo. Nunca.", pt:"Eu não perco. Nunca.",
+   note:"<b>Frequente — 'perder' + 'nunca':</b> perder / nunca.",
+   ctx:"Paris Geller, la rival feroz de Rory.", ep:"Recorrente · Paris (Chilton/Yale)"},
+  {cat:"estudio", es:"He estudiado toda la noche, como siempre.", pt:"Estudei a noite toda, como sempre.",
+   note:"<b>'toda la noche' + 'como siempre':</b> a noite toda / como sempre.",
+   ctx:"Paris, obsesionada con las notas.", ep:"Recorrente · Paris"},
+  {cat:"coloquial", es:"No me caes bien, pero te respeto.", pt:"Não vou com a sua cara, mas te respeito.",
+   note:"<b>Peninsular — 'caer bien' + 'respetar':</b> ir com a cara de / respeitar.",
+   ctx:"Paris, brutalmente honesta con Rory.", ep:"Recorrente · Paris & Rory"},
+  {cat:"genial", es:"El fracaso no es una opción.", pt:"O fracasso não é uma opção.",
+   note:"<b>Vocab — 'fracaso' + 'opción':</b> fracasso / opção.",
+   ctx:"La mentalidad de acero de Paris.", ep:"Recorrente · Paris"},
+  {cat:"estudio", es:"Voy a presentarme a presidenta.", pt:"Vou me candidatar a presidente.",
+   note:"<b>Peninsular — 'presentarse a' = candidatar-se</b> (a cargo/eleição).",
+   ctx:"Paris, líder nata del periódico al consejo.", ep:"Recorrente · Paris"},
+
+  // 🎪 KIRK (excêntrico, mil empregos)
+  {cat:"coloquial", es:"Tengo un trabajo nuevo, otra vez.", pt:"Tenho um emprego novo, de novo.",
+   note:"<b>'trabajo' + 'otra vez':</b> emprego / de novo.",
+   ctx:"Kirk y sus mil oficios en el pueblo.", ep:"Gag recorrente · Kirk"},
+  {cat:"coloquial", es:"¿Te importa si me siento aquí?", pt:"Você se importa se eu sentar aqui?",
+   note:"<b>'importar' + 'sentarse':</b> se importar / sentar.",
+   ctx:"Kirk, siempre un poco fuera de lugar.", ep:"Recorrente · Kirk"},
+  {cat:"compras", es:"Lo hago yo mismo y lo vendo barato.", pt:"Faço eu mesmo e vendo barato.",
+   note:"<b>'yo mismo' + 'vender barato':</b> eu mesmo / vender barato.",
+   ctx:"Kirk y sus negocios caseros.", ep:"Gag recorrente · Kirk"},
+  {cat:"salud", es:"Creo que soy alérgico a casi todo.", pt:"Acho que sou alérgico a quase tudo.",
+   note:"<b>'alérgico a' + 'casi todo':</b> alérgico a / quase tudo.",
+   ctx:"Kirk y sus infinitas manías.", ep:"Recorrente · Kirk"},
+
+  // 🛎️ MICHEL (esnobe, dramático)
+  {cat:"coloquial", es:"Los clientes son el problema, no la solución.", pt:"Os clientes são o problema, não a solução.",
+   note:"<b>Gênero — 'el problema' / 'la solución':</b> problema (m.) / solução (f.).",
+   ctx:"Michel detestando atender gente.", ep:"Recorrente · Michel"},
+  {cat:"coloquial", es:"No me pagan lo suficiente para esto.", pt:"Não me pagam o suficiente pra isso.",
+   note:"<b>'pagar' + 'lo suficiente':</b> pagar / o suficiente.",
+   ctx:"Michel dramatizando su trabajo.", ep:"Recorrente · Michel"},
+  {cat:"rutina", es:"Necesito mi espacio y mi silencio.", pt:"Preciso do meu espaço e do meu silêncio.",
+   note:"<b>Vocab — 'espacio' + 'silencio':</b> espaço / silêncio.",
+   ctx:"Michel, alérgico al ruido y a la gente.", ep:"Recorrente · Michel"},
+  {cat:"genial", es:"Estoy rodeado de aficionados.", pt:"Tô cercado de amadores.",
+   note:"<b>'rodeado de' + 'aficionados':</b> cercado de / amadores.",
+   ctx:"Michel sintiéndose superior a todos.", ep:"Recorrente · Michel"},
+
+  // 💛 fecho nos principais (200)
+  {cat:"genial", es:"El plan es que no hay plan.", pt:"O plano é que não tem plano.",
+   note:"<b>'el plan' + 'no hay':</b> o plano / não tem. Improviso puro.",
+   ctx:"Lorelai resumindo su forma de vivir.", ep:"Estilo recorrente · Lorelai"},
+  {cat:"familia", es:"Somos un equipo, tú y yo.", pt:"A gente é um time, você e eu.",
+   note:"<b>'equipo' + 'tú y yo':</b> time/equipe / você e eu.",
+   ctx:"Lorelai y Rory contra el mundo.", ep:"Recorrente · Lorelai & Rory"},
+
+  // ===== +150 FRASES NOVAS (bloco Gilmore, curadas) =====
+  {cat:"café", es:"Un café bien cargado, por favor.", pt:"Um café bem forte, por favor.", note:"<b>Útil:</b> 'cargado' = forte/carregado (café).", ctx:"Lorelai pidiendo su dosis matutina en Luke's.", ep:"Recorrente · Luke's Diner"},
+  {cat:"café", es:"¿Cómo que se ha acabado el café?", pt:"Como assim acabou o café?", note:"<b>Reacción:</b> '¿cómo que...?' = como assim...?", ctx:"Pánico total de Lorelai.", ep:"Gag recorrente"},
+  {cat:"café", es:"El café de máquina no cuenta.", pt:"Café de máquina não conta.", note:"'de máquina' = de máquina automática.", ctx:"Lorelai despreciando el café malo.", ep:"Recorrente"},
+  {cat:"café", es:"Ponme uno doble, ha sido una noche larga.", pt:"Me põe um duplo, foi uma noite longa.", note:"'ponme' = me sirva. ⚠ 'largo/a' = longo/comprido, não 'largo'.", ctx:"Lorelai tras una noche sin dormir.", ep:"Recorrente"},
+  {cat:"café", es:"Huele a café recién hecho, gracias a Dios.", pt:"Cheira a café recém-passado, graças a Deus.", note:"'recién hecho' = acabado de fazer.", ctx:"Lorelai entrando en la cocina.", ep:"Recorrente"},
+  {cat:"café", es:"Te cambio mi alma por un café.", pt:"Troco minha alma por um café.", note:"Exagero muy Gilmore.", ctx:"Lorelai media dormida.", ep:"Bordão"},
+  {cat:"café", es:"Este café está aguado.", pt:"Esse café tá aguado/fraco.", note:"'aguado' = fraco/ralo.", ctx:"Lorelai criticando el café de otro sitio.", ep:"Recorrente"},
+  {cat:"café", es:"Deja el café, tenemos que hablar.", pt:"Larga o café, temos que conversar.", note:"'dejar' aqui = largar/soltar.", ctx:"Rory intentando una conversación seria.", ep:"Mãe-filha"},
+  {cat:"café", es:"Me tomo el café y salgo pitando.", pt:"Tomo o café e saio voando.", note:"<b>Espanha:</b> 'salir pitando' = sair correndo.", ctx:"Lorelai siempre con prisa.", ep:"Recorrente"},
+  {cat:"café", es:"Invito yo, tú pon el café.", pt:"Eu pago, você faz o café.", note:"'invito yo' = eu pago/eu convido. 'poner el café' = fazer o café.", ctx:"Lorelai negociando con Sookie.", ep:"Independence Inn"},
+  {cat:"comida", es:"¿Pedimos tailandés o mexicano?", pt:"Pedimos tailandês ou mexicano?", note:"'pedir' comida a domicílio = pedir delivery.", ctx:"Noche de chicas eligiendo cena.", ep:"Ritual Gilmore"},
+  {cat:"comida", es:"Hay tarta de manzana de postre.", pt:"Tem torta de maçã de sobremesa.", note:"⚠ 'tarta' = bolo/torta doce (não torta salgada). 'postre' = sobremesa.", ctx:"Sookie orgullosa de su horno.", ep:"Cocina de Sookie"},
+  {cat:"comida", es:"Se me hace la boca agua.", pt:"Fico com água na boca.", note:"<b>Idiom:</b> 'hacérsele la boca agua'.", ctx:"Lorelai frente a un pastel.", ep:"Recorrente"},
+  {cat:"comida", es:"Esto tiene demasiada sal.", pt:"Isso tá com sal demais.", note:"'demasiada' = demais. ⚠ 'salsa' seria molho, não salsinha.", ctx:"Rory probando el experimento de Lorelai.", ep:"Cozinha caótica"},
+  {cat:"comida", es:"Voy a la compra, ¿necesitas algo?", pt:"Vou ao mercado, precisa de algo?", note:"<b>Espanha:</b> 'ir a la compra' = fazer mercado.", ctx:"Rory, la única responsable de la casa.", ep:"Rotina Gilmore"},
+  {cat:"comida", es:"En esta casa cenamos cereales.", pt:"Nesta casa a gente janta cereal.", note:"⚠ 'cenar' = jantar / 'cena' = jantar (não 'cena' de filme).", ctx:"La despensa vacía de las Gilmore.", ep:"Recorrente"},
+  {cat:"comida", es:"¿Me pasas el kétchup?", pt:"Me passa o ketchup?", note:"'pasar' = passar (algo na mesa).", ctx:"En Luke's, con patatas fritas.", ep:"Luke's Diner"},
+  {cat:"comida", es:"Estas patatas fritas están de vicio.", pt:"Essa batata frita tá viciante/uma delícia.", note:"<b>Espanha:</b> 'de vicio' = muito bom. 'patatas' (não papas).", ctx:"Lorelai y Rory en el diner.", ep:"Luke's"},
+  {cat:"comida", es:"Sookie, esto es una obra de arte.", pt:"Sookie, isso é uma obra de arte.", note:"Elogio à comida.", ctx:"Lorelai probando un plato de Sookie.", ep:"Independence Inn"},
+  {cat:"comida", es:"Guárdame un trozo, ahora vuelvo.", pt:"Guarda um pedaço pra mim, já volto.", note:"'guardar' = guardar. 'trozo' = pedaço.", ctx:"Lorelai corriendo entre mesas.", ep:"Recorrente"},
+  {cat:"comida", es:"Me he pasado con la comida otra vez.", pt:"Exagerei na comida de novo.", note:"'pasarse con' = exagerar em.", ctx:"Sookie preparando para diez cuando venían tres.", ep:"Cocina de Sookie"},
+  {cat:"comida", es:"¿Quién se ha comido lo mío?", pt:"Quem comeu o que era meu?", note:"'lo mío' = o que é meu.", ctx:"Discusión Gilmore por la última porción.", ep:"Recorrente"},
+  {cat:"comida", es:"Trae servilletas, que esto mancha.", pt:"Traz guardanapo, que isso mancha.", note:"'servilleta' = guardanapo.", ctx:"Comiendo algo demasiado jugoso.", ep:"Luke's"},
+  {cat:"comida", es:"¿Hay algo de picar por aquí?", pt:"Tem algo pra beliscar por aqui?", note:"<b>Espanha:</b> 'picar' = beliscar.", ctx:"Rory con hambre a media tarde.", ep:"Rotina"},
+  {cat:"rutina", es:"No me suena el despertador nunca.", pt:"Meu despertador nunca toca (pra mim).", note:"'sonar' = tocar (som).", ctx:"Lorelai justificando otro retraso.", ep:"Recorrente"},
+  {cat:"rutina", es:"Tengo la casa hecha un desastre.", pt:"Tô com a casa um desastre.", note:"'hecha un desastre' = uma bagunça.", ctx:"Lorelai antes de que llegue Emily.", ep:"Pânico pré-visita"},
+  {cat:"rutina", es:"¿Dónde he metido las gafas?", pt:"Onde eu enfiei os óculos?", note:"'meter' = enfiar/pôr. 'gafas' = óculos.", ctx:"Buscando cosas por toda la casa.", ep:"Recorrente"},
+  {cat:"rutina", es:"Se me ha ido el santo al cielo.", pt:"Me deu um branco / esqueci completamente.", note:"<b>Idiom Espanha:</b> esquecer o que ia dizer/fazer.", ctx:"Lorelai a media frase.", ep:"Recorrente"},
+  {cat:"rutina", es:"Voy en pijama, no juzgues.", pt:"Tô de pijama, não julga.", note:"'pijama' = pijama.", ctx:"Lorelai abriendo la puerta a Luke.", ep:"Casa Gilmore"},
+  {cat:"rutina", es:"Tengo mil cosas que hacer hoy.", pt:"Tenho mil coisas pra fazer hoje.", note:"'mil cosas' = um monte de coisas.", ctx:"Lorelai entre el hotel y Rory.", ep:"Recorrente"},
+  {cat:"rutina", es:"Se ha vuelto a estropear la tele.", pt:"A TV quebrou de novo.", note:"<b>Espanha:</b> 'estropearse' = quebrar/estragar. 'la tele' = a TV.", ctx:"Otra avería en casa.", ep:"Casa caótica"},
+  {cat:"rutina", es:"Échame una mano con esto.", pt:"Me dá uma mão com isso.", note:"'echar una mano' = ajudar.", ctx:"Lorelai moviendo muebles.", ep:"Recorrente"},
+  {cat:"rutina", es:"Me he dejado las llaves dentro.", pt:"Deixei as chaves dentro (e me tranquei).", note:"'dejarse' = esquecer/deixar por descuido.", ctx:"Lorelai en la puerta, sin entrar.", ep:"Recorrente"},
+  {cat:"rutina", es:"Recojo un poco antes de dormir.", pt:"Arrumo um pouco antes de dormir.", note:"'recoger' = arrumar/organizar.", ctx:"Rory ordenando el caos.", ep:"Rotina"},
+  {cat:"rutina", es:"No me da la vida para todo.", pt:"Não me sobra tempo pra tudo.", note:"<b>Idiom:</b> 'no dar la vida' = não dar conta do tempo.", ctx:"Lorelai desbordada.", ep:"Recorrente"},
+  {cat:"rutina", es:"Tengo el móvil sin batería.", pt:"Meu celular tá sem bateria.", note:"<b>Espanha:</b> 'móvil' = celular.", ctx:"Lorelai incomunicada en el peor momento.", ep:"Recorrente"},
+  {cat:"ciudad", es:"Nos vemos en la plaza del pueblo.", pt:"A gente se vê na praça da cidade.", note:"'plaza' = praça. 'pueblo' = vila/cidadezinha.", ctx:"Punto de encuentro en Stars Hollow.", ep:"Stars Hollow"},
+  {cat:"ciudad", es:"Otra vez hay fiesta en el pueblo.", pt:"De novo tem festa na cidade.", note:"Stars Hollow y sus mil festivales.", ctx:"Taylor organizando otro evento.", ep:"Town events"},
+  {cat:"ciudad", es:"Hay una reunión del pueblo esta noche.", pt:"Tem reunião da cidade hoje à noite.", note:"'reunión del pueblo' = town meeting.", ctx:"La famosa asamblea de Stars Hollow.", ep:"Town meeting"},
+  {cat:"ciudad", es:"Todo el mundo se conoce aquí.", pt:"Todo mundo se conhece aqui.", note:"'todo el mundo' = todo mundo.", ctx:"La vida de pueblo pequeño.", ep:"Stars Hollow"},
+  {cat:"ciudad", es:"El súper cierra a las nueve.", pt:"O mercado fecha às nove.", note:"'el súper' = supermercado (coloquial).", ctx:"Corriendo antes del cierre.", ep:"Recorrente"},
+  {cat:"ciudad", es:"¿Vamos dando un paseo?", pt:"Vamos dar uma volta a pé?", note:"'dar un paseo' = passear.", ctx:"Lorelai y Rory por Stars Hollow.", ep:"Recorrente"},
+  {cat:"ciudad", es:"Aparca ahí, hay sitio.", pt:"Estaciona ali, tem vaga.", note:"<b>Espanha:</b> 'aparcar' = estacionar. 'sitio' = lugar/vaga.", ctx:"Buscando dónde dejar el coche.", ep:"Recorrente"},
+  {cat:"ciudad", es:"El pueblo entero está de cotilleo.", pt:"A cidade inteira tá fofocando.", note:"<b>Espanha:</b> 'cotilleo' = fofoca.", ctx:"Miss Patty y Babette al mando.", ep:"Stars Hollow"},
+  {cat:"ciudad", es:"Coge el coche, que llueve.", pt:"Pega o carro, que tá chovendo.", note:"⚠ 'coche' = carro. 'coger' = pegar (Espanha).", ctx:"Día lluvioso en el pueblo.", ep:"Recorrente"},
+  {cat:"ciudad", es:"La librería está al lado del banco.", pt:"A livraria fica do lado do banco.", note:"⚠ 'librería' = livraria (loja), NÃO biblioteca.", ctx:"Rory, cliente número uno.", ep:"Rory"},
+  {cat:"ciudad", es:"Gira a la izquierda al llegar al puente.", pt:"Vira à esquerda ao chegar na ponte.", note:"'puente' = ponte.", ctx:"Dando indicaciones en Stars Hollow.", ep:"Recorrente"},
+  {cat:"ciudad", es:"El tren a Hartford sale en diez minutos.", pt:"O trem pra Hartford sai em dez minutos.", note:"'tren' = trem.", ctx:"Rory viajando a casa de los abuelos.", ep:"Hartford"},
+  {cat:"ciudad", es:"Nos pilla de camino.", pt:"Fica no caminho pra gente.", note:"<b>Espanha:</b> 'pillar de camino' = ser no caminho.", ctx:"Planeando una parada.", ep:"Recorrente"},
+  {cat:"compras", es:"¿Me lo puede envolver para regalo?", pt:"Pode embrulhar pra presente?", note:"'envolver para regalo' = embrulhar de presente.", ctx:"Comprando algo para Rory.", ep:"Cumpleaños"},
+  {cat:"compras", es:"Me lo quedo, gracias.", pt:"Vou ficar com esse, obrigada.", note:"'quedarse algo' = ficar com/levar.", ctx:"Decidiendo una compra.", ep:"Recorrente"},
+  {cat:"compras", es:"¿Tenéis esto en otra talla?", pt:"Vocês têm isso em outro tamanho?", note:"'talla' = tamanho (roupa).", ctx:"Lorelai de compras con Rory.", ep:"Shopping"},
+  {cat:"compras", es:"Está de rebajas, aprovecha.", pt:"Tá em promoção, aproveita.", note:"<b>Espanha:</b> 'rebajas' = liquidação.", ctx:"Sookie arrastrando a Lorelai.", ep:"Rebajas"},
+  {cat:"compras", es:"No llevo suelto, solo billetes.", pt:"Não tô com trocado, só notas.", note:"<b>Espanha:</b> 'suelto' = trocado. 'billetes' = notas.", ctx:"Pagando el café.", ep:"Recorrente"},
+  {cat:"compras", es:"¿Me haces un descuento?", pt:"Me dá um desconto?", note:"'hacer un descuento' = dar desconto.", ctx:"Regateando en el mercadillo.", ep:"Mercadillo"},
+  {cat:"compras", es:"Esto es un robo, qué caro.", pt:"Isso é um assalto, que caro.", note:"'un robo' = um roubo (caríssimo).", ctx:"Emily de compras en una boutique.", ep:"Hartford"},
+  {cat:"compras", es:"Me lo pienso y quizá vuelvo.", pt:"Vou pensar e talvez volto.", note:"'quizá' = talvez.", ctx:"Sin decidirse por la compra.", ep:"Recorrente"},
+  {cat:"compras", es:"¿Dónde está el probador?", pt:"Onde fica o provador?", note:"'probador' = provador.", ctx:"Rory probándose ropa a regañadientes.", ep:"Shopping"},
+  {cat:"compras", es:"Me viene grande, necesito una talla menos.", pt:"Ficou grande, preciso de um número a menos.", note:"'venir grande' = ficar folgado.", ctx:"Probándose una chaqueta.", ep:"Shopping"},
+  {cat:"compras", es:"Cárgamelo a la cuenta.", pt:"Põe na minha conta.", note:"'cargar a la cuenta' = colocar na conta.", ctx:"Emily en su tienda de siempre.", ep:"Emily"},
+  {cat:"salud", es:"Me he levantado con dolor de garganta.", pt:"Acordei com dor de garganta.", note:"'dolor de garganta' = dor de garganta.", ctx:"Rory pillando un resfriado en época de exámenes.", ep:"Yale"},
+  {cat:"salud", es:"Tómate algo y a la cama.", pt:"Toma um remédio e pra cama.", note:"'tomarse algo' = tomar um remédio.", ctx:"Lorelai haciendo de enfermera.", ep:"Recorrente"},
+  {cat:"salud", es:"Estoy incubando algo, seguro.", pt:"Tô pegando alguma coisa, com certeza.", note:"<b>Espanha:</b> 'incubar algo' = estar ficando doente.", ctx:"Lorelai temiendo un resfriado.", ep:"Recorrente"},
+  {cat:"salud", es:"Me he torcido el tobillo.", pt:"Torci o tornozelo.", note:"'torcerse' = torcer. 'tobillo' = tornozelo.", ctx:"Lorelai con sus tacones imposibles.", ep:"Recorrente"},
+  {cat:"salud", es:"Pide cita con el médico.", pt:"Marca uma consulta com o médico.", note:"<b>Espanha:</b> 'pedir cita' = marcar hora.", ctx:"Rory insistiendo a Lorelai.", ep:"Recorrente"},
+  {cat:"salud", es:"No es nada, se me pasa enseguida.", pt:"Não é nada, já passa.", note:"'pasársele algo' = passar (mal-estar).", ctx:"Lorelai quitándole importancia.", ep:"Recorrente"},
+  {cat:"salud", es:"Necesito unas vacaciones, en serio.", pt:"Preciso de férias, sério.", note:"<b>Espanha:</b> 'vacaciones' sempre plural.", ctx:"Lorelai al borde del agotamiento.", ep:"Independence Inn"},
+  {cat:"salud", es:"Descansa, que buena falta te hace.", pt:"Descansa, que você bem precisa.", note:"<b>Idiom:</b> 'buena falta hace' = faz muita falta.", ctx:"Sookie cuidando de Lorelai.", ep:"Recorrente"},
+  {cat:"salud", es:"Estoy para el arrastre.", pt:"Tô acabada/no limite.", note:"<b>Idiom Espanha:</b> 'para el arrastre' = destruído.", ctx:"Lorelai al final de un día imposible.", ep:"Bordão"},
+  {cat:"salud", es:"No pego ojo desde hace días.", pt:"Não durmo direito faz dias.", note:"<b>Idiom:</b> 'no pegar ojo' = não pregar o olho.", ctx:"Rory en semana de exámenes.", ep:"Yale"},
+  {cat:"planes", es:"¿Te va bien el sábado?", pt:"Sábado tá bom pra você?", note:"'irle bien a alguien' = servir/dar certo.", ctx:"Lorelai cuadrando agendas.", ep:"Recorrente"},
+  {cat:"planes", es:"Quedamos a las ocho en Luke's.", pt:"A gente se encontra às oito no Luke's.", note:"⚠ 'quedar' = combinar de se ver.", ctx:"Plan de siempre.", ep:"Luke's"},
+  {cat:"planes", es:"¿Contamos contigo o no?", pt:"Contamos com você ou não?", note:"'contar con alguien' = contar com.", ctx:"Organizando la noche de cine.", ep:"Recorrente"},
+  {cat:"planes", es:"Yo me apunto a lo que sea.", pt:"Eu topo qualquer coisa.", note:"<b>Espanha:</b> 'apuntarse' = topar/entrar na.", ctx:"Lorelai siempre lista para el plan.", ep:"Recorrente"},
+  {cat:"planes", es:"Te aviso cuando salga del trabajo.", pt:"Te aviso quando sair do trabalho.", note:"'avisar' = avisar.", ctx:"Lorelai coordinando con Rory.", ep:"Recorrente"},
+  {cat:"planes", es:"Nos vemos luego, ¿vale?", pt:"A gente se vê depois, tá?", note:"<b>Espanha:</b> 'vale' = ok/tá.", ctx:"Despedida rápida.", ep:"Recorrente"},
+  {cat:"planes", es:"Hagamos algo este finde.", pt:"Vamos fazer algo esse fim de semana.", note:"<b>Espanha:</b> 'finde' = fim de semana.", ctx:"Lorelai proponiendo plan.", ep:"Recorrente"},
+  {cat:"planes", es:"Paso a por ti sobre las siete.", pt:"Passo pra te pegar lá pelas sete.", note:"<b>Espanha:</b> 'a por ti' = te buscar. 'sobre las siete' = lá pelas sete.", ctx:"Luke recogiendo a Lorelai.", ep:"Luke↔Lorelai"},
+  {cat:"planes", es:"Al final no puedo, lo siento.", pt:"No fim não posso, desculpa.", note:"'al final' = no fim/afinal.", ctx:"Cancelando a última hora.", ep:"Recorrente"},
+  {cat:"planes", es:"¿Y si lo dejamos para mañana?", pt:"E se a gente deixar pra amanhã?", note:"'¿y si...?' = e se...?", ctx:"Posponiendo con pereza.", ep:"Recorrente"},
+  {cat:"coloquial", es:"No me ha cogido el teléfono.", pt:"Não atendeu o telefone.", note:"<b>Espanha:</b> 'coger el teléfono' = atender.", ctx:"Lorelai preocupada.", ep:"Recorrente"},
+  {cat:"familia", es:"La cena es a las siete, ni un minuto tarde.", pt:"O jantar é às sete, nem um minuto atrasada.", note:"⚠ 'cena' = jantar (não 'cena' de filme).", ctx:"Emily marcando las normas.", ep:"Jantar de sexta"},
+  {cat:"familia", es:"Ponte algo decente, por favor.", pt:"Veste algo decente, por favor.", note:"'ponerse' = vestir. 'decente' = apresentável.", ctx:"Emily revisando a Lorelai de arriba abajo.", ep:"Emily"},
+  {cat:"familia", es:"Tu abuelo te espera en el despacho.", pt:"Seu avô te espera no escritório.", note:"⚠ 'despacho' = escritório/gabinete (não 'despacho' de envio).", ctx:"Richard en su rincón de la casa.", ep:"Richard"},
+  {cat:"familia", es:"Siempre tienes que llevar la contraria.", pt:"Você sempre tem que contrariar.", note:"<b>Idiom:</b> 'llevar la contraria' = contrariar.", ctx:"Emily reprochando a Lorelai.", ep:"Recorrente"},
+  {cat:"familia", es:"¿Cuándo vas a sentar la cabeza?", pt:"Quando você vai criar juízo?", note:"<b>Idiom:</b> 'sentar la cabeza' = criar juízo/assentar.", ctx:"Emily a Lorelai, eterno tema.", ep:"Emily"},
+  {cat:"familia", es:"Te has pasado de la raya.", pt:"Você passou dos limites.", note:"<b>Idiom:</b> 'pasarse de la raya' = passar do limite.", ctx:"Richard, muy serio.", ep:"Recorrente"},
+  {cat:"familia", es:"No me des largas, dime la verdad.", pt:"Não me enrola, fala a verdade.", note:"<b>Idiom:</b> 'dar largas' = enrolar/adiar.", ctx:"Lorelai presionando a Rory.", ep:"Recorrente"},
+  {cat:"familia", es:"Estoy hasta las narices de discutir.", pt:"Tô de saco cheio de discutir.", note:"<b>Espanha:</b> 'hasta las narices' = de saco cheio.", ctx:"Lorelai tras otra pelea con Emily.", ep:"Recorrente"},
+  {cat:"familia", es:"Haz las paces con tu madre.", pt:"Faz as pazes com sua mãe.", note:"<b>Idiom:</b> 'hacer las paces' = fazer as pazes.", ctx:"Rory mediando entre Lorelai y Emily.", ep:"Recorrente"},
+  {cat:"estudio", es:"Tengo que ponerme las pilas ya.", pt:"Tenho que me esforçar/dar um gás já.", note:"<b>Idiom Espanha:</b> 'ponerse las pilas' = se ligar/dar um gás.", ctx:"Rory antes de un examen difícil.", ep:"Yale"},
+  {cat:"estudio", es:"Entrego el artículo esta noche sí o sí.", pt:"Entrego o artigo hoje à noite de qualquer jeito.", note:"<b>Espanha:</b> 'sí o sí' = obrigatoriamente.", ctx:"Rory en el periódico de Yale.", ep:"Yale Daily News"},
+  {cat:"estudio", es:"No doy abasto con todo.", pt:"Não dou conta de tudo.", note:"<b>Idiom:</b> 'no dar abasto' = não dar conta.", ctx:"Lorelai malabarista.", ep:"Recorrente"},
+  {cat:"estudio", es:"Me he quedado en blanco en el examen.", pt:"Deu um branco na prova.", note:"<b>Idiom:</b> 'quedarse en blanco' = dar branco.", ctx:"Rory, por primera vez nerviosa.", ep:"Yale"},
+  {cat:"estudio", es:"Voy fatal de tiempo.", pt:"Tô super mal de tempo.", note:"<b>Espanha:</b> 'ir fatal de' = estar mal de.", ctx:"Lorelai corriendo entre reuniones.", ep:"Recorrente"},
+  {cat:"estudio", es:"Michel, contesta al teléfono, por favor.", pt:"Michel, atende o telefone, por favor.", note:"⚠ 'contestar' = responder/atender (não 'contestar/objetar').", ctx:"Michel, alérgico al trabajo.", ep:"Independence Inn"},
+  {cat:"estudio", es:"Se me da fatal la contabilidad.", pt:"Sou péssima em contabilidade.", note:"<b>Espanha:</b> 'dárseme fatal' = ser péssimo em.", ctx:"Lorelai peleando con las cuentas.", ep:"Hotel"},
+  {cat:"estudio", es:"He sacado un notable en Lengua.", pt:"Tirei um 'bom' em Espanhol/Língua.", note:"<b>Espanha:</b> notas: aprobado, notable, sobresaliente.", ctx:"Rory, aunque quería sobresaliente.", ep:"Chilton/Yale"},
+  {cat:"estudio", es:"Hemos quedado para estudiar en la biblioteca.", pt:"Combinamos de estudar na biblioteca.", note:"⚠ 'biblioteca' = biblioteca (a 'librería' é livraria).", ctx:"Rory y Paris, rivales-amigas.", ep:"Yale"},
+  {cat:"estudio", es:"Voy a montar mi propio negocio.", pt:"Vou abrir meu próprio negócio.", note:"<b>Espanha:</b> 'montar un negocio' = abrir um negócio.", ctx:"Lorelai y Sookie soñando en grande.", ep:"Dragonfly Inn"},
+  {cat:"estudio", es:"Deja de darle vueltas y decídete.", pt:"Para de ficar remoendo e decide.", note:"<b>Idiom:</b> 'darle vueltas' = ficar remoendo.", ctx:"Sookie empujando a Lorelai.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Te has puesto colorada.", pt:"Você ficou vermelha (de vergonha).", note:"<b>Espanha:</b> 'ponerse colorado' = corar.", ctx:"Rory pillada in fraganti.", ep:"Romance adolescente"},
+  {cat:"coloquial", es:"No me apetece hablar de mi ex.", pt:"Não tô a fim de falar do meu ex.", note:"<b>Espanha:</b> 'apetecer' = estar a fim.", ctx:"Lorelai esquivando el tema Christopher.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Están tonteando desde hace meses.", pt:"Eles tão de paquera faz meses.", note:"<b>Espanha:</b> 'tontear' = paquerar/flertar.", ctx:"Chismes del pueblo sobre la pareja.", ep:"Stars Hollow"},
+  {cat:"coloquial", es:"Es majo, pero no es mi tipo.", pt:"Ele é gente boa, mas não é meu tipo.", note:"<b>Espanha:</b> 'majo' = simpático/gente boa.", ctx:"Lorelai en una cita a ciegas.", ep:"Encontros"},
+  {cat:"coloquial", es:"Me dejó plantada en el restaurante.", pt:"Ele me deixou plantada no restaurante.", note:"<b>Idiom:</b> 'dejar plantado' = dar bolo/deixar esperando.", ctx:"Cita desastrosa.", ep:"Encontros"},
+  {cat:"coloquial", es:"Es agua pasada, ya lo he superado.", pt:"É água passada, já superei.", note:"<b>Idiom:</b> 'agua pasada' = água passada.", ctx:"Lorelai fingiendo estar bien.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Venga, va, te ayudo.", pt:"Vai, tá bom, eu te ajudo.", note:"<b>Espanha:</b> 'venga, va' = vai, tá bom.", ctx:"Luke cediendo a regañadientes.", ep:"Luke"},
+  {cat:"coloquial", es:"Me da la risa floja.", pt:"Me deu uma risada boba/incontrolável.", note:"<b>Espanha:</b> 'risa floja' = riso incontrolável.", ctx:"Lorelai y Rory en un momento inoportuno.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Ni fu ni fa.", pt:"Nem oito nem oitenta / tanto faz.", note:"<b>Idiom Espanha:</b> indiferença.", ctx:"Lorelai opinando sin ganas.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Está todo manga por hombro.", pt:"Tá tudo de pernas pro ar.", note:"<b>Idiom:</b> 'manga por hombro' = bagunçado.", ctx:"La casa antes de una visita.", ep:"Recorrente"},
+  {cat:"coloquial", es:"No tiene ni pies ni cabeza.", pt:"Não tem pé nem cabeça.", note:"<b>Idiom:</b> sem sentido.", ctx:"Lorelai ante un plan absurdo.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Me la juego, ¿por qué no?", pt:"Vou arriscar, por que não?", note:"<b>Idiom:</b> 'jugársela' = arriscar.", ctx:"Lorelai tomando una decisión loca.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Estoy flipando, en serio.", pt:"Tô pasma, sério.", note:"<b>Espanha:</b> 'flipar' = ficar chocado/pasmo.", ctx:"Rory ante una noticia bomba.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Qué chulo, me encanta.", pt:"Que maneiro, adorei.", note:"<b>Espanha:</b> 'chulo' = legal/maneiro.", ctx:"Lorelai viendo algo que le mola.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Eso es una chorrada.", pt:"Isso é uma bobagem.", note:"<b>Espanha:</b> 'chorrada' = bobagem.", ctx:"Lorelai restándole importancia.", ep:"Recorrente"},
+  {cat:"coloquial", es:"No te enrolles y ve al grano.", pt:"Não enrola e vai direto ao ponto.", note:"<b>Espanha:</b> 'enrollarse' = enrolar. 'ir al grano' = ir direto.", ctx:"Lorelai impaciente.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Tira, que llegamos tarde.", pt:"Bora, que a gente tá atrasada.", note:"<b>Espanha:</b> 'tira' = vai/bora.", ctx:"Lorelai empujando a Rory hacia la puerta.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Qué palo, no me apetece nada.", pt:"Que saco, não tô nem um pouco a fim.", note:"<b>Espanha:</b> 'qué palo' = que saco/preguiça.", ctx:"Lorelai ante una obligación social.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Como quien no quiere la cosa.", pt:"Como quem não quer nada.", note:"<b>Idiom:</b> disfarçadamente.", ctx:"Lorelai fingiendo indiferencia.", ep:"Recorrente"},
+  {cat:"genial", es:"Nunca subestimes a una madre cabreada.", pt:"Nunca subestime uma mãe irritada.", note:"<b>Espanha:</b> 'cabreado' = irritado (informal).", ctx:"Lorelai en modo leona.", ep:"Bordão"},
+  {cat:"genial", es:"El silencio y yo no nos llevamos bien.", pt:"O silêncio e eu não nos damos bem.", note:"<b>Idiom:</b> 'llevarse bien' = se dar bem.", ctx:"Lorelai, incapaz de callar.", ep:"Bordão"},
+  {cat:"genial", es:"Mi paciencia tiene fecha de caducidad.", pt:"Minha paciência tem data de validade.", note:"<b>Espanha:</b> 'fecha de caducidad' = data de validade.", ctx:"Lorelai al límite con Michel.", ep:"Bordão"},
+  {cat:"genial", es:"Vivo al día y me va bien.", pt:"Vivo um dia de cada vez e tô bem.", note:"<b>Idiom:</b> 'vivir al día' = viver o dia.", ctx:"Filosofía Lorelai vs. Emily.", ep:"Bordão"},
+  {cat:"genial", es:"El orden está sobrevalorado.", pt:"Ordem é superestimada.", note:"<b>Espanha:</b> 'sobrevalorado' = superestimado.", ctx:"Lorelai defendiendo su caos.", ep:"Bordão"},
+  {cat:"planes", es:"Han montado un mercadillo en la plaza.", pt:"Montaram uma feirinha na praça.", note:"<b>Espanha:</b> 'mercadillo' = feira de rua.", ctx:"Puestos por todo Stars Hollow.", ep:"Stars Hollow"},
+  {cat:"planes", es:"Reservamos el sitio con antelación.", pt:"Reservamos o lugar com antecedência.", note:"<b>Espanha:</b> 'con antelación' = com antecedência.", ctx:"Preparando un evento en el hotel.", ep:"Hotel"},
+  {cat:"planes", es:"El baile es esta noche en el salón.", pt:"O baile é hoje à noite no salão.", note:"⚠ 'salón' = salão/sala grande.", ctx:"El baile anual de Stars Hollow.", ep:"Town events"},
+  {cat:"planes", es:"Va a caer una buena, coge el paraguas.", pt:"Vai cair um temporal, pega o guarda-chuva.", note:"<b>Idiom:</b> 'caer una buena' = vir chuvarada. 'paraguas' = guarda-chuva.", ctx:"Nubarrones sobre Stars Hollow.", ep:"Recorrente"},
+  {cat:"planes", es:"Menudo día de perros.", pt:"Que dia horrível (de tempo).", note:"<b>Idiom:</b> 'día de perros' = dia péssimo.", ctx:"Lorelai empapada.", ep:"Recorrente"},
+  {cat:"café", es:"Otra ronda de café, invito yo.", pt:"Mais uma rodada de café, eu pago.", note:"'ronda' = rodada.", ctx:"Lorelai celebrando algo.", ep:"Recorrente"},
+  {cat:"comida", es:"Está en su punto, riquísimo.", pt:"Tá no ponto, uma delícia.", note:"<b>Idiom:</b> 'en su punto' = no ponto certo.", ctx:"Sookie probando su plato.", ep:"Cocina"},
+  {cat:"comida", es:"Se me ha ido la mano con el azúcar.", pt:"Passei da conta no açúcar.", note:"<b>Idiom:</b> 'írsele la mano' = exagerar. ⚠ 'azúcar' = açúcar.", ctx:"Sookie horneando.", ep:"Cocina"},
+  {cat:"rutina", es:"Tengo que planchar esta camisa.", pt:"Tenho que passar essa camisa.", note:"<b>Espanha:</b> 'planchar' = passar (ferro).", ctx:"Rory antes de una entrevista.", ep:"Yale"},
+  {cat:"rutina", es:"Voy a echar una cabezada.", pt:"Vou tirar uma soneca.", note:"<b>Espanha:</b> 'echar una cabezada' = cochilar.", ctx:"Lorelai reventada tras el turno.", ep:"Recorrente"},
+  {cat:"compras", es:"Se me ha caducado la tarjeta.", pt:"Meu cartão venceu.", note:"<b>Espanha:</b> 'caducar' = vencer/expirar.", ctx:"Lorelai en la caja, apurada.", ep:"Recorrente"},
+  {cat:"salud", es:"Voy a la farmacia a por algo.", pt:"Vou na farmácia buscar alguma coisa.", note:"<b>Espanha:</b> 'a por algo' = buscar algo. 'farmacia' = farmácia.", ctx:"Rory con un resfriado.", ep:"Recorrente"},
+  {cat:"ciudad", es:"Está a la vuelta de la esquina.", pt:"Fica logo ali na esquina.", note:"<b>Idiom:</b> 'a la vuelta de la esquina' = pertinho.", ctx:"Dando indicaciones.", ep:"Recorrente"},
+  {cat:"estudio", es:"Voy a la biblioteca a devolver estos.", pt:"Vou à biblioteca devolver esses.", note:"⚠ 'biblioteca' = biblioteca (livraria = 'librería'). 'devolver' = devolver.", ctx:"Rory, clienta modelo.", ep:"Yale"},
+  {cat:"familia", es:"Por una vez, hazme caso.", pt:"Por uma vez, me dá ouvidos.", note:"<b>Idiom:</b> 'hacer caso' = dar atenção/obedecer.", ctx:"Lorelai suplicando a Rory.", ep:"Recorrente"},
+  {cat:"familia", es:"No me montes un numerito.", pt:"Não me faz um escândalo.", note:"<b>Espanha:</b> 'montar un numerito' = fazer barraco.", ctx:"Lorelai temiendo la reacción de Emily.", ep:"Recorrente"},
+  {cat:"familia", es:"Ni se te ocurra faltar el viernes.", pt:"Nem pensa em faltar na sexta.", note:"<b>Idiom:</b> 'ni se te ocurra' = nem pensa.", ctx:"Emily con el jantar de siempre.", ep:"Jantar de sexta"},
+  {cat:"comida", es:"¿Nos partimos un postre?", pt:"A gente divide uma sobremesa?", note:"<b>Espanha:</b> 'partirse' algo = dividir.", ctx:"Lorelai y Rory, siempre postre.", ep:"Recorrente"},
+  {cat:"comida", es:"Esto está para chuparse los dedos.", pt:"Isso tá de lamber os dedos.", note:"<b>Idiom:</b> 'para chuparse los dedos' = delicioso.", ctx:"Elogiando a Sookie.", ep:"Cocina"},
+  {cat:"café", es:"Con la de café que llevo, no duermo.", pt:"Com a quantidade de café que tomei, não durmo.", note:"<b>Espanha:</b> 'la de... que llevo' = a quantidade que já...", ctx:"Lorelai a las tantas de la noche.", ep:"Recorrente"},
+  {cat:"planes", es:"Hemos quedado en vernos allí.", pt:"A gente combinou de se ver lá.", note:"⚠ 'quedar en' = combinar de.", ctx:"Coordinando la salida.", ep:"Recorrente"},
+  {cat:"salud", es:"Tómatelo con calma, no hay prisa.", pt:"Vai com calma, não tem pressa.", note:"<b>Idiom:</b> 'tomárselo con calma' = ir com calma.", ctx:"Sookie a Lorelai, agobiada.", ep:"Recorrente"},
+  {cat:"salud", es:"Necesito desconectar un poco.", pt:"Preciso desligar um pouco.", note:"<b>Espanha:</b> 'desconectar' = relaxar/desligar.", ctx:"Lorelai al borde del burnout.", ep:"Recorrente"},
+  {cat:"rutina", es:"Voy a hacer la cama y ya está.", pt:"Vou arrumar a cama e pronto.", note:"<b>Espanha:</b> 'hacer la cama' = arrumar a cama.", ctx:"Rory, la ordenada.", ep:"Recorrente"},
+  {cat:"café", es:"Un cortado, que si no, no arranco.", pt:"Um cortado, senão eu não engreno.", note:"<b>Espanha:</b> 'cortado' = café com pouco leite. 'arrancar' = engrenar.", ctx:"Lorelai a primera hora.", ep:"Luke's"},
+
+  // ===== +65 FRASES EXTRA (vocabulário novo, curadas) =====
+{cat:"comida", es:"¿Repetimos? Estaba buenísimo.", pt:"Repetimos? Tava delicioso.", note:"'repetir' = pegar mais/repetir o prato.", ctx:"En la mesa de Sookie.", ep:"Cocina"},
+  {cat:"comida", es:"No cocino, pero pido genial.", pt:"Não cozinho, mas peço muito bem.", note:"Humor de Lorelai.", ctx:"Lorelai sobre sus 'habilidades'.", ep:"Bordão"},
+  {cat:"rutina", es:"Cierra la ventana, que entra frío.", pt:"Fecha a janela, que entra frio.", note:"'ventana' = janela.", ctx:"Noche fría en Stars Hollow.", ep:"Casa"},
+  {cat:"rutina", es:"Estoy que me caigo de sueño.", pt:"Tô caindo de sono.", note:"'caerse de sueño' = morrer de sono.", ctx:"Rory tras estudiar de más.", ep:"Recorrente"},
+  {cat:"ciudad", es:"Vive a dos calles de aquí.", pt:"Mora a duas ruas daqui.", note:"'a dos calles' = a duas ruas.", ctx:"Ubicando a un vecino.", ep:"Stars Hollow"},
+  {cat:"salud", es:"Abrígate, que vas a coger frío.", pt:"Se agasalha, que você vai pegar um frio.", note:"'abrigarse' = se agasalhar. 'coger frío' = pegar frio.", ctx:"Lorelai en modo madre.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Se está cortando, no te oigo.", pt:"Tá cortando, não te ouço.", note:"'cortarse' = falhar (a ligação).", ctx:"Mala cobertura en Stars Hollow.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Llámame en cuanto llegues.", pt:"Me liga assim que chegar.", note:"'en cuanto' = assim que.", ctx:"Lorelai en modo madre preocupada.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Te he llamado mil veces.", pt:"Te liguei mil vezes.", note:"Exagero típico.", ctx:"Lorelai persiguiendo a Rory.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Deja un mensaje después de la señal.", pt:"Deixa recado depois do sinal.", note:"'mensaje' = recado/mensagem.", ctx:"El contestador de Lorelai.", ep:"Recorrente"},
+  {cat:"familia", es:"Me tienes preocupada, cariño.", pt:"Você me deixa preocupada, querida.", note:"'cariño' = querido/a (tratamento carinhoso).", ctx:"Lorelai con Rory.", ep:"Mãe-filha"},
+  {cat:"familia", es:"Esta conversación no ha terminado.", pt:"Essa conversa não acabou.", note:"'no ha terminado' = não terminou.", ctx:"Emily saliendo con la última palabra.", ep:"Recorrente"},
+  {cat:"familia", es:"No vuelvas a hacerme eso.", pt:"Não faz isso comigo de novo.", note:"'volver a + inf.' = fazer de novo.", ctx:"Lorelai dolida.", ep:"Recorrente"},
+  {cat:"familia", es:"Los trapos sucios se lavan en casa.", pt:"Roupa suja se lava em casa.", note:"<b>Provérbio:</b> não expor brigas em público.", ctx:"Emily obsesionada con las apariencias.", ep:"Emily"},
+  {cat:"estudio", es:"Tengo una entrega para el lunes.", pt:"Tenho uma entrega pra segunda.", note:"'entrega' = prazo de entrega.", ctx:"Rory con un trabajo pendiente.", ep:"Yale"},
+  {cat:"estudio", es:"Este cliente me va a volver loca.", pt:"Esse cliente vai me deixar louca.", note:"'volver loco/a' = deixar louco.", ctx:"Lorelai lidiando con huéspedes difíciles.", ep:"Hotel"},
+  {cat:"estudio", es:"Tengo la agenda a tope.", pt:"Minha agenda tá lotada.", note:"<b>Espanha:</b> 'a tope' = no limite/cheio.", ctx:"Lorelai sin un hueco libre.", ep:"Recorrente"},
+  {cat:"estudio", es:"Estoy aprendiendo español, poco a poco.", pt:"Tô aprendendo espanhol, aos poucos.", note:"'poco a poco' = aos poucos.", ctx:"Guiño meta para la app.", ep:"Bonus"},
+  {cat:"estudio", es:"No me entra la fórmula esta.", pt:"Essa fórmula não entra na minha cabeça.", note:"<b>Espanha:</b> 'no me entra' = não consigo entender.", ctx:"Rory con mates, su punto flaco.", ep:"Chilton"},
+  {cat:"coloquial", es:"Me gusta, pero no se lo digas a nadie.", pt:"Eu gosto dele, mas não conta pra ninguém.", note:"'gustar' + estrutura invertida.", ctx:"Lorelai negando lo obvio sobre Luke.", ep:"Luke↔Lorelai"},
+  {cat:"coloquial", es:"¿Estáis saliendo o qué?", pt:"Vocês tão saindo/namorando ou o quê?", note:"'salir con alguien' = namorar/sair com. 'estáis' (vosotros).", ctx:"Todo el pueblo especulando.", ep:"Stars Hollow"},
+  {cat:"coloquial", es:"Me pone nerviosa cuando me mira así.", pt:"Fico nervosa quando ele me olha assim.", note:"'poner nervioso' = deixar nervoso.", ctx:"Tensión romántica.", ep:"Romance"},
+  {cat:"coloquial", es:"Hacéis muy buena pareja.", pt:"Vocês formam um belo casal.", note:"'buena pareja' = belo casal.", ctx:"Sookie shippeando descaradamente.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Se me declaró y me quedé muda.", pt:"Ele se declarou e eu fiquei muda.", note:"'declararse' = se declarar.", ctx:"Momento romántico inesperado.", ep:"Romance"},
+  {cat:"coloquial", es:"Lo nuestro es complicado.", pt:"O nosso lance é complicado.", note:"'lo nuestro' = a nossa história/lance.", ctx:"Lorelai definiendo lo indefinible.", ep:"Luke↔Lorelai"},
+  {cat:"coloquial", es:"Me has roto el corazón, ¿lo sabes?", pt:"Você partiu meu coração, sabia?", note:"'romper el corazón' = partir o coração.", ctx:"Ruptura dramática.", ep:"Romance"},
+  {cat:"coloquial", es:"Dame una segunda oportunidad.", pt:"Me dá uma segunda chance.", note:"'segunda oportunidad' = segunda chance.", ctx:"Reconciliación en la puerta.", ep:"Romance"},
+  {cat:"coloquial", es:"Se lo tenía que haber dicho antes.", pt:"Eu devia ter falado isso antes.", note:"'tenía que haber + participio' = devia ter.", ctx:"Lorelai arrepentida.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Cada vez que te veo me alegras el día.", pt:"Toda vez que te vejo você alegra meu dia.", note:"'alegrar el día' = alegrar o dia.", ctx:"Momento tierno Luke–Lorelai.", ep:"Romance"},
+  {cat:"coloquial", es:"No te hagas el/la interesante.", pt:"Não se faz de difícil.", note:"'hacerse el interesante' = se fazer de difícil.", ctx:"Coqueteo con chispa.", ep:"Romance"},
+  {cat:"coloquial", es:"Échale valor y díselo.", pt:"Cria coragem e fala pra ele.", note:"<b>Idiom:</b> 'echarle valor' = criar coragem.", ctx:"Sookie animando a Lorelai.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Qué mala pata.", pt:"Que azar.", note:"<b>Idiom:</b> 'mala pata' = azar.", ctx:"Un plan que sale mal.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Se me ha hecho un nudo en el estómago.", pt:"Fiquei com um nó no estômago.", note:"'nudo en el estómago' = nó no estômago.", ctx:"Rory antes de una entrevista.", ep:"Recorrente"},
+  {cat:"coloquial", es:"Todo saldrá bien, ya verás.", pt:"Vai dar tudo certo, você vai ver.", note:"'salir bien' = dar certo.", ctx:"Lorelai tranquilizando a Rory.", ep:"Recorrente"},
+  {cat:"genial", es:"Los lunes deberían ser opcionales.", pt:"Segundas deviam ser opcionais.", note:"'opcional' = opcional.", ctx:"Queja universal muy Lorelai.", ep:"Bordão"},
+  {cat:"genial", es:"Nadie me dice cómo vivir mi vida.", pt:"Ninguém me diz como viver minha vida.", note:"'mi vida' = minha vida.", ctx:"Lorelai vs. Emily, eterno.", ep:"Bordão"},
+  {cat:"planes", es:"¿Vienes al concierto de la banda de Lane?", pt:"Vem no show da banda da Lane?", note:"'concierto' = show.", ctx:"Lane y su rebelión musical.", ep:"Lane"},
+  {cat:"planes", es:"Hay que decorarlo todo para la feria.", pt:"Tem que decorar tudo pra feira.", note:"'decorar' = decorar.", ctx:"El pueblo entero movilizado.", ep:"Town events"},
+  {cat:"planes", es:"Kirk se ha apuntado de voluntario otra vez.", pt:"O Kirk se voluntariou de novo.", note:"'apuntarse de voluntario' = se voluntariar.", ctx:"Kirk y sus mil trabajos.", ep:"Kirk"},
+  {cat:"planes", es:"La subasta empieza a las seis.", pt:"O leilão começa às seis.", note:"'subasta' = leilão.", ctx:"El famoso evento benéfico del pueblo.", ep:"Town events"},
+  {cat:"planes", es:"Se ha agotado todo en media hora.", pt:"Esgotou tudo em meia hora.", note:"'agotarse' = esgotar.", ctx:"La comida de Sookie, un éxito.", ep:"Evento"},
+  {cat:"planes", es:"Échame una mano montando la carpa.", pt:"Me ajuda a montar a barraca.", note:"'carpa' = tenda/barraca.", ctx:"Preparativos al aire libre.", ep:"Town events"},
+  {cat:"planes", es:"Hace un día precioso, vamos fuera.", pt:"Tá um dia lindo, vamos lá pra fora.", note:"'precioso' = lindo.", ctx:"Lorelai y Rory de picnic.", ep:"Recorrente"},
+  {cat:"planes", es:"Está nevando, ¡mira!", pt:"Tá nevando, olha!", note:"'nevar' = nevar. Lorelai AMA la nieve.", ctx:"La primera nevada, escena icónica.", ep:"Neve"},
+  {cat:"planes", es:"Se ha nublado de repente.", pt:"Nublou de repente.", note:"'nublarse' = ficar nublado.", ctx:"Cambio de planes por el tiempo.", ep:"Recorrente"},
+  {cat:"planes", es:"Hace un viento que se lleva a la gente.", pt:"Tá um vento que leva as pessoas.", note:"exagero sobre 'viento' = vento.", ctx:"Tormenta en el pueblo.", ep:"Recorrente"},
+  {cat:"planes", es:"Ponte el abrigo, que hiela.", pt:"Põe o casaco, que tá congelando.", note:"'abrigo' = casaco. 'helar' = congelar.", ctx:"Invierno en Connecticut.", ep:"Recorrente"},
+  {cat:"comida", es:"¿Te ha sobrado pizza de anoche?", pt:"Sobrou pizza de ontem à noite?", note:"'sobrar' = sobrar. 'anoche' = ontem à noite.", ctx:"Rory rescatando restos.", ep:"Recorrente"},
+  {cat:"rutina", es:"Se me ha roto el tacón.", pt:"Quebrou meu salto.", note:"'tacón' = salto (sapato).", ctx:"Lorelai corriendo por el hotel.", ep:"Recorrente"},
+  {cat:"rutina", es:"Baja el volumen, que es tardísimo.", pt:"Abaixa o volume, que tá tardíssimo.", note:"'bajar el volumen' = abaixar o volume.", ctx:"Vecinos de Stars Hollow.", ep:"Recorrente"},
+  {cat:"rutina", es:"Se me ha manchado la camiseta.", pt:"Manchei minha camiseta.", note:"'mancharse' = se manchar.", ctx:"Lorelai y el café, otra vez.", ep:"Recorrente"},
+  {cat:"estudio", es:"Voy a por todas con este proyecto.", pt:"Vou com tudo nesse projeto.", note:"<b>Idiom:</b> 'ir a por todas' = ir com tudo.", ctx:"Lorelai persiguiendo su sueño.", ep:"Dragonfly Inn"},
+  {cat:"estudio", es:"Me han hecho una oferta que no puedo rechazar.", pt:"Me fizeram uma oferta que não dá pra recusar.", note:"'rechazar' = recusar.", ctx:"Lorelai ante una gran decisión.", ep:"Recorrente"},
+  {cat:"estudio", es:"Tengo una pila de libros por leer.", pt:"Tenho uma pilha de livros pra ler.", note:"'pila' = pilha.", ctx:"La mesita de noche de Rory.", ep:"Rory"},
+  {cat:"estudio", es:"No me distraigas, que estoy estudiando.", pt:"Não me distrai, que tô estudando.", note:"'distraer' = distrair.", ctx:"Rory concentrada; Lorelai, no tanto.", ep:"Recorrente"},
+  {cat:"estudio", es:"Voy pillada de tiempo con la tesis.", pt:"Tô apertada de tempo com a tese.", note:"<b>Espanha:</b> 'pillada de tiempo' = sem tempo.", ctx:"Rory en época de entregas.", ep:"Yale"},
+  {cat:"coloquial", es:"Menuda nochecita nos espera.", pt:"Que noitezinha nos espera.", note:"'menuda' irônico. 'nochecita' = noitezinha.", ctx:"Antes de un cena con Emily.", ep:"Recorrente"},
+  {cat:"coloquial", es:"No pega ni con cola.", pt:"Não combina de jeito nenhum.", note:"<b>Idiom:</b> 'no pegar ni con cola' = não combinar nada.", ctx:"Lorelai criticando un look.", ep:"Recorrente"},
+  {cat:"coloquial", es:"No me vengas con esas.", pt:"Não vem com essa pra cima de mim.", note:"<b>Idiom:</b> rejeitar desculpa.", ctx:"Lorelai incrédula.", ep:"Recorrente"},
+  {cat:"genial", es:"El caos también tiene su encanto.", pt:"O caos também tem seu charme.", note:"'su encanto' = seu charme.", ctx:"Lorelai defendiendo su estilo de vida.", ep:"Bordão"},
+  {cat:"familia", es:"En el fondo te quiere, a su manera.", pt:"No fundo ela te ama, do jeito dela.", note:"'en el fondo' = no fundo. 'a su manera' = do jeito dela.", ctx:"Rory sobre Emily.", ep:"Recorrente"},
+  {cat:"comida", es:"Se me antoja una hamburguesa con queso.", pt:"Tô com desejo de um hambúrguer com queijo.", note:"<b>Espanha (tb.):</b> 'antojarse' = dar vontade. 'queso' = queijo.", ctx:"Lorelai en Luke's, la de siempre.", ep:"Luke's"},
+  {cat:"coloquial", es:"Dejemos las cosas claras.", pt:"Vamos deixar as coisas claras.", note:"'dejar claro' = deixar claro.", ctx:"Conversación pendiente Luke–Lorelai.", ep:"Romance"},
+  {cat:"rutina", es:"Se me acumula la ropa por lavar.", pt:"Tá acumulando roupa pra lavar.", note:"'ropa por lavar' = roupa pra lavar.", ctx:"El eterno cesto de las Gilmore.", ep:"Recorrente"},
+  {cat:"ciudad", es:"Cógete un taxi, que es tarde.", pt:"Pega um táxi, que tá tarde.", note:"'cogerse un taxi' = pegar um táxi.", ctx:"Lorelai preocupada por Rory.", ep:"Recorrente"}
+];
+
+/* ---------- categorias ---------- */
+const CATS = {
+  café:      {label:"Café",             cup:"☕",  color:"#a9703f"},
+  comida:    {label:"Comida",           cup:"🍕",  color:"#c0562f"},
+  rutina:    {label:"Rutina",           cup:"🏠",  color:"#7a6a53"},
+  estudio:   {label:"Trabajo/Estudio",  cup:"📚",  color:"#4a6d8c"},
+  familia:   {label:"Familia",          cup:"❤️",  color:"#8c2f39"},
+  genial:    {label:"Geniales",         cup:"😏",  color:"#b0801e"},
+  coloquial: {label:"Coloquial",        cup:"🗣️",  color:"#3f7d5a"},
+  compras:   {label:"Compras",          cup:"🛒",  color:"#9c6b8e"},
+  ciudad:    {label:"Ciudad",           cup:"🚌",  color:"#5c7a6a"},
+  salud:     {label:"Salud",            cup:"🩺",  color:"#6a8caf"},
+  planes:    {label:"Planes",           cup:"📅",  color:"#b5893f"},
+};
+
+/* ---------- utilidades + estado ---------- */
+const el = id => document.getElementById(id);
+const cardId = c => c.es;                     // id estável pela frase em espanhol
+
+let selected = new Set(Object.keys(CATS));    // todas por padrão
+let queue = [], pos = 0, sessionStudied = 0;
+
+/* sentido do card: 'es2pt' (frente espanhol) ou 'pt2es' (frente português) */
+const DIR_KEY = "gilmore.es.dir.v1";
+let dir = localStorage.getItem(DIR_KEY) || "es2pt";
+
+/* ---------- modos: adivinhar quem falou + melodia ---------- */
+const GUESS_KEY = "gilmore.es.guess.v1";
+let guessMode = localStorage.getItem(GUESS_KEY) || "off";
+let awaitingGuess = false, currentSpeaker = null, guessOrder = [];
+let sessionGuessOK = 0, sessionGuessTot = 0;
+
+const SPEAKERS = {
+  Lorelai:"☕", Luke:"🧢", Rory:"📚", Emily:"💎", Richard:"🥃",
+  Sookie:"🍳", Paris:"🎯", Kirk:"🎪", Michel:"🛎️"
+};
+// detecta o falante só quando o contexto começa com o nome (evita "Luke's Diner")
+/* voz que mais combina com cada frase neutra (baralho é adaptado/no espírito) */
+const WHO_OVERRIDE = {
+  "¿Me pones un café para llevar, por favor?": "Luke",
+  "¿Te lo vas a beber o te lo vas a poner por vía intravenosa?": "Rory",
+  "¿Te apetece pedir comida china?": "Sookie",
+  "Hoy toca noche de pizza y peli.": "Lorelai",
+  "Vamos a desayunar a Luke's.": "Sookie",
+  "¿Has visto mis llaves? No las encuentro.": "Lorelai",
+  "Voy a echarme una siesta rápida.": "Luke",
+  "Necesito estudiar, en serio esta vez.": "Rory",
+  "El viernes hay cena en casa de mis padres. No hay escapatoria.": "Luke",
+  "¿Estás bien? Cuéntamelo todo.": "Lorelai",
+  "Te quiero, pero ahora mismo me estás volviendo loca.": "Lorelai",
+  "No estoy enfadada, solo... decepcionada.": "Lorelai",
+  "Estoy bien. 'Bien' entre comillas.": "Rory",
+  "Es una larga historia. Ponte cómodo.": "Rory",
+  "El sarcasmo es mi lengua materna.": "Rory",
+  "No es que sea vaga, es que estoy ahorrando energía.": "Rory",
+  "Prefiero no hablar de ello. Vale, hablemos de ello.": "Lorelai",
+  "Puedo con esto. Probablemente.": "Luke",
+  "¿Qué tal el día?": "Rory",
+  "Vale, vale, ya voy.": "Lorelai",
+  "Un momento, que cojo el móvil.": "Rory",
+  "Me da igual, elige tú.": "Rory",
+  "¿En serio? No me lo puedo creer.": "Lorelai",
+  "No me apetece nada salir hoy.": "Lorelai",
+  "Qué mono, ¿no?": "Luke",
+  "¿Nos tomamos algo después?": "Rory",
+  "Qué fuerte, no me esperaba eso para nada.": "Lorelai",
+  "Sin café no soy persona.": "Lorelai",
+  "¿Me pones otro, por favor?": "Lorelai",
+  "Me muero de hambre, ¿comemos ya?": "Lorelai",
+  "Siempre hay sitio para el postre.": "Lorelai",
+  "¿Qué quieres cenar hoy?": "Sookie",
+  "Este sitio está petado.": "Sookie",
+  "Voy a ducharme, no tardo.": "Rory",
+  "Tengo que poner una lavadora.": "Lorelai",
+  "No encuentro el móvil por ningún lado.": "Luke",
+  "Me voy a la cama, estoy muerta.": "Lorelai",
+  "¿Puedes bajar la basura?": "Rory",
+  "¿Puedes ayudarme con esto?": "Rory",
+  "No te lo tomes a mal.": "Lorelai",
+  "Estoy muy orgullosa de ti.": "Lorelai",
+  "¿Me escuchas o no?": "Lorelai",
+  "El café primero, los problemas después.": "Lorelai",
+  "No necesito terapia, necesito café.": "Lorelai",
+  "La vida es corta, habla rápido.": "Lorelai",
+  "No soy rara, soy edición limitada.": "Luke",
+  "Si no hay café, no hay trato.": "Lorelai",
+  "No tengo ni idea.": "Lorelai",
+  "¿Me estás vacilando?": "Lorelai",
+  "Paso de todo hoy.": "Lorelai",
+  "Anda ya, no me lo creo.": "Rory",
+  "Déjame en paz un rato.": "Lorelai",
+  "¿Te apuntas o no?": "Rory",
+  "Estoy de bajón.": "Rory",
+  "¿Cuánto es todo?": "Luke",
+  "¿Se puede pagar con tarjeta?": "Rory",
+  "Me lo llevo.": "Rory",
+  "Solo estoy mirando, gracias.": "Luke",
+  "¿Tienes cambio de veinte?": "Lorelai",
+  "Voy a hacer la compra.": "Luke",
+  "Está aquí al lado.": "Lorelai",
+  "Coge la primera a la derecha.": "Lorelai",
+  "Vamos andando, está cerca.": "Lorelai",
+  "¿Está muy lejos?": "Lorelai",
+  "Me duele la cabeza.": "Luke",
+  "Necesito dormir más.": "Lorelai",
+  "Creo que me estoy resfriando.": "Rory",
+  "¿Qué planes tienes para el finde?": "Lorelai",
+  "Nos vemos sobre las ocho.": "Lorelai",
+  "¿A qué hora quedamos?": "Luke",
+  "Hoy hace un frío que pela.": "Rory",
+  "Te llamo luego, ¿vale?": "Rory",
+  "Tengo un don especial para meterme en líos.": "Lorelai",
+  "Quiero estudiar Periodismo.": "Rory",
+  "La criada nueva no durará ni una semana.": "Emily",
+  "El teléfono no para de sonar.": "Lorelai",
+  "Eres mi persona favorita en el mundo entero.": "Lorelai",
+  "Para el carro, ¿qué acabas de decir?": "Lorelai",
+  "Café, tú nunca me fallas.": "Lorelai",
+  "¿Te recojo a las siete?": "Lorelai",
+  "Se me ha hecho tarde otra vez, típico.": "Lorelai",
+  "Yo funciono a base de café y sarcasmo.": "Lorelai",
+  "¿Postre antes de cenar? Obviamente.": "Lorelai",
+  "Un trozo de tarta lo arregla casi todo.": "Lorelai",
+  "No quiero decepcionarte, mamá.": "Lorelai",
+  "En esta casa se cena a las siete en punto.": "Emily",
+  "Estoy muy orgulloso de mi nieta.": "Richard",
+  "Un caballero siempre cumple su palabra.": "Richard",
+  "Yo me encargo de la comida, tú de lo demás.": "Lorelai",
+  "La comida es amor, así de simple.": "Rory",
+  "El fracaso no es una opción.": "Lorelai",
+  "Somos un equipo, tú y yo.": "Lorelai",
+};
+function detectSpeaker(card){
+  if(WHO_OVERRIDE[card.es]) return WHO_OVERRIDE[card.es];
+  const ctx = card.ctx || "";
+  const m = ctx.match(/^([A-Za-zÁÉÍÓÚÑáéíóúñ]+)/);
+  if(!m || !(m[1] in SPEAKERS)) return null;
+  if(/^[A-Za-zÁÉÍÓÚÑ][a-zñáéíóú]+ y [A-ZÁÉÍÓÚÑ]/.test(ctx)) return null; // "X y Y" = ambíguo
+  return m[1];
+}
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+/* ---------- FSRS-6 · motor de repetição espaçada ---------- */
+const FSRS = (() => {
+  const w = [0.2172,1.1771,3.2602,16.1507,7.0114,0.57,2.0966,0.0069,1.5261,0.112,
+             1.0178,1.849,0.1133,0.3127,2.2934,0.2191,3.0004,0.7536,0.3332,0.1437,0.2];
+  const DECAY = -w[20];
+  const FACTOR = Math.pow(0.9, 1/DECAY) - 1;
+  const REQ_R = 0.9;                            // retenção-alvo (90%)
+  const cD = d => Math.min(10, Math.max(1, d));
+  const cS = s => Math.max(0.01, s);
+  const initS = g => w[g-1];
+  const initD = g => cD(w[4] - Math.exp(w[5]*(g-1)) + 1);
+  const nextD = (D,g) => { const dp = D - w[6]*(g-3)*(10-D)/9; return cD(w[7]*initD(4) + (1-w[7])*dp); };
+  const R = (t,S) => Math.pow(1 + FACTOR*t/S, DECAY);
+  const sRecall = (D,S,r,g) => cS(S*(1 + Math.exp(w[8])*(11-D)*Math.pow(S,-w[9])
+                    *(Math.exp(w[10]*(1-r))-1)*(g===2?w[15]:1)*(g===4?w[16]:1)));
+  const sForget = (D,S,r) => cS(Math.min(
+                    w[11]*Math.pow(D,-w[12])*(Math.pow(S+1,w[13])-1)*Math.exp(w[14]*(1-r)), S));
+  const toIvl = S => Math.max(1, Math.round((S/FACTOR)*(Math.pow(REQ_R,1/DECAY)-1)));
+  function schedule(card, g, now){
+    now = now || new Date();
+    let S, D, reps, lapses;
+    if(!card || card.S == null){                 // card novo
+      S = initS(g); D = initD(g); reps = 1; lapses = (g===1?1:0);
+    } else {                                      // revisão
+      const t = Math.max(0, (now - new Date(card.last)) / 86400000);
+      const r = R(t, card.S);
+      D = nextD(card.D, g);
+      S = (g===1) ? sForget(card.D, card.S, r) : sRecall(card.D, card.S, r, g);
+      reps = (card.reps||0) + 1; lapses = (card.lapses||0) + (g===1?1:0);
+    }
+    const days = toIvl(S);
+    const due = new Date(now); due.setDate(due.getDate() + days);
+    return { S, D, reps, lapses, ivl: days, last: now.toISOString(), due: due.toISOString(), state:"review" };
+  }
+  return { schedule };
+})();
+
+/* agendamento por card — este é o "Anki" de verdade, guardado no navegador */
+const SCHED_KEY = "gilmore.es.fsrs.v1";
+let sched = {};
+try { sched = JSON.parse(localStorage.getItem(SCHED_KEY)) || {}; } catch { sched = {}; }
+function saveSched(){ localStorage.setItem(SCHED_KEY, JSON.stringify(sched)); }
+
+function fmtIvl(d){
+  if(d < 1) return "hoy";
+  if(d < 30) return d + " d";
+  if(d < 365){ const m = Math.round(d/30); return m + (m>1 ? " meses" : " mes"); }
+  const y = d/365; return (y<10 ? y.toFixed(1) : Math.round(y)) + " a";
+}
+
+/* ---------- ofensiva (racha diária) ---------- */
+const STREAK_KEY = "gilmore.es.streak.v1";
+function dayStr(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function todayStr(){ return dayStr(new Date()); }
+function yesterdayStr(){ const d=new Date(); d.setDate(d.getDate()-1); return dayStr(d); }
+function loadStreak(){ try{ return JSON.parse(localStorage.getItem(STREAK_KEY)) || {}; }catch{ return {}; } }
+function saveStreak(s){ localStorage.setItem(STREAK_KEY, JSON.stringify(s)); }
+function recordStudy(n){
+  const s = loadStreak(), t = todayStr();
+  if(s.last !== t){                              // primeira sessão de hoje
+    s.days = (s.last === yesterdayStr()) ? (s.days||0)+1 : 1;
+    s.last = t; s.todayDate = t; s.todayCount = 0;
+  }
+  s.todayCount = (s.todayCount||0) + n;
+  saveStreak(s);
+  return s;
+}
+function currentStreak(){
+  const s = loadStreak(), t = todayStr();
+  return { days: (s.last===t || s.last===yesterdayStr()) ? (s.days||0) : 0 };
+}
+
+/* ---------- estatísticas do mazo ---------- */
+const NEW_LIMIT = 20;                            // máx. de cards novos por sessão
+function deckStats(){
+  const now = Date.now(); let due=0, fresh=0, mature=0;
+  for(const c of DECK){
+    const s = sched[cardId(c)];
+    if(!s){ fresh++; }
+    else { if(new Date(s.due).getTime() <= now) due++; if((s.ivl||0) >= 21) mature++; }
+  }
+  return { due: due + Math.min(fresh, NEW_LIMIT), mature };
+}
+function renderStats(){
+  el("stStreak").textContent = currentStreak().days;
+  const d = deckStats();
+  el("stDue").textContent = d.due;
+  el("stMature").textContent = d.mature;
+}
+
+/* ---------- chips ---------- */
+const chipsEl = document.getElementById("chips");
+function renderChips(){
+  chipsEl.innerHTML = "";
+  const total = Object.keys(CATS).length;
+  const all = document.createElement("button");
+  all.className = "chip all" + (selected.size===total ? " on":"");
+  all.textContent = "Todas";
+  all.onclick = ()=>{
+    if(selected.size===total) selected.clear(); else selected = new Set(Object.keys(CATS));
+    renderChips(); updateCount();
+  };
+  chipsEl.appendChild(all);
+  for(const key in CATS){
+    const c = document.createElement("button");
+    c.className = "chip" + (selected.has(key) ? " on":"");
+    c.style.setProperty("--c", CATS[key].color);
+    c.innerHTML = `<span class="dot"></span>${CATS[key].cup} ${CATS[key].label}`;
+    c.onclick = ()=>{
+      selected.has(key) ? selected.delete(key) : selected.add(key);
+      renderChips(); updateCount();
+    };
+    chipsEl.appendChild(c);
+  }
+}
+function poolIdx(){
+  return DECK.map((c,i)=>i).filter(i=>selected.has(DECK[i].cat));
+}
+function updateCount(){
+  const n = poolIdx().length;
+  el("count").textContent = n
+    ? `${n} frase${n>1?"s":""} seleccionada${n>1?"s":""} · el FSRS elige cuáles te tocan hoy.`
+    : "Elige al menos una categoría.";
+}
+
+/* ---------- áudio + seletor de voz ---------- */
+const VOICE_KEY = "gilmore.es.voice.v1";
+// nomes de vozes femininas de espanhol comuns em Windows/Chrome/Edge
+const FEMALE = /(helena|laura|elvira|sabina|paloma|luc[ií]a|m[oó]nica|monica|esperanza|marisol|female|mujer|femenin|google espa)/i;
+let voices = [], esVoice = null;
+function loadVoices(){
+  voices = (speechSynthesis.getVoices() || []).filter(v => /^es/i.test(v.lang));
+  voices.sort((a,b)=>{
+    const es  = v => /es-ES/i.test(v.lang) ? 0 : 1;   // España primeiro
+    const fem = v => FEMALE.test(v.name)   ? 0 : 1;    // feminina primeiro
+    return es(a)-es(b) || fem(a)-fem(b) || a.name.localeCompare(b.name);
+  });
+  buildVoiceSelect();
+}
+function buildVoiceSelect(){
+  const sel = el("voiceSel"); sel.innerHTML = "";
+  if(!voices.length){
+    const o = document.createElement("option"); o.textContent = "Voz del sistema"; sel.appendChild(o);
+    esVoice = null; return;
+  }
+  const saved = localStorage.getItem(VOICE_KEY);
+  voices.forEach(v=>{
+    const o = document.createElement("option"); o.value = v.name;
+    const region = /es-ES/i.test(v.lang) ? "España" : (v.lang.replace(/^es[-_]?/i,"").toUpperCase() || "ES");
+    o.textContent = `${v.name.replace(/^Microsoft\s+/i,"")} · ${region}${FEMALE.test(v.name) ? " ♀" : ""}`;
+    sel.appendChild(o);
+  });
+  const chosen = (saved && voices.find(v=>v.name===saved)) || voices[0];
+  sel.value = chosen.name; esVoice = chosen;
+}
+function speak(text){
+  if(!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "es-ES"; if(esVoice) u.voice = esVoice; u.rate = .95;
+  speechSynthesis.speak(u);
+}
+if("speechSynthesis" in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+/* ---------- fila de revisão (FSRS: vencidas + novas) ---------- */
+function buildQueue(){
+  const now = Date.now();
+  const due = [], fresh = [];
+  for(const i of poolIdx()){
+    const s = sched[cardId(DECK[i])];
+    if(!s) fresh.push(i);
+    else if(new Date(s.due).getTime() <= now) due.push(i);
+  }
+  due.sort((a,b)=> new Date(sched[cardId(DECK[a])].due) - new Date(sched[cardId(DECK[b])].due));
+  queue = due.concat(fresh.slice(0, NEW_LIMIT));
+  pos = 0;
+}
+
+/* ---------- render do card ---------- */
+function showCard(){
+  if(pos >= queue.length){ finish(); return; }
+  const c = DECK[queue[pos]];
+  const isES = dir === "es2pt";
+  el("card").style.setProperty("--accent", CATS[c.cat].color);
+  el("cup").textContent = CATS[c.cat].cup;
+  el("catName").textContent = CATS[c.cat].label;
+  el("frontFlag").textContent = isES ? "Español" : "Português";
+  el("backFlag").textContent  = isES ? "Português" : "Español";
+  el("es").textContent = isES ? c.es : c.pt; el("es").lang = isES ? "es" : "pt";
+  el("pt").textContent = isES ? c.pt : c.es; el("pt").lang = isES ? "pt" : "es";
+  el("note").innerHTML = c.note;
+  el("ctx").textContent = c.ctx;
+  const ep = el("ep"); ep.textContent = "📍 " + c.ep; ep.className = /T\d/.test(c.ep) ? "ep" : "ep rec";
+  el("say").style.display       = isES ? "inline-flex" : "none";
+  el("sayReveal").style.display = isES ? "none" : "inline-flex";
+  el("reveal").classList.remove("show");
+  el("whoBlock").style.display = "none";
+  el("actGrade").style.display = "none";
+  el("prog").textContent  = `${pos+1} / ${queue.length}`;
+  el("cardN").textContent = `${pos+1} / ${queue.length}`;
+  el("barfill").style.width = (pos/queue.length*100) + "%";
+  renderGuess(c);                             // etapa "adivinar quién" ou botão "Ver respuesta"
+  if(isES) speak(c.es);                       // fala só quando a frente é espanhol
+}
+// monta a etapa de adivinhar (ou pula, se modo off / sem falante claro)
+function renderGuess(card){
+  currentSpeaker = detectSpeaker(card);
+  if(guessMode !== "on" || !currentSpeaker){
+    el("guessBox").style.display = "none";
+    el("flip").style.display = "block";
+    awaitingGuess = false;
+    return;
+  }
+  const others = shuffle(Object.keys(SPEAKERS).filter(n => n !== currentSpeaker));
+  guessOrder = shuffle([currentSpeaker, others[0], others[1], others[2]]);
+  const opts = el("guessOpts"); opts.innerHTML = "";
+  guessOrder.forEach(name=>{
+    const b = document.createElement("button");
+    b.className = "gopt"; b.dataset.name = name;
+    b.innerHTML = `<span>${SPEAKERS[name]}</span> ${name}`;
+    b.onclick = () => pickSpeaker(name);
+    opts.appendChild(b);
+  });
+  el("guessBox").style.display = "block";
+  el("flip").style.display = "none";
+  awaitingGuess = true;
+}
+function pickSpeaker(name){
+  if(!awaitingGuess) return;
+  awaitingGuess = false;
+  const ok = (name === currentSpeaker);
+  sessionGuessTot++; if(ok) sessionGuessOK++;
+  el("guessOpts").querySelectorAll(".gopt").forEach(b=>{
+    b.disabled = true;
+    if(b.dataset.name === currentSpeaker) b.classList.add("ok");
+    else if(b.dataset.name === name) b.classList.add("no");
+  });
+  showWho(ok);
+  flip();
+}
+function showWho(ok){
+  const w = el("who");
+  w.className = "who" + (ok===true ? " ok" : ok===false ? " no" : "");
+  const tag = ok===true ? '<span class="mark">✓ ¡Correcto!</span>'
+            : ok===false ? '<span class="mark">✗ casi</span>' : "";
+  w.innerHTML = `🗣️ Le pega a: <b>${SPEAKERS[currentSpeaker]||""} ${currentSpeaker}</b> ${tag}`;
+  el("whoBlock").style.display = "block";
+}
+function flip(){
+  const c = DECK[queue[pos]], prev = sched[cardId(c)] || null, now = new Date();
+  for(let g=1; g<=4; g++){                     // previsão de intervalo em cada botão
+    el("iv"+g).textContent = fmtIvl(FSRS.schedule(prev ? {...prev} : null, g, now).ivl);
+  }
+  el("guessBox").style.display = "none";
+  if(currentSpeaker && el("whoBlock").style.display === "none") showWho(null); // mostra quem falou mesmo sem quiz
+  el("reveal").classList.add("show");
+  el("flip").style.display = "none";
+  el("actGrade").style.display = "grid";
+  awaitingGuess = false;
+}
+function grade(g){
+  sessionStudied++;
+  const c = DECK[queue[pos]], id = cardId(c);
+  sched[id] = FSRS.schedule(sched[id] || null, g, new Date());
+  saveSched();
+  if(g === 1 && queue.length > 1){             // "Otra vez" reaparece ainda nesta sessão
+    const item = queue.splice(pos, 1)[0];
+    queue.splice(Math.min(queue.length, pos+3), 0, item);
+    showCard();
+  } else { pos++; showCard(); }
+}
+function finish(){
+  const s = recordStudy(sessionStudied);
+  el("card").style.display = "none";
+  el("flip").style.display = "none";
+  el("actGrade").style.display = "none";
+  document.querySelector(".kbd").style.display = "none";
+  el("done").style.display = "block";
+  el("barfill").style.width = "100%";
+  el("prog").textContent = "✓";
+  const dias = s.days || 0;
+  const guessLine = sessionGuessTot
+    ? ` 🎭 Adivinaste <b>${sessionGuessOK}/${sessionGuessTot}</b> personajes.` : "";
+  el("doneMsg").innerHTML =
+    `Has repasado <b>${sessionStudied}</b> ${sessionStudied===1?"tarjeta":"tarjetas"}. ` +
+    `🔥 Racha de <b>${dias}</b> ${dias===1?"día":"días"} — vuelve mañana para no perderla.` + guessLine;
+  renderStats();
+}
+
+/* ---------- navegação ---------- */
+function startSession(){
+  buildQueue();
+  if(!queue.length){
+    el("count").textContent = poolIdx().length
+      ? "¡Todo al día! No hay tarjetas pendientes ahora — vuelve más tarde."
+      : "Elige al menos una categoría.";
+    return;
+  }
+  sessionStudied = 0; sessionGuessOK = 0; sessionGuessTot = 0;
+  el("start").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  el("card").style.display = "flex";
+  document.querySelector(".kbd").style.display = "block";
+  el("done").style.display = "none";
+  showCard();
+}
+function backToStart(){
+  if("speechSynthesis" in window) speechSynthesis.cancel();
+  document.getElementById("app").style.display = "none";
+  el("start").style.display = "block";
+  updateCount(); renderStats();
+}
+
+/* ---------- sentido (inverter idioma a qualquer momento) ---------- */
+function updateDirUI(){
+  document.querySelectorAll("#dirSeg button").forEach(b => b.classList.toggle("on", b.dataset.dir === dir));
+  el("dirMini").textContent = dir === "es2pt" ? "ES→PT" : "PT→ES";
+}
+function setDir(d){
+  if(d === dir) return;
+  dir = d; localStorage.setItem(DIR_KEY, dir); updateDirUI();
+  const app = document.getElementById("app");
+  if(app.style.display === "block" && pos < queue.length && el("card").style.display !== "none"){
+    const wasRevealed = el("reveal").classList.contains("show");
+    showCard();
+    if(wasRevealed) flip();
+  }
+}
+
+/* ---------- ligações ---------- */
+el("go").onclick = startSession;
+el("flip").onclick = flip;
+el("say").onclick = () => speak(DECK[queue[pos]].es);
+el("sayReveal").onclick = () => speak(DECK[queue[pos]].es);
+el("quit").onclick = backToStart;
+el("again2").onclick = backToStart;
+el("voiceSel").onchange = () => {
+  esVoice = voices.find(v => v.name === el("voiceSel").value) || null;
+  if(esVoice){ localStorage.setItem(VOICE_KEY, esVoice.name); speak("Hola, así sueno yo."); }
+};
+document.querySelectorAll("#dirSeg button").forEach(b => b.onclick = () => setDir(b.dataset.dir));
+el("dirMini").onclick = () => setDir(dir === "es2pt" ? "pt2es" : "es2pt");
+document.querySelectorAll("#actGrade button").forEach(b => b.onclick = () => grade(+b.dataset.g));
+
+// modo "adivinar quién" (liga/desliga)
+document.querySelectorAll("#guessSeg button").forEach(b => b.onclick = () => {
+  guessMode = b.dataset.guess; localStorage.setItem(GUESS_KEY, guessMode);
+  document.querySelectorAll("#guessSeg button").forEach(x => x.classList.toggle("on", x.dataset.guess === guessMode));
+  const app = document.getElementById("app");
+  if(app.style.display === "block" && pos < queue.length && !el("reveal").classList.contains("show")) showCard();
+});
+/* teclado */
+document.addEventListener("keydown", e => {
+  if(document.getElementById("app").style.display !== "block") return;
+  if(e.target.tagName === "SELECT") return;
+  if(awaitingGuess){                            // na fase de palpite, 1–4 escolhe o personagem
+    if(["1","2","3","4"].includes(e.key)){ const n = guessOrder[+e.key-1]; if(n) pickSpeaker(n); }
+    return;
+  }
+  if(e.code === "Space"){ e.preventDefault(); if(el("flip").style.display !== "none") flip(); }
+  else if(e.key === "s" || e.key === "S"){ speak(DECK[queue[pos]].es); }
+  else if(el("actGrade").style.display !== "none" && ["1","2","3","4"].includes(e.key)){ grade(+e.key); }
+});
+
+/* init */
+renderChips(); updateCount(); updateDirUI(); renderStats();
+document.querySelectorAll("#guessSeg button").forEach(b => b.classList.toggle("on", b.dataset.guess === guessMode));
+</script>
+</body>
+</html>
