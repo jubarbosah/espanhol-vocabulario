@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#c2611f" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Mi Diario" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="icon-192.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});}</script>
+<title>Mi Diario · Escrita diária em espanhol</title>
+<style>
+  :root {
+    --bg: #f5f1e8; --card: #fffdf8; --ink: #2b2724; --muted: #7c746a;
+    --line: #e4ddcf; --accent: #c2611f; --accent-soft: #f6e3d2;
+    --green: #3f7d4f; --green-soft: #e4f0e5; --red: #b23b3b; --red-soft: #f6e0dd;
+    --blue: #35637a; --blue-soft: #e2edf2; --yellow-mk: #fbe6a2;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(60,45,25,.06);
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 26px 18px 90px; }
+  header.top { text-align:center; margin-bottom:22px; }
+  header.top h1 { font-family:Georgia,serif; font-size:30px; margin:0 0 4px; letter-spacing:-.3px; }
+  header.top p { margin:0; color:var(--muted); font-size:14px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px; box-shadow:var(--shadow); margin-bottom:18px; }
+  h2 { font-family:Georgia,serif; font-size:19px; margin:0 0 12px; }
+  .step-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin-bottom:10px; }
+  .step-label .num { width:20px; height:20px; border-radius:50%; background:var(--accent-soft); color:var(--accent); display:grid; place-items:center; font-size:11px; }
+  textarea, input[type=password], input[type=text] { width:100%; border:1px solid var(--line); border-radius:10px; padding:12px 14px; font:inherit; color:var(--ink); background:#fff; resize:vertical; outline:none; }
+  textarea:focus, input:focus { border-color:var(--accent); }
+  textarea { min-height:90px; line-height:1.6; }
+  button { font:inherit; font-weight:600; cursor:pointer; border:none; border-radius:10px; padding:11px 18px; background:var(--accent); color:#fff; transition:opacity .15s, transform .05s; }
+  button:hover { opacity:.92; } button:active { transform:translateY(1px); }
+  button:disabled { opacity:.45; cursor:default; }
+  button.ghost { background:transparent; color:var(--accent); border:1px solid var(--line); }
+  button.mini { padding:6px 12px; font-size:13px; border-radius:8px; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .muted { color:var(--muted); font-size:14px; }
+  .hidden { display:none !important; }
+  .foco-tag { display:inline-block; background:var(--accent-soft); color:var(--accent); font-size:13px; font-weight:600; padding:4px 12px; border-radius:999px; margin-bottom:12px; }
+  .reacao { color:var(--green); font-style:italic; font-size:14px; margin-bottom:8px; }
+  .pergunta { font-family:Georgia,serif; font-size:21px; line-height:1.4; margin-bottom:14px; }
+  .progresso-q { font-size:12.5px; color:var(--muted); margin-top:10px; }
+  /* vocab helper */
+  .vocab { background:var(--blue-soft); border:1px solid #cfe0e8; }
+  .vocab .step-label { color:var(--blue); }
+  .vocab .step-label .num { background:#fff; color:var(--blue); }
+  .vocab-res { background:#fff; border:1px solid #cfe0e8; border-radius:10px; padding:10px 14px; margin-top:10px; }
+  .vocab-res .es { font-size:17px; font-weight:600; color:var(--blue); }
+  .vocab-res .nota { font-size:13px; color:var(--muted); margin-top:3px; }
+  .chips { display:flex; gap:7px; flex-wrap:wrap; margin-top:12px; }
+  .chip { background:#fff; border:1px solid #cfe0e8; border-radius:999px; padding:3px 11px; font-size:13px; color:var(--blue); }
+  /* correcao */
+  .diario-mk { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px; line-height:1.9; margin-bottom:16px; }
+  mark.mk { background:var(--yellow-mk); padding:0 2px; border-radius:3px; }
+  mark.mk sup { font-size:10px; color:var(--accent); font-weight:700; margin-left:1px; }
+  .hint { display:flex; gap:11px; align-items:flex-start; border:1px solid var(--line); border-radius:10px; padding:11px 14px; margin-bottom:8px; background:#fff; }
+  .hint .hn { flex:0 0 22px; height:22px; border-radius:50%; background:var(--accent-soft); color:var(--accent); display:grid; place-items:center; font-size:12px; font-weight:700; }
+  .hint .why { color:var(--muted); font-size:14px; margin-top:2px; }
+  .corrected { background:var(--green-soft); border-left:3px solid var(--green); border-radius:8px; padding:12px 15px; line-height:1.7; margin-bottom:14px; }
+  .attempt-box { background:var(--red-soft); border-left:3px solid var(--red); border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:14px; }
+  .err { border:1px solid var(--line); border-radius:10px; padding:11px 14px; margin-bottom:9px; background:#fff; }
+  .err .pair { font-size:15px; }
+  .err .old { color:var(--red); text-decoration:line-through; }
+  .err .new { color:var(--green); font-weight:600; }
+  .err .why { color:var(--muted); font-size:14px; margin-top:3px; }
+  .badge-falso { display:inline-block; background:var(--red-soft); color:var(--red); font-size:11px; font-weight:600; padding:1px 7px; border-radius:6px; margin-left:6px; text-transform:uppercase; letter-spacing:.04em; }
+  .badge-rep { display:inline-block; background:var(--accent-soft); color:var(--accent); font-size:11px; font-weight:600; padding:1px 7px; border-radius:6px; margin-left:6px; }
+  .flash { display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:10px; }
+  .flash > div { padding:12px 14px; }
+  .flash .f { background:#fff; border-right:1px solid var(--line); }
+  .flash .v { background:#fbf8f1; }
+  .flash .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:4px; display:flex; justify-content:space-between; align-items:center; }
+  .flash .txt { font-size:15px; }
+  @media (max-width:520px){ .flash{ grid-template-columns:1fr; } .flash .f{ border-right:none; border-bottom:1px solid var(--line);} }
+  .spinner { display:inline-block; width:15px; height:15px; border:2px solid var(--accent-soft); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; vertical-align:-2px; margin-right:6px; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .error-msg { background:var(--red-soft); color:var(--red); border-radius:10px; padding:12px 15px; font-size:14px; margin-top:10px; }
+  .setup-note { font-size:13.5px; color:var(--muted); line-height:1.6; } .setup-note a { color:var(--accent); }
+  .footer { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:var(--muted); margin-top:16px; padding-top:14px; border-top:1px solid var(--line); }
+  .footer a { color:var(--accent); cursor:pointer; text-decoration:underline; }
+  .toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:9px 16px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .2s; pointer-events:none; }
+  .toast.show { opacity:1; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Mi Diario</h1>
+    <p>Seu diário guiado em espanhol, com a Mila ☕</p>
+  </header>
+
+  <!-- SETUP -->
+  <section id="setup" class="card">
+    <div class="step-label"><span class="num">0</span> Configuração (só uma vez)</div>
+    <h2>Conecte sua chave do Google (Gemini)</h2>
+    <p class="setup-note">
+      Crie sua chave gratuitamente em
+      <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>
+      (começa com <code>AIza...</code>).<br><br>
+      🔒 Ela fica salva só no seu navegador, neste aparelho.
+    </p>
+    <div style="margin:14px 0 10px"><input id="apiKey" type="password" placeholder="AIza..." autocomplete="off" /></div>
+    <div class="row"><button id="saveKey">Salvar e começar</button></div>
+    <div id="setupErr"></div>
+  </section>
+
+  <!-- APP -->
+  <div id="app" class="hidden">
+
+    <!-- START -->
+    <section id="s-start" class="card">
+      <div class="step-label"><span class="num">1</span> Hoje</div>
+      <p class="muted" style="margin-top:-2px">Eu vou te entrevistar com perguntas curtas pra te ajudar a escrever seu diário. Responde do seu jeito, com erros mesmo. 🙂</p>
+      <button id="btnStart">Começar meu diário de hoje</button>
+      <div id="startErr"></div>
+    </section>
+
+    <!-- ENTREVISTA -->
+    <section id="s-entrevista" class="card hidden">
+      <div class="step-label"><span class="num">2</span> Diário de hoje</div>
+      <div id="entFoco" class="foco-tag hidden"></div>
+      <div id="entReacao" class="reacao hidden"></div>
+      <div id="entPergunta" class="pergunta"></div>
+      <textarea id="entResposta" placeholder="Escribe tu respuesta en español..."></textarea>
+      <div class="row" style="margin-top:12px">
+        <button id="btnResponder">Responder e continuar</button>
+        <button class="ghost mini" id="btnEncerrar">Encerrar e corrigir</button>
+      </div>
+      <div class="progresso-q" id="entProgresso"></div>
+      <div id="entErr"></div>
+    </section>
+
+    <!-- VOCAB HELPER -->
+    <section id="s-vocab" class="card vocab hidden">
+      <div class="step-label"><span class="num">?</span> ¿Cómo se dice...?</div>
+      <p class="muted" style="margin-top:-2px">Travou numa palavra? Pergunte aqui (em português) sem parar seu diário.</p>
+      <div class="row">
+        <input id="vocabInput" type="text" placeholder="ex: frigideira / o que você fez ontem" style="flex:1; min-width:180px" />
+        <button class="mini" id="btnVocab">Perguntar</button>
+      </div>
+      <div id="vocabResult"></div>
+      <div class="chips" id="vocabChips"></div>
+    </section>
+
+    <!-- CORREÇÃO (tentar primeiro) -->
+    <section id="s-correcao" class="card hidden">
+      <div class="step-label"><span class="num">3</span> Sua vez de corrigir</div>
+      <p class="muted" style="margin-top:-2px">Marquei os pontos pra ajustar e dei uma pista de cada. Tente arrumar você mesma antes de ver a resposta 💪</p>
+      <div class="diario-mk" id="diarioMarcado"></div>
+      <div id="hintList"></div>
+      <p class="muted" style="margin:14px 0 6px; font-weight:600; color:var(--ink)">Reescreva sua versão corrigida:</p>
+      <textarea id="tentativa"></textarea>
+      <div class="row" style="margin-top:12px">
+        <button id="btnVerResposta">Conferir e ver a resposta</button>
+        <button class="ghost" id="btnNaoSei">Não consegui, me mostra</button>
+      </div>
+      <div id="corrErr"></div>
+    </section>
+
+    <!-- REVELAÇÃO -->
+    <section id="s-revelacao" class="card hidden">
+      <div class="step-label"><span class="num">4</span> Resultado</div>
+      <div id="avalBox"></div>
+      <h2 style="margin-top:6px">Versão corrigida</h2>
+      <div class="corrected" id="revCorrigido"></div>
+      <div id="comentario" class="muted" style="margin-bottom:16px"></div>
+      <h2 style="font-size:17px">Entendendo os erros</h2>
+      <div id="revErros"></div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="s-flash" class="card hidden">
+      <div class="step-label"><span class="num">5</span> Flashcards</div>
+      <h2>3 cards pra você criar no seu app</h2>
+      <p class="muted" style="margin-top:-6px">Copie a frente e o verso de cada um.</p>
+      <div id="flashList"></div>
+      <div class="row" style="margin-top:8px"><button class="ghost" id="btnNovoDia">Terminar por hoje</button></div>
+    </section>
+
+    <div class="footer">
+      <span id="progresso"></span>
+      <a id="trocarChave">Trocar chave</a>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  const KEY_STORE = "midiario_gemini_key";
+  const PROF_STORE = "midiario_perfil";
+  const MODEL = "gemini-2.5-flash";
+  let apiKey = localStorage.getItem(KEY_STORE) || "";
+
+  // ---- perfil (memória local) ----
+  function loadPerfil(){
+    try { return JSON.parse(localStorage.getItem(PROF_STORE)) || null; } catch(e){ return null; }
+  }
+  let perfil = loadPerfil() || { sessoes:0, temas:[], erros:{}, palavras:[], vida:[], entradas:[] };
+  perfil.temas=perfil.temas||[]; perfil.erros=perfil.erros||{}; perfil.palavras=perfil.palavras||[]; perfil.vida=perfil.vida||[]; perfil.entradas=perfil.entradas||[];
+  function savePerfil(){ localStorage.setItem(PROF_STORE, JSON.stringify(perfil)); }
+
+  // ---- estado da sessão ----
+  let entrevista = [];       // [{pregunta, respuesta}]
+  let focoHoje = "";
+  let perguntaAtual = "";
+  let numPergunta = 0;
+  let diarioTexto = "";
+  let correcaoData = null;   // {correccion, comentario, errores:[...]}
+  let perguntadas = [];      // [{es, pt}] do "¿Cómo se dice?"
+
+  const $ = (id) => document.getElementById(id);
+  const show = (el) => el.classList.remove("hidden");
+  const hide = (el) => el.classList.add("hidden");
+  function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1600); }
+  function errBox(c,m){ c.innerHTML='<div class="error-msg">'+m+'</div>'; }
+  function clearErr(c){ c.innerHTML=""; }
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+  // ---- API Gemini ----
+  async function askAI(system, user, maxTokens){
+    const url = "https://generativelanguage.googleapis.com/v1beta/models/"+MODEL+":generateContent?key="+encodeURIComponent(apiKey);
+    const res = await fetch(url, {
+      method:"POST", headers:{"content-type":"application/json"},
+      body: JSON.stringify({
+        system_instruction:{ parts:[{text:system}] },
+        contents:[{ role:"user", parts:[{text:user}] }],
+        generationConfig:{ maxOutputTokens:maxTokens||1200, temperature:0.85, responseMimeType:"application/json", thinkingConfig:{thinkingBudget:0} }
+      })
+    });
+    if(!res.ok){
+      let d=""; try{ const j=await res.json(); d=j.error&&j.error.message?j.error.message:""; }catch(e){}
+      if(res.status===400 && /api key not valid|API_KEY_INVALID/i.test(d)) throw new Error("Chave de API inválida.");
+      if(res.status===404) throw new Error("Modelo não encontrado ("+MODEL+"). Me avise pra trocar.");
+      if(res.status===429) throw new Error("Limite do plano grátis atingido. Espere alguns minutos.");
+      throw new Error("Erro na API ("+res.status+"). "+d);
+    }
+    const data = await res.json();
+    if(data.promptFeedback && data.promptFeedback.blockReason) throw new Error("Conteúdo bloqueado pela segurança. Tente algo diferente.");
+    const cand=(data.candidates||[])[0];
+    if(!cand) throw new Error("A IA não respondeu. Tente de novo.");
+    const parts=(cand.content&&cand.content.parts)||[];
+    const tp=parts.find(p=>p.text);
+    if(!tp||!tp.text){
+      if(cand.finishReason==="MAX_TOKENS") throw new Error("Resposta longa demais; tente um texto mais curto.");
+      throw new Error("A IA devolveu resposta vazia. Tente de novo.");
+    }
+    return tp.text;
+  }
+  function parseJSON(raw){
+    let s=raw.trim().replace(/^```(?:json)?/i,"").replace(/```$/,"").trim();
+    const a=s.indexOf("{"), b=s.lastIndexOf("}");
+    if(a!==-1&&b!==-1) s=s.slice(a,b+1);
+    return JSON.parse(s);
+  }
+  function loading(btn,on,lbl){ if(on){ btn.dataset.orig=btn.innerHTML; btn.innerHTML='<span class="spinner"></span>'+(lbl||"Pensando..."); btn.disabled=true;} else { btn.innerHTML=btn.dataset.orig; btn.disabled=false; } }
+
+  // ---- data de hoje ----
+  function hojeISO(){ const d=new Date(); const p=n=>String(n).padStart(2,"0"); return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate()); }
+  function hojeTexto(){
+    const d=new Date();
+    const dias=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+    const meses=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    return "Hoy es "+dias[d.getDay()]+" "+d.getDate()+" de "+meses[d.getMonth()]+" de "+d.getFullYear()+".";
+  }
+
+  // ---- contexto do perfil (personalização) ----
+  function contextoPerfil(){
+    if(perfil.sessoes===0) return "Es su PRIMER día usando la app. Empieza por su rutina básica de hoy (mañana, comidas, casa).";
+    let p=[];
+    p.push("Sesiones ya hechas: "+perfil.sessoes+".");
+    if(perfil.temas.length) p.push("Temas recientes (varía, no repitas): "+perfil.temas.slice(-6).join("; ")+".");
+    const rep=Object.values(perfil.erros).filter(e=>e.vezes>=2).slice(0,5);
+    if(rep.length) p.push("Errores que suele repetir (vigílalos con cariño): "+rep.map(e=>e.tipo+" (ej: "+e.correto+")").join("; ")+".");
+    if(perfil.palavras.length) p.push("Palabras que ya aprendió (recíclalas de vez en cuando): "+perfil.palavras.slice(-15).map(w=>w.es).join(", ")+".");
+    if(perfil.vida.length) p.push("Cosas que sabes de su vida (úsalas para preguntas pertinentes y personales, con cariño): "+perfil.vida.slice(-8).map(v=>v.nota).join("; ")+".");
+    return p.join(" ");
+  }
+  function atualizarProgresso(){
+    $("progresso").textContent = "Dia "+(perfil.sessoes)+" · "+perfil.palavras.length+" palavras aprendidas";
+  }
+
+  // ========== SETUP ==========
+  function enterApp(){ hide($("setup")); show($("app")); atualizarProgresso(); }
+  $("saveKey").onclick=()=>{ const k=$("apiKey").value.trim(); clearErr($("setupErr"));
+    if(k.length<20){ errBox($("setupErr"),"A chave parece curta demais. Confira se copiou inteira."); return; }
+    apiKey=k; localStorage.setItem(KEY_STORE,k); enterApp(); };
+  $("apiKey").addEventListener("keydown",e=>{ if(e.key==="Enter") $("saveKey").click(); });
+  $("trocarChave").onclick=()=>{ localStorage.removeItem(KEY_STORE); apiKey=""; $("apiKey").value=""; hide($("app")); show($("setup")); };
+
+  // ========== ENTREVISTA ==========
+  const SYS_ENT = `Eres "Mila", una amiga cálida, divertida y muy curiosa, un poco adicta al café, que acompaña a una estudiante BRASILEÑA (habla portugués) a escribir su diario del día. No eres una profesora formal: eres su amiga que quiere saber cómo le fue el día.
+Tu misión: hacerla hablar de su rutina y su vida cotidiana, ampliando vocabulario del día a día (comidas, utensilios, casa, higiene, transporte, estudio) y practicando los tres tiempos: PASADO, PRESENTE y FUTURO.
+Estilo:
+- Cálida, juguetona, con humor ligero y mucha curiosidad por los detalles. Pero SIEMPRE en español SENCILLO y claro, con frases cortas, para que una estudiante intermedia entienda sin esfuerzo. Nada de frases largas ni referencias culturales difíciles.
+- Usa la fecha de hoy y lo que sabes de su vida para hacer preguntas pertinentes y personales (ej: "¿Y cómo salió la prueba que me contaste?", "Es viernes, ¿ya tienes planes?").
+Reglas:
+- Haz UNA sola pregunta por vez, corta y concreta. Si una palabra puede ser difícil, ponla con una ayudita entre paréntesis.
+- Reacciona en una frase breve, cálida y con chispa a su respuesta anterior. En la primera pregunta del día la reacción es vacía; si es su primer día de todos, preséntate en una frase muy corta.
+- En unas 5 preguntas cubre pasado, presente y futuro. Cuando ya lo lograste, termina con fin:true y pregunta vacía.
+Responde SOLO con JSON válido:
+{"reaccion":"<reacción breve, o cadena vacía>","pregunta":"<próxima pregunta, o cadena vacía si terminas>","foco":"<solo en la primera pregunta: foco de hoy en 2-4 palabras, ej: 'tu mañana en la cocina'; si no, cadena vacía>","fin":false}`;
+
+  function histEntrevista(){
+    return entrevista.map((x,i)=>"P"+(i+1)+": "+x.pregunta+"\nR"+(i+1)+": "+x.respuesta).join("\n");
+  }
+
+  $("btnStart").onclick = async (e)=>{
+    const btn=e.currentTarget; clearErr($("startErr")); loading(btn,true,"Preparando...");
+    try{
+      const primeiro = perfil.sessoes===0 ? " Es su PRIMER día de todos: preséntate en una frase corta." : "";
+      const raw=await askAI(SYS_ENT, hojeTexto()+primeiro+" Empieza la entrevista de hoy. Contexto: "+contextoPerfil(), 400);
+      const t=parseJSON(raw);
+      focoHoje=t.foco||""; perguntaAtual=t.pregunta||""; numPergunta=1;
+      if(focoHoje){ $("entFoco").textContent="Hoje: "+focoHoje; show($("entFoco")); }
+      if(t.reaccion){ $("entReacao").textContent=t.reaccion; show($("entReacao")); } else hide($("entReacao"));
+      $("entPergunta").textContent=perguntaAtual;
+      $("entResposta").value="";
+      $("entProgresso").textContent="Pergunta "+numPergunta;
+      hide($("s-start")); show($("s-entrevista")); show($("s-vocab"));
+      $("entResposta").focus();
+    }catch(err){ errBox($("startErr"),err.message); }
+    finally{ loading(btn,false); }
+  };
+
+  async function proximaPergunta(){
+    const raw=await askAI(SYS_ENT, hojeTexto()+"\nContexto de la estudiante: "+contextoPerfil()+"\n\nEntrevista hasta ahora:\n"+histEntrevista()+"\n\nHaz la siguiente pregunta o termina.", 400);
+    return parseJSON(raw);
+  }
+
+  $("btnResponder").onclick = async (e)=>{
+    const btn=e.currentTarget; const resp=$("entResposta").value.trim(); clearErr($("entErr"));
+    if(resp.length<2){ errBox($("entErr"),"Escreva sua resposta antes de continuar 🙂"); return; }
+    entrevista.push({pregunta:perguntaAtual, respuesta:resp});
+    loading(btn,true,"...");
+    try{
+      if(numPergunta>=6){ await encerrarEntrevista(); return; }
+      const t=await proximaPergunta();
+      if(t.fin || !t.pregunta){ await encerrarEntrevista(); return; }
+      perguntaAtual=t.pregunta; numPergunta++;
+      if(t.reaccion){ $("entReacao").textContent=t.reaccion; show($("entReacao")); } else hide($("entReacao"));
+      $("entPergunta").textContent=perguntaAtual;
+      $("entResposta").value="";
+      $("entProgresso").textContent="Pergunta "+numPergunta;
+      $("entResposta").focus();
+    }catch(err){ errBox($("entErr"),err.message); }
+    finally{ loading(btn,false); }
+  };
+
+  $("btnEncerrar").onclick = async (e)=>{
+    const resp=$("entResposta").value.trim();
+    if(resp.length>=2) entrevista.push({pregunta:perguntaAtual, respuesta:resp});
+    if(entrevista.length===0){ errBox($("entErr"),"Responda pelo menos uma pergunta antes de corrigir 🙂"); return; }
+    loading(e.currentTarget,true,"Corrigindo..."); try{ await encerrarEntrevista(); } finally { loading(e.currentTarget,false); }
+  };
+
+  // ========== VOCAB HELPER ==========
+  const SYS_VOC = `Ayudas a una estudiante brasileña a decir algo en español. Te da una palabra o frase en portugués (o una duda). Devuelve la forma NATURAL en español y, si hay una trampa (falso amigo, género, etc.), una nota MUY breve en portugués.
+Responde SOLO con JSON válido: {"es":"<en español>","nota":"<nota breve em português ou \\"\\">"}`;
+
+  async function perguntarVocab(){
+    const q=$("vocabInput").value.trim(); if(!q) return;
+    const btn=$("btnVocab"); loading(btn,true,"..."); clearErr($("vocabResult"));
+    try{
+      const raw=await askAI(SYS_VOC, "Cómo se dice en español: "+q, 300);
+      const v=parseJSON(raw);
+      $("vocabResult").innerHTML='<div class="vocab-res"><div class="es">'+escapeHtml(v.es||"")+'</div>'+(v.nota?'<div class="nota">💡 '+escapeHtml(v.nota)+'</div>':'')+'</div>';
+      if(v.es){ perguntadas.push({es:v.es, pt:q}); renderChips(); $("vocabInput").value=""; }
+    }catch(err){ errBox($("vocabResult"),err.message); }
+    finally{ loading(btn,false); }
+  }
+  function renderChips(){ $("vocabChips").innerHTML = perguntadas.map(w=>'<span class="chip">'+escapeHtml(w.es)+'</span>').join(""); }
+  $("btnVocab").onclick=perguntarVocab;
+  $("vocabInput").addEventListener("keydown",e=>{ if(e.key==="Enter") perguntarVocab(); });
+
+  // ========== CORREÇÃO ==========
+  const SYS_CORR = `Eres una profesora de español corrigiendo el diario de una estudiante BRASILEÑA (habla portugués). Su mayor dificultad es el PORTUÑOL y los FALSOS AMIGOS.
+Corrige con el MÍNIMO de cambios, respetando su voz.
+Para cada error, da: el fragmento original EXACTO tal como ella lo escribió, una PISTA en portugués que la ayude a descubrir el arreglo SIN dar la respuesta (ej: "o verbo está no presente, mas o dia já passou"), el tipo (uno de: "tempo verbal","falso amigo","gênero","preposição","concordância","vocabulário","ortografia","naturalidade"), la corrección correcta, y una explicación breve del padrão em português. Marca falso_amigo:true cuando aplique.
+Responde SOLO con JSON válido:
+{"correccion":"<texto completo corregido>","comentario":"<comentário curto, caloroso e com humor leve, em português, como uma amiga>","errores":[{"original":"...","pista":"...","tipo":"...","correcto":"...","explicacion":"...","falso_amigo":false}]}`;
+
+  function chaveErro(er){ return (er.tipo||"")+"|"+((er.correcto||"").toLowerCase().trim()); }
+
+  async function encerrarEntrevista(){
+    diarioTexto = entrevista.map(x=>x.respuesta).join(" ");
+    const raw=await askAI(SYS_CORR, "Diario de la estudiante:\n\"\"\"\n"+diarioTexto+"\n\"\"\"", 1800);
+    correcaoData=parseJSON(raw);
+    correcaoData.errores=(correcaoData.errores||[]);
+    correcaoData.errores.forEach(er=>{ const k=chaveErro(er); er._rep=(perfil.erros[k]&&perfil.erros[k].vezes>=1); });
+    renderCorrecao();
+    hide($("s-entrevista"));
+    show($("s-correcao"));
+    $("s-correcao").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+
+  function marcarErros(text, errores){
+    let html=escapeHtml(text);
+    errores.forEach((er,i)=>{ const frag=escapeHtml(er.original||""); if(frag && html.indexOf(frag)!==-1){ html=html.replace(frag,'<mark class="mk">'+frag+'<sup>'+(i+1)+'</sup></mark>'); } });
+    return html;
+  }
+  function renderCorrecao(){
+    const errs=correcaoData.errores;
+    $("diarioMarcado").innerHTML = marcarErros(diarioTexto, errs);
+    if(errs.length===0){
+      $("hintList").innerHTML='<p class="muted">¡Perfecto! Nenhum erro pra corrigir hoje. 🎉</p>';
+    } else {
+      $("hintList").innerHTML = errs.map((er,i)=>
+        '<div class="hint"><span class="hn">'+(i+1)+'</span><div><strong>'+escapeHtml(er.tipo||"ajuste")+'</strong>'+
+        (er.falso_amigo?' <span class="badge-falso">falso amigo</span>':'')+
+        (er._rep?' <span class="badge-rep">você repete isso</span>':'')+
+        '<div class="why">'+escapeHtml(er.pista||"")+'</div></div></div>'
+      ).join("");
+    }
+    $("tentativa").value = diarioTexto;
+  }
+
+  // ========== REVELAÇÃO ==========
+  const SYS_AVAL = `Evalúas la SEGUNDA versión (el intento de corrección) de una estudiante brasileña, comparándola con la versión correcta. Sé alentadora. Di en portugués qué logró arreglar y qué todavía falta (si algo). No reescribas todo.
+Responde SOLO con JSON válido: {"mensaje":"<mensagem breve e alentadora em português>","acertos":["<o que consertou>"],"pendentes":["<o que ainda falta, em português>"]}`;
+
+  function renderRevelacao(aval){
+    if(aval){
+      const ac=(aval.acertos||[]).filter(Boolean), pe=(aval.pendentes||[]).filter(Boolean);
+      let h='<div class="attempt-box" style="background:var(--green-soft); border-color:var(--green)"><strong>Sua tentativa:</strong> '+escapeHtml(aval.mensaje||"")+'</div>';
+      if(ac.length) h+='<p class="muted" style="margin:0 0 4px"><strong style="color:var(--green)">Você acertou:</strong></p><ul class="muted" style="margin:0 0 10px 4px">'+ac.map(x=>'<li>'+escapeHtml(x)+'</li>').join("")+'</ul>';
+      if(pe.length) h+='<p class="muted" style="margin:0 0 4px"><strong style="color:var(--red)">Ainda falta:</strong></p><ul class="muted" style="margin:0 0 6px 4px">'+pe.map(x=>'<li>'+escapeHtml(x)+'</li>').join("")+'</ul>';
+      $("avalBox").innerHTML=h;
+    } else $("avalBox").innerHTML="";
+    $("revCorrigido").textContent = correcaoData.correccion||"";
+    $("comentario").textContent = correcaoData.comentario?"💬 "+correcaoData.comentario:"";
+    const errs=correcaoData.errores;
+    $("revErros").innerHTML = errs.length===0 ? '<p class="muted">Sem erros. 🎉</p>' :
+      errs.map(er=>'<div class="err"><div class="pair"><span class="old">'+escapeHtml(er.original||"")+'</span> → <span class="new">'+escapeHtml(er.correcto||"")+'</span>'+
+        (er.falso_amigo?' <span class="badge-falso">falso amigo</span>':'')+(er._rep?' <span class="badge-rep">você repete</span>':'')+
+        '</div><div class="why">'+escapeHtml(er.explicacion||"")+'</div></div>').join("");
+    hide($("s-correcao")); show($("s-revelacao"));
+    $("s-revelacao").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+
+  $("btnVerResposta").onclick = async (e)=>{
+    const btn=e.currentTarget; const tent=$("tentativa").value.trim(); clearErr($("corrErr"));
+    loading(btn,true,"Conferindo...");
+    try{
+      let aval=null;
+      if(tent && tent!==diarioTexto && correcaoData.errores.length>0){
+        const raw=await askAI(SYS_AVAL, "Versión correcta:\n"+correcaoData.correccion+"\n\nIntento de la estudiante:\n"+tent, 700);
+        aval=parseJSON(raw);
+      }
+      renderRevelacao(aval);
+      await gerarFlashcards();
+      await finalizarSessao();
+    }catch(err){ errBox($("corrErr"),err.message); }
+    finally{ loading(btn,false); }
+  };
+  $("btnNaoSei").onclick = async (e)=>{
+    loading(e.currentTarget,true,"...");
+    try{ renderRevelacao(null); await gerarFlashcards(); await finalizarSessao(); }
+    catch(err){ errBox($("corrErr"),err.message); }
+    finally{ loading(e.currentTarget,false); }
+  };
+
+  // ========== FLASHCARDS ==========
+  const SYS_FLASH = `Eres una profesora de español creando flashcards para una estudiante brasileña, basándote en su diario, sus errores y las palabras que preguntó hoy. Crea EXACTAMENTE 3 flashcards útiles: prioriza los errores cometidos, falsos amigos y vocabulario nuevo o preguntado. La "frente" es el término/pregunta en español; el "verso" es la explicación/traducción/uso (puede tener un ejemplo corto).
+Responde SOLO con JSON válido: {"flashcards":[{"frente":"...","verso":"..."},{"frente":"...","verso":"..."},{"frente":"...","verso":"..."}]}`;
+
+  async function gerarFlashcards(){
+    const errosTxt=(correcaoData.errores||[]).map(e=>e.original+" → "+e.correcto).join("; ");
+    const pregTxt=perguntadas.map(w=>w.pt+" = "+w.es).join("; ");
+    const raw=await askAI(SYS_FLASH, "Diario:\n"+diarioTexto+"\n\nErrores: "+errosTxt+"\n\nPalabras que preguntó hoy: "+pregTxt, 900);
+    const f=parseJSON(raw); const cards=(f.flashcards||[]).slice(0,3);
+    $("flashList").innerHTML = cards.map(c=>
+      '<div class="flash"><div class="f"><div class="lbl">Frente <button class="mini ghost copy" data-txt="'+escapeHtml(c.frente||"")+'">copiar</button></div><div class="txt">'+escapeHtml(c.frente||"")+'</div></div>'+
+      '<div class="v"><div class="lbl">Verso <button class="mini ghost copy" data-txt="'+escapeHtml(c.verso||"")+'">copiar</button></div><div class="txt">'+escapeHtml(c.verso||"")+'</div></div></div>'
+    ).join("");
+    document.querySelectorAll(".copy").forEach(b=>b.onclick=()=>navigator.clipboard.writeText(b.dataset.txt).then(()=>toast("Copiado!")));
+    show($("s-flash"));
+  }
+
+  // ========== MEMÓRIA / FIM ==========
+  const SYS_MEM = `Extraes de un diario 2-3 datos DURADEROS y personales sobre la vida de la estudiante que valga la pena recordar para futuras conversaciones (personas, mascotas, trabajo, estudios, planes, eventos importantes, gustos). Ignora rutinas triviales genéricas. Escribe cada dato como una frase corta en portugués.
+Responde SOLO con JSON válido: {"memorias":["...","..."]}`;
+
+  async function extrairMemoria(){
+    try{
+      const raw=await askAI(SYS_MEM, "Diário de hoje:\n"+diarioTexto, 400);
+      const m=parseJSON(raw);
+      (m.memorias||[]).forEach(x=>{ if(x) perfil.vida.push({fecha:hojeISO(), nota:x}); });
+      perfil.vida=perfil.vida.slice(-25);
+    }catch(e){ /* memória é bônus, não deve travar a sessão */ }
+  }
+
+  async function finalizarSessao(){
+    perfil.sessoes += 1;
+    if(focoHoje){ perfil.temas.push(focoHoje); perfil.temas=perfil.temas.slice(-10); }
+    (correcaoData.errores||[]).forEach(er=>{ const k=chaveErro(er); const prev=perfil.erros[k]; perfil.erros[k]={vezes:(prev?prev.vezes:0)+1, tipo:er.tipo||"", correto:er.correcto||"", exemplo:er.original||""}; });
+    perguntadas.forEach(w=>{ if(w.es && !perfil.palavras.some(p=>p.es===w.es)) perfil.palavras.push({es:w.es, pt:w.pt}); });
+    perfil.palavras=perfil.palavras.slice(-80);
+    perfil.entradas.push({fecha:hojeISO(), texto:diarioTexto, corrigido:(correcaoData&&correcaoData.correccion)||""});
+    perfil.entradas=perfil.entradas.slice(-30);
+    await extrairMemoria();
+    savePerfil();
+    atualizarProgresso();
+  }
+
+  $("btnNovoDia").onclick = ()=>{
+    entrevista=[]; focoHoje=""; perguntaAtual=""; numPergunta=0; diarioTexto=""; correcaoData=null; perguntadas=[];
+    ["s-entrevista","s-vocab","s-correcao","s-revelacao","s-flash"].forEach(id=>hide($(id)));
+    $("vocabResult").innerHTML=""; $("vocabChips").innerHTML="";
+    show($("s-start"));
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
+
+  // ---- init ----
+  if(apiKey){ enterApp(); }
+})();
+</script>
+</body>
+</html>
