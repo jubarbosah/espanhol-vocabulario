@@ -87,6 +87,18 @@
   .footer a { color:var(--accent); cursor:pointer; text-decoration:underline; }
   .toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:9px 16px; border-radius:10px; font-size:14px; opacity:0; transition:opacity .2s; pointer-events:none; }
   .toast.show { opacity:1; }
+  /* --- login + ofensiva --- */
+  .gbtn { display:inline-flex; align-items:center; gap:10px; }
+  .ofensiva-head { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+  .streak-num { font-size:22px; font-weight:800; color:var(--accent); }
+  .cal-title { font-size:13px; font-weight:700; color:var(--ink); margin:2px 0 10px; text-transform:capitalize; }
+  .calendario { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
+  .cal-dow { font-size:10.5px; color:var(--muted); text-align:center; font-weight:700; padding-bottom:2px; }
+  .cal-day { aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:12.5px; border-radius:9px; color:var(--muted); background:var(--bg); }
+  .cal-day.done { background:var(--accent); color:#fff; font-weight:700; }
+  .cal-day.today { outline:2px solid var(--accent); outline-offset:-1px; }
+  .cal-day.empty { background:transparent; }
+  .cal-day.miss { background:var(--red-soft); color:var(--red); }
 </style>
 </head>
 <body>
@@ -96,8 +108,17 @@
     <p>Seu diário guiado em espanhol, com a Mila ☕</p>
   </header>
 
+  <!-- LOGIN -->
+  <section id="login" class="card hidden" style="text-align:center">
+    <div class="step-label" style="justify-content:center"><span class="num">·</span> Entrar</div>
+    <h2>Seu diário, salvo e sincronizado</h2>
+    <p class="setup-note">Entre com o Google pra guardar suas redações e a memória da Mila em todos os seus aparelhos. 🔒 Só você acessa o seu diário.</p>
+    <div class="row" style="justify-content:center; margin-top:16px"><button id="btnGoogle" class="gbtn">Entrar com Google</button></div>
+    <div id="loginErr"></div>
+  </section>
+
   <!-- SETUP -->
-  <section id="setup" class="card">
+  <section id="setup" class="card hidden">
     <div class="step-label"><span class="num">0</span> Configuração (só uma vez)</div>
     <h2>Conecte sua chave do Google (Gemini)</h2>
     <p class="setup-note">
@@ -113,6 +134,13 @@
 
   <!-- APP -->
   <div id="app" class="hidden">
+
+    <!-- OFENSIVA -->
+    <section id="s-ofensiva" class="card hidden">
+      <div class="ofensiva-head"><span id="streakNum" class="streak-num">🔥 0</span><span class="muted" id="streakTxt"></span></div>
+      <div class="cal-title" id="calTitle"></div>
+      <div class="calendario" id="calendario"></div>
+    </section>
 
     <!-- START -->
     <section id="s-start" class="card">
@@ -186,13 +214,42 @@
 
     <div class="footer">
       <span id="progresso"></span>
-      <a id="trocarChave">Trocar chave</a>
+      <span><a id="trocarChave">Trocar chave</a> · <a id="btnSair">Sair</a></span>
     </div>
   </div>
 </div>
 
 <div id="toast" class="toast"></div>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBDEQACPyyNnHqld8a9S75ODrWmkW3mxfk",
+    authDomain: "espanhol-32a5a.firebaseapp.com",
+    projectId: "espanhol-32a5a",
+    storageBucket: "espanhol-32a5a.firebasestorage.app",
+    messagingSenderId: "444442716556",
+    appId: "1:444442716556:web:bee2ed4991c22488028ea9",
+    measurementId: "G-T7FDYPTW18"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  let db;
+  try { db = initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) }); }
+  catch(e){ db = initializeFirestore(app, {}); }
+  const provider = new GoogleAuthProvider();
+  window.FB = {
+    signIn(){ return signInWithPopup(auth, provider).catch(err=>{ if(/popup|cancel/i.test((err&&(err.code||err.message))||"")) return signInWithRedirect(auth, provider); throw err; }); },
+    signOut(){ return signOut(auth); },
+    onAuth(cb){ return onAuthStateChanged(auth, cb); },
+    async load(uid){ const s = await getDoc(doc(db,"usuarios",uid)); return s.exists()? s.data() : null; },
+    save(uid, data){ return setDoc(doc(db,"usuarios",uid), data, { merge:true }); }
+  };
+  getRedirectResult(auth).catch(()=>{});
+  window.dispatchEvent(new Event("fb-ready"));
+</script>
 <script>
 (function(){
   "use strict";
@@ -205,9 +262,17 @@
   function loadPerfil(){
     try { return JSON.parse(localStorage.getItem(PROF_STORE)) || null; } catch(e){ return null; }
   }
-  let perfil = loadPerfil() || { sessoes:0, temas:[], erros:{}, palavras:[], vida:[], entradas:[] };
-  perfil.temas=perfil.temas||[]; perfil.erros=perfil.erros||{}; perfil.palavras=perfil.palavras||[]; perfil.vida=perfil.vida||[]; perfil.entradas=perfil.entradas||[];
-  function savePerfil(){ localStorage.setItem(PROF_STORE, JSON.stringify(perfil)); }
+  function normalizePerfil(p){ p=p||{}; p.temas=p.temas||[]; p.erros=p.erros||{}; p.palavras=p.palavras||[]; p.vida=p.vida||[]; p.entradas=p.entradas||[]; p.dias=p.dias||[]; p.fios=p.fios||[]; p.sessoes=p.sessoes||0; return p; }
+  let perfil = normalizePerfil(loadPerfil() || {});
+  let currentUser = null;   // usuário logado (Firebase)
+  let saveTimer = null;
+  function savePerfil(){
+    localStorage.setItem(PROF_STORE, JSON.stringify(perfil));       // cache local
+    if(currentUser && window.FB){
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(()=>{ window.FB.save(currentUser.uid, {perfil, apiKey, atualizado:Date.now()}).catch(()=>{}); }, 800);
+    }
+  }
 
   // ---- estado da sessão ----
   let entrevista = [];       // [{pregunta, respuesta}]
@@ -275,40 +340,86 @@
 
   // ---- contexto do perfil (personalização) ----
   function contextoPerfil(){
-    if(perfil.sessoes===0) return "Es su PRIMER día usando la app. Empieza por su rutina básica de hoy (mañana, comidas, casa).";
+    if(perfil.sessoes===0) return "Es su PRIMER día usando la app. Preséntate en una frase corta y con estilo, y empieza por su rutina básica de hoy.";
     let p=[];
     p.push("Sesiones ya hechas: "+perfil.sessoes+".");
     if(perfil.temas.length) p.push("Temas recientes (varía, no repitas): "+perfil.temas.slice(-6).join("; ")+".");
     const rep=Object.values(perfil.erros).filter(e=>e.vezes>=2).slice(0,5);
-    if(rep.length) p.push("Errores que suele repetir (vigílalos con cariño): "+rep.map(e=>e.tipo+" (ej: "+e.correto+")").join("; ")+".");
-    if(perfil.palavras.length) p.push("Palabras que ya aprendió (recíclalas de vez en cuando): "+perfil.palavras.slice(-15).map(w=>w.es).join(", ")+".");
-    if(perfil.vida.length) p.push("Cosas que sabes de su vida (úsalas para preguntas pertinentes y personales, con cariño): "+perfil.vida.slice(-8).map(v=>v.nota).join("; ")+".");
+    if(rep.length) p.push("Errores que REPITE (si vuelve a caer en uno, chíncala con cariño, a lo Lorelai): "+rep.map(e=>e.tipo+" ("+e.vezes+" veces, ej: "+e.correto+")").join("; ")+".");
+    const fios=(perfil.fios||[]).filter(f=>f.aberto).slice(-3);
+    if(fios.length) p.push("Temas ABIERTOS de antes (pregunta por el desenlace SOLO si encaja de forma natural): "+fios.map(f=>f.nota).join("; ")+".");
+    if(perfil.vida.length) p.push("Cosas que sabes de su vida (úsalas para preguntas personales): "+perfil.vida.slice(-8).map(v=>v.nota).join("; ")+".");
+    if(perfil.palavras.length) p.push("Palabras que ya aprendió (recíclalas a veces): "+perfil.palavras.slice(-12).map(w=>w.es).join(", ")+".");
     return p.join(" ");
+  }
+  function situacaoRetorno(){
+    const hoje=hojeISO();
+    const hojeCount=perfil.entradas.filter(e=>e.fecha===hoje).length;
+    let s=[];
+    if(hojeCount>=1){ s.push("Es su entrada nº "+(hojeCount+1)+" de HOY (ya escribió hoy; salúdala como quien la ve volver el mismo día)."); }
+    else { const ant=perfil.entradas.filter(e=>e.fecha<hoje); if(ant.length){ const last=ant[ant.length-1].fecha; const dif=Math.round((new Date(hoje)-new Date(last))/86400000); if(dif>=2) s.push("Hace "+dif+" días que no escribía (coméntalo al saludar)."); } }
+    const st=calcStreak(); if(st>=2) s.push("Racha actual: "+st+" días seguidos.");
+    return s.length? " SITUACIÓN de Ju hoy: "+s.join(" ") : "";
   }
   function atualizarProgresso(){
     $("progresso").textContent = "Dia "+(perfil.sessoes)+" · "+perfil.palavras.length+" palavras aprendidas";
   }
 
+  // ---- ofensiva (dias + racha com 1 dia de folga) ----
+  function isoDe(d){ const p=n=>String(n).padStart(2,"0"); return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate()); }
+  function registrarDiaHoje(){ const t=hojeISO(); if(!perfil.dias.includes(t)) perfil.dias.push(t); perfil.dias=perfil.dias.slice(-400); }
+  function calcStreak(){
+    const set=new Set(perfil.dias); let streak=0, gaps=0; const cur=new Date(); cur.setHours(12,0,0,0);
+    for(let i=0;i<730;i++){
+      if(set.has(isoDe(cur))){ streak++; gaps=0; }
+      else { gaps++; if(gaps>=2) break; }   // 2 dias seguidos sem escrever quebra a ofensiva (1 dia de folga)
+      cur.setDate(cur.getDate()-1);
+    }
+    return streak;
+  }
+  function renderOfensiva(){
+    const st=calcStreak(), hoje=hojeISO(), feito=perfil.dias.includes(hoje);
+    $("streakNum").textContent="🔥 "+st;
+    $("streakTxt").textContent = feito ? "Já escreveu hoje ✓" : (st>0 ? "Escreva hoje pra manter a ofensiva" : "Comece sua ofensiva hoje");
+    const now=new Date(), y=now.getFullYear(), m=now.getMonth();
+    const meses=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+    $("calTitle").textContent=meses[m]+" de "+y;
+    const startDow=new Date(y,m,1).getDay(), nd=new Date(y,m+1,0).getDate(), set=new Set(perfil.dias);
+    const dow=["D","S","T","Q","Q","S","S"];
+    let html=dow.map(d=>'<div class="cal-dow">'+d+'</div>').join("");
+    for(let i=0;i<startDow;i++) html+='<div class="cal-day empty"></div>';
+    const p=n=>String(n).padStart(2,"0");
+    for(let dd=1;dd<=nd;dd++){ const k=y+"-"+p(m+1)+"-"+p(dd); let cls="cal-day"; if(set.has(k))cls+=" done"; if(dd===now.getDate())cls+=" today"; html+='<div class="'+cls+'">'+dd+'</div>'; }
+    $("calendario").innerHTML=html; show($("s-ofensiva"));
+  }
+
   // ========== SETUP ==========
-  function enterApp(){ hide($("setup")); show($("app")); atualizarProgresso(); }
+  function enterApp(){ hide($("setup")); hide($("login")); show($("app")); atualizarProgresso(); renderOfensiva(); }
   $("saveKey").onclick=()=>{ const k=$("apiKey").value.trim(); clearErr($("setupErr"));
     if(k.length<20){ errBox($("setupErr"),"A chave parece curta demais. Confira se copiou inteira."); return; }
-    apiKey=k; localStorage.setItem(KEY_STORE,k); enterApp(); };
+    apiKey=k; localStorage.setItem(KEY_STORE,k);
+    if(currentUser && window.FB) window.FB.save(currentUser.uid,{apiKey}).catch(()=>{});
+    enterApp(); };
   $("apiKey").addEventListener("keydown",e=>{ if(e.key==="Enter") $("saveKey").click(); });
   $("trocarChave").onclick=()=>{ localStorage.removeItem(KEY_STORE); apiKey=""; $("apiKey").value=""; hide($("app")); show($("setup")); };
 
   // ========== ENTREVISTA ==========
-  const SYS_ENT = `Eres "Mila", una amiga cálida, divertida y muy curiosa, un poco adicta al café, que acompaña a una estudiante BRASILEÑA (habla portugués) a escribir su diario del día. No eres una profesora formal: eres su amiga que quiere saber cómo le fue el día.
-Tu misión: hacerla hablar de su rutina y su vida cotidiana, ampliando vocabulario del día a día (comidas, utensilios, casa, higiene, transporte, estudio) y practicando los tres tiempos: PASADO, PRESENTE y FUTURO.
-Estilo:
-- Cálida, juguetona, con humor ligero y mucha curiosidad por los detalles. Pero SIEMPRE en español SENCILLO y claro, con frases cortas, para que una estudiante intermedia entienda sin esfuerzo. Nada de frases largas ni referencias culturales difíciles.
-- Usa la fecha de hoy y lo que sabes de su vida para hacer preguntas pertinentes y personales (ej: "¿Y cómo salió la prueba que me contaste?", "Es viernes, ¿ya tienes planes?").
-Reglas:
-- Haz UNA sola pregunta por vez, corta y concreta. Si una palabra puede ser difícil, ponla con una ayudita entre paréntesis.
-- Reacciona en una frase breve, cálida y con chispa a su respuesta anterior. En la primera pregunta del día la reacción es vacía; si es su primer día de todos, preséntate en una frase muy corta.
-- En unas 5 preguntas cubre pasado, presente y futuro. Cuando ya lo lograste, termina con fin:true y pregunta vacía.
+  const SYS_ENT = `Eres "Mila", pero con la PERSONALIDAD de LORELAI GILMORE: ingeniosa, sarcástica con cariño (nunca cruel ni aduladora), rápida, adicta al café, curiosa de verdad. Acompañas a una estudiante BRASILEÑA (habla portugués) llamada Ju a escribir su diario del día. La llamas "Ju".
+
+PERSONALIDAD (esto es lo que te hace TÚ; es tan importante como la enseñanza):
+- Seca y con chispa. Suelta al menos una frase con gracia o ironía por turno, pero NATURAL: nada de melosidad, nada de elogios automáticos, nada de entusiasmo fingido, nada de exclamaciones vacías. Si algo está bien, lo reconoces con sobriedad (más "no está mal, Ju" que "¡¡qué maravilla!!").
+- Español de ESPAÑA (vale, venga, currar, coche, móvil, quedar, apetecer).
+- Tienes MEMORIA y la usas: si Ju repite un error que ya cometió antes, se lo sueltas con sarcasmo cariñoso ("otra vez 'soy cansada'… ya van tres, Ju, coleccionas"). Si hay un TEMA ABIERTO de antes (una prueba, una cita, algo pendiente), preguntas por el desenlace, pero SOLO si de verdad existe y encaja; nunca lo fuerces.
+- Reaccionas DE VERDAD a lo que ella escribe (comentas el contenido con una opinión o una pulla), no eres un cuestionario.
+- Si hay una racha o es su segunda entrada del día o volvió tras días sin venir, lo mencionas al saludar, a lo Lorelai, sin cursilería.
+
+RESTRICCIÓN DIDÁCTICA CLAVE: aunque seas ingeniosa, tu español es SENCILLO y claro, con frases CORTAS, para una estudiante intermedia. La gracia está en el TONO, no en palabras raras ni frases largas.
+
+TU MISIÓN sigue igual: hacerla hablar de su día cubriendo PASADO, PRESENTE y FUTURO, con UNA sola pregunta corta por vez, en unas 5 preguntas. Si una palabra puede ser difícil, pon una ayudita entre paréntesis. Cuando ya cubriste los tres tiempos, termina con fin:true y pregunta vacía.
+
+En la PRIMERA pregunta del día, tu "reaccion" es el SALUDO (usa la situación de Ju para saludar como Lorelai). En las siguientes, "reaccion" es tu comentario breve a lo que acaba de escribir.
 Responde SOLO con JSON válido:
-{"reaccion":"<reacción breve, o cadena vacía>","pregunta":"<próxima pregunta, o cadena vacía si terminas>","foco":"<solo en la primera pregunta: foco de hoy en 2-4 palabras, ej: 'tu mañana en la cocina'; si no, cadena vacía>","fin":false}`;
+{"reaccion":"<saludo o reacción breve, o cadena vacía>","pregunta":"<próxima pregunta, o cadena vacía si terminas>","foco":"<solo en la primera pregunta: foco de hoy en 2-4 palabras; si no, cadena vacía>","fin":false}`;
 
   function histEntrevista(){
     return entrevista.map((x,i)=>"P"+(i+1)+": "+x.pregunta+"\nR"+(i+1)+": "+x.respuesta).join("\n");
@@ -318,7 +429,7 @@ Responde SOLO con JSON válido:
     const btn=e.currentTarget; clearErr($("startErr")); loading(btn,true,"Preparando...");
     try{
       const primeiro = perfil.sessoes===0 ? " Es su PRIMER día de todos: preséntate en una frase corta." : "";
-      const raw=await askAI(SYS_ENT, hojeTexto()+primeiro+" Empieza la entrevista de hoy. Contexto: "+contextoPerfil(), 400);
+      const raw=await askAI(SYS_ENT, hojeTexto()+primeiro+situacaoRetorno()+" Empieza la entrevista de hoy. Contexto: "+contextoPerfil(), 400);
       const t=parseJSON(raw);
       focoHoje=t.foco||""; perguntaAtual=t.pregunta||""; numPergunta=1;
       if(focoHoje){ $("entFoco").textContent="Hoje: "+focoHoje; show($("entFoco")); }
@@ -487,16 +598,21 @@ Responde SOLO con JSON válido: {"flashcards":[{"frente":"...","verso":"..."},{"
   }
 
   // ========== MEMÓRIA / FIM ==========
-  const SYS_MEM = `Extraes de un diario 2-3 datos DURADEROS y personales sobre la vida de la estudiante que valga la pena recordar para futuras conversaciones (personas, mascotas, trabajo, estudios, planes, eventos importantes, gustos). Ignora rutinas triviales genéricas. Escribe cada dato como una frase corta en portugués.
-Responde SOLO con JSON válido: {"memorias":["...","..."]}`;
+  const SYS_MEM = `De un diario en español, extrae dos cosas:
+(1) "memorias": 2-3 datos DURADEROS sobre la vida de la estudiante para recordar en el futuro (personas, mascotas, trabajo, estudios, gustos). Frases cortas en portugués.
+(2) "abiertos": TEMAS con un desenlace PENDIENTE sobre el que tendría sentido preguntar la próxima vez (una prueba/entrevista que hará, una cita o salida futura, un plan a punto de pasar, algo que se resolverá pronto). Frase corta en portugués, o lista vacía si no hay. Ignora rutinas triviales.
+Responde SOLO con JSON válido: {"memorias":["..."],"abiertos":["..."]}`;
 
   async function extrairMemoria(){
     try{
-      const raw=await askAI(SYS_MEM, "Diário de hoje:\n"+diarioTexto, 400);
+      const raw=await askAI(SYS_MEM, "Diário de hoje:\n"+diarioTexto, 500);
       const m=parseJSON(raw);
       (m.memorias||[]).forEach(x=>{ if(x) perfil.vida.push({fecha:hojeISO(), nota:x}); });
       perfil.vida=perfil.vida.slice(-25);
-    }catch(e){ /* memória é bônus, não deve travar a sessão */ }
+      (m.abiertos||[]).forEach(x=>{ if(x) perfil.fios.push({nota:x, criadoEm:hojeISO(), aberto:true}); });
+      const agora=Date.now();
+      perfil.fios=perfil.fios.filter(f=>{ const t=new Date(f.criadoEm).getTime(); return isFinite(t) ? (agora-t) < 12*86400000 : true; }).slice(-8);
+    }catch(e){ /* memória é bônus, não trava a sessão */ }
   }
 
   async function finalizarSessao(){
@@ -507,6 +623,7 @@ Responde SOLO con JSON válido: {"memorias":["...","..."]}`;
     perfil.palavras=perfil.palavras.slice(-80);
     perfil.entradas.push({fecha:hojeISO(), texto:diarioTexto, corrigido:(correcaoData&&correcaoData.correccion)||""});
     perfil.entradas=perfil.entradas.slice(-30);
+    registrarDiaHoje();          // marca hoje na ofensiva
     await extrairMemoria();
     savePerfil();
     atualizarProgresso();
@@ -516,12 +633,28 @@ Responde SOLO con JSON válido: {"memorias":["...","..."]}`;
     entrevista=[]; focoHoje=""; perguntaAtual=""; numPergunta=0; diarioTexto=""; correcaoData=null; perguntadas=[];
     ["s-entrevista","s-vocab","s-correcao","s-revelacao","s-flash"].forEach(id=>hide($(id)));
     $("vocabResult").innerHTML=""; $("vocabChips").innerHTML="";
-    show($("s-start"));
+    show($("s-start")); renderOfensiva();
     window.scrollTo({top:0,behavior:"smooth"});
   };
 
-  // ---- init ----
-  if(apiKey){ enterApp(); }
+  // ========== LOGIN / AUTH (Firebase) ==========
+  function whenFB(cb){ if(window.FB) cb(); else window.addEventListener("fb-ready", cb, {once:true}); }
+  $("btnGoogle").onclick = async ()=>{ clearErr($("loginErr"));
+    try{ await window.FB.signIn(); }catch(err){ errBox($("loginErr"), "Não deu pra entrar: "+((err&&(err.message||err.code))||"erro")); } };
+  $("btnSair").onclick = async ()=>{ try{ await window.FB.signOut(); }catch(e){} location.reload(); };
+
+  whenFB(()=>{
+    window.FB.onAuth(async (user)=>{
+      if(!user){ currentUser=null; hide($("app")); hide($("setup")); show($("login")); return; }
+      currentUser=user; hide($("login"));
+      try{
+        const data = await window.FB.load(user.uid);
+        if(data){ if(data.perfil) perfil = normalizePerfil(data.perfil); if(data.apiKey) apiKey = data.apiKey; }
+      }catch(e){ /* offline: usa o cache local */ }
+      if(!apiKey) apiKey = localStorage.getItem(KEY_STORE) || "";
+      if(apiKey){ enterApp(); } else { hide($("app")); show($("setup")); }
+    });
+  });
 })();
 </script>
 </body>
