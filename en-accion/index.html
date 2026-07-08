@@ -87,8 +87,20 @@
   .steplabel:active{transform:translateY(1px)}
   .closebtn{font-size:13px;color:var(--muted);font-weight:600;padding:4px 8px}
 
-  .card{flex:1;background:linear-gradient(160deg,#2a121b,#351824);border:1px solid var(--line);border-radius:18px;
+  .card{flex:1;background:linear-gradient(160deg,#2a121b,#351824);border:1px solid var(--line);border-radius:22px;
     box-shadow:var(--shadow);padding:22px 20px;display:flex;flex-direction:column;gap:14px;min-height:340px}
+  /* modo revelar: frente centralizada como um card de verdade; toca pra virar */
+  .card--test{cursor:pointer;transition:transform .12s ease}
+  .card--test.tapready:active{transform:scale(.99)}
+  .card--test .stack{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    gap:12px;text-align:center;width:100%}
+  .card--test .stack > *{width:100%}
+  .card--test #back{animation:reveal .28s cubic-bezier(.2,.7,.2,1)}
+  @keyframes reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .divider{width:48px;height:3px;border-radius:3px;background:var(--line);margin:0 auto 12px}
+  .revhint{color:var(--muted);font-size:14px;font-weight:600;text-align:center;padding-top:4px;
+    display:flex;align-items:center;justify-content:center;gap:7px;opacity:.85}
+  .revhint::before{content:"👆"}
   .cardhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .tag{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:3px 10px;font-size:12.5px;
     font-weight:700}
@@ -495,6 +507,7 @@ function progressUI(frac){ $("barfill").style.width = Math.round(Math.max(0,Math
 function renderCard(item, it){
   show("study");
   const card=$("card");
+  card.className="card"; card.onclick=null;   // reseta modificador/toque entre os modos
   const tag = `<span class="tag ${TAGCLASS[item.tag]}">${TAGEMOJI[item.tag]}</span>`;
 
   /* ---- DIÁLOGO ---- */
@@ -576,23 +589,35 @@ function paintCard(item, it, s){
     back  = esBlock + senseTag + noteTag;
     autoOn = "back";
   }
+  card.className="card card--test tapready";
   card.innerHTML = `
     <div class="cardhead"><span class="typepill">${item.type} · test</span>${tag}</div>
-    <div id="front">${front}</div>
-    <div class="spacer"></div>
-    <div id="back" class="hidden">${back}</div>
+    <div class="stack">
+      <div id="front">${front}</div>
+      <div id="back" class="hidden"><div class="divider"></div>${back}</div>
+    </div>
+    <div id="revhint" class="revhint">toque pra ver a resposta</div>
     <div class="controls" id="ctr">
-      <button class="btn primary" id="revBtn">Mostrar respuesta</button>
       <button class="skip" id="knowBtn">Ya lo sé — saltar</button>
     </div>`;
   bindSay(card);
   if(autoOn==="front") setTimeout(()=>speak(s.es), 120);
-  $("revBtn").onclick=()=>{
-    $("back").classList.remove("hidden"); bindSay(card);
+  let revealed=false;
+  const reveal=()=>{
+    if(revealed) return; revealed=true;
+    card.classList.remove("tapready");
+    $("back").classList.remove("hidden");
+    const rh=$("revhint"); if(rh) rh.remove();
+    bindSay(card);
     if(autoOn==="back") speak(s.es);
     showRating(item);
   };
-  $("knowBtn").onclick=()=>{ gradeItem(item.id,3); advance(); };
+  card.onclick=e=>{                              // toca em qualquer ponto do card pra revelar
+    if(revealed) return;
+    if(e.target.closest("[data-say]")||e.target.closest("#ctr")) return;
+    reveal();
+  };
+  $("knowBtn").onclick=e=>{ e.stopPropagation(); gradeItem(item.id,3); advance(); };
 }
 
 /* 4 botões FSRS com preview do próximo intervalo */
