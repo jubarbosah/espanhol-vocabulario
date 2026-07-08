@@ -1,5 +1,5 @@
 /* En Acción · service worker — funciona offline (só ativa quando servido por http/https) */
-const CACHE = "enaccion-v7";
+const CACHE = "enaccion-v8";
 const ASSETS = ["./", "./index.html", "./conteudo.js", "./manifest.webmanifest",
   "./icon.svg", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 

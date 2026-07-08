@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1a0a10">
+<meta name="theme-color" content="#171317">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="En Acción">
@@ -14,13 +14,13 @@
 <title>En Acción · Español</title>
 <style>
   :root{
-    --bg:#1a0a10; --surface:#2a121b; --surface-2:#3d1a27;
-    --ink:#f5eef0; --muted:#c39aa6; --line:rgba(255,255,255,.08);
-    --brand:#f4426b; --brand-strong:#9f1239; --brand-soft:rgba(244,66,107,.14);
+    --bg:#171317; --surface:#231c21; --surface-2:#2f2530;
+    --ink:#f2edef; --muted:#ac9fa6; --line:rgba(255,255,255,.07);
+    --brand:#d16781; --brand-strong:#8f2a45; --brand-soft:rgba(209,103,129,.12);
     --t-green:#86efac; --t-amber:#fcd34d; --t-blue:#7dd3fc; --t-red:#fca5a5;
     --t-green-bg:rgba(34,197,94,.16); --t-amber-bg:rgba(245,158,11,.16); --t-blue-bg:rgba(56,189,248,.16); --t-red-bg:rgba(239,68,68,.16);
     --good:#22c55e; --warn:#f59e0b; --bad:#ef4444;
-    --grad:linear-gradient(135deg,#c81e4a,#7f1330);
+    --grad:linear-gradient(135deg,#a83e57,#6f2038);
     --shadow:0 10px 30px rgba(0,0,0,.35);
     --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     --es:ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace;
@@ -28,7 +28,7 @@
   /* tema único: bordô (vinho) */
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;height:100%}
-  body{background:linear-gradient(160deg,#1a0a10,#1e0b13 60%,#140709);background-attachment:fixed;
+  body{background:linear-gradient(160deg,#171317,#1a151a 60%,#131013);background-attachment:fixed;
     color:var(--ink);font-family:var(--font);line-height:1.55;min-height:100dvh;
     -webkit-font-smoothing:antialiased;overscroll-behavior:none}
   .app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;
@@ -36,7 +36,7 @@
   button{font-family:inherit;font-size:16px;cursor:pointer;border:none;background:none;color:inherit}
   button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
   .es{font-family:var(--es)}
-  .hl{color:#fff;font-weight:700;background:rgba(244,66,107,.22);padding:1px 6px;border-radius:6px}
+  .hl{color:#fff;font-weight:700;background:rgba(209,103,129,.18);padding:1px 6px;border-radius:6px}
   .hidden{display:none!important}
 
   /* ---------- top bar ---------- */
@@ -87,7 +87,7 @@
   .steplabel:active{transform:translateY(1px)}
   .closebtn{font-size:13px;color:var(--muted);font-weight:600;padding:4px 8px}
 
-  .card{flex:1;background:linear-gradient(160deg,#2a121b,#351824);border:1px solid var(--line);border-radius:22px;
+  .card{flex:1;background:linear-gradient(160deg,#231c21,#2b222a);border:1px solid var(--line);border-radius:22px;
     box-shadow:var(--shadow);padding:22px 20px;display:flex;flex-direction:column;gap:14px;min-height:340px}
   /* modo revelar: frente centralizada como um card de verdade; toca pra virar */
   .card--test{cursor:pointer;transition:transform .12s ease}
